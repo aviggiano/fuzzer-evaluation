@@ -6,7 +6,7 @@ import "@uniswap/UniswapV2Factory.sol";
 import "@uniswap/contracts/libraries/UniswapV2Library.sol";
 import "@uniswap/contracts/UniswapV2Router01.sol";
 
-contract Users {
+contract Handler {
     function proxy(
         address target,
         bytes memory _calldata
@@ -21,7 +21,8 @@ contract Setup {
     UniswapV2Pair testPair;
     UniswapV2Factory factory;
     UniswapV2Router01 router;
-    Users user;
+    mapping(address => Handler) handlers;
+    Handler user;
     bool complete;
 
     constructor() {
@@ -34,7 +35,6 @@ contract Setup {
             address(testToken2)
         );
         testPair = UniswapV2Pair(pair);
-        user = new Users();
         // Sort the test tokens we just created, for clarity when writing invariant tests later
         (address testTokenA, address testTokenB) = UniswapV2Library.sortTokens(
             address(testToken1),
@@ -44,8 +44,16 @@ contract Setup {
         testToken2 = UniswapV2ERC20(testTokenB);
     }
 
-    function _doApprovals() internal {
-        user.proxy(
+    modifier initHandlers() {
+        if (handlers[msg.sender] == Handler(address(0))) {
+            handlers[msg.sender] = new Handler();
+        }
+        user = handlers[msg.sender];
+        _;
+    }
+
+    function _doApprovals() internal initHandlers {
+        handlers[msg.sender].proxy(
             address(testToken1),
             abi.encodeWithSelector(
                 testToken1.approve.selector,
@@ -53,7 +61,7 @@ contract Setup {
                 type(uint256).max
             )
         );
-        user.proxy(
+        handlers[msg.sender].proxy(
             address(testToken2),
             abi.encodeWithSelector(
                 testToken2.approve.selector,
@@ -63,9 +71,9 @@ contract Setup {
         );
     }
 
-    function _init(uint256 amount1, uint256 amount2) internal {
-        testToken2.mint(address(user), amount2);
-        testToken1.mint(address(user), amount1);
+    function _init(uint256 amount1, uint256 amount2) internal initHandlers {
+        testToken2.mint(address(handlers[msg.sender]), amount2);
+        testToken1.mint(address(handlers[msg.sender]), amount1);
         _doApprovals();
         complete = true;
     }

@@ -8,7 +8,7 @@ contract Echidna is Setup {
     function echidnaTestProvideLiquidityInvariants(
         uint amount1,
         uint amount2
-    ) public {
+    ) public initHandlers {
         //PRECONDITIONS:
         amount1 = _between(amount1, 1000, type(uint256).max);
         amount2 = _between(amount2, 1000, type(uint256).max);
@@ -60,7 +60,7 @@ contract Echidna is Setup {
         }
     }
 
-    function echidnaTestSwapTokens(uint swapAmountIn) public {
+    function echidnaTestSwapTokens(uint swapAmountIn) public initHandlers {
         //PRECONDITIONS:
 
         if (!complete) {
@@ -118,7 +118,9 @@ contract Echidna is Setup {
         }
     }
 
-    function echidnaTestRemoveLiquidityInvariants(uint lpAmount) public {
+    function echidnaTestRemoveLiquidityInvariants(
+        uint lpAmount
+    ) public initHandlers {
         //PRECONDITIONS:
 
         uint pairBalanceBefore = testPair.balanceOf(address(user));
@@ -237,7 +239,7 @@ contract Echidna is Setup {
     1. It has to be greater than MINIMUM_AMOUNT = 100.
     2. For some amount y of testToken2, it has to be minimal among all inputs giving the user y testTokens2 from the swap.
     */
-    function echidnaTestPathIndependenceForSwaps(uint x) public {
+    function echidnaTestPathIndependenceForSwaps(uint x) public initHandlers {
         // PRECONDITIONS:
         if (!complete) _init(1_000_000_000, 1_000_000_000);
 
