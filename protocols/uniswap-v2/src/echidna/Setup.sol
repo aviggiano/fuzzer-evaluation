@@ -5,6 +5,7 @@ import "@uniswap/UniswapV2ERC20.sol";
 import "@uniswap/UniswapV2Factory.sol";
 import "@uniswap/contracts/libraries/UniswapV2Library.sol";
 import "@uniswap/contracts/UniswapV2Router01.sol";
+import "@crytic/properties/contracts/util/PropertiesHelper.sol";
 
 contract Handler {
     function proxy(
@@ -15,7 +16,7 @@ contract Handler {
     }
 }
 
-contract Setup {
+contract Setup is PropertiesAsserts {
     UniswapV2ERC20 token1;
     UniswapV2ERC20 token2;
     UniswapV2Pair pair;
@@ -72,14 +73,6 @@ contract Setup {
             )
         );
         complete = true;
-    }
-
-    function _between(
-        uint256 val,
-        uint256 lower,
-        uint256 upper
-    ) internal pure returns (uint256) {
-        return lower + (val % (upper - lower + 1));
     }
 
     /*

@@ -7,8 +7,8 @@ contract Echidna is Setup {
         uint amount2
     ) public initHandlers {
         //PRECONDITIONS:
-        amount1 = _between(amount1, 1000, type(uint256).max);
-        amount2 = _between(amount2, 1000, type(uint256).max);
+        amount1 = clampBetween(amount1, 1000, type(uint256).max);
+        amount2 = clampBetween(amount2, 1000, type(uint256).max);
         _init(amount1, amount2);
 
         uint pairBalanceBefore = pair.balanceOf(address(handler));
@@ -46,8 +46,12 @@ contract Echidna is Setup {
                 );
             uint pairBalanceAfter = pair.balanceOf(address(handler));
             uint kAfter = reserve1After * reserve2After;
-            assert(kBefore < kAfter);
-            assert(pairBalanceBefore < pairBalanceAfter);
+            assertLt(kBefore, kAfter, "K must increase when adding liquidity");
+            assertLt(
+                pairBalanceBefore,
+                pairBalanceAfter,
+                "LP token balance must increase when adding liquidity"
+            );
         }
     }
 
@@ -63,7 +67,7 @@ contract Echidna is Setup {
         uint prevBal2 = UniswapV2ERC20(path[1]).balanceOf(address(handler));
 
         require(prevBal1 > 0);
-        swapAmountIn = _between(swapAmountIn, 1, prevBal1);
+        swapAmountIn = clampBetween(swapAmountIn, 1, prevBal1);
         (uint reserve1Before, uint reserve2Before) = UniswapV2Library
             .getReserves(address(factory), address(token1), address(token2));
         uint kBefore = reserve1Before * reserve2Before;
@@ -95,9 +99,17 @@ contract Echidna is Setup {
                     address(token2)
                 );
             uint kAfter = reserve1After * reserve2After;
-            assert(kBefore <= kAfter);
-            assert(prevBal2 < balance2After);
-            assert(prevBal1 > balance1After);
+            assertLte(kBefore, kAfter, "K must not decrease when swapping");
+            assertLt(
+                prevBal2,
+                balance2After,
+                "pool tokenOut balance must decrease when swapping"
+            );
+            assertGt(
+                prevBal1,
+                balance1After,
+                "pool tokenIn balance must increase when swapping"
+            );
         }
     }
 
@@ -109,7 +121,7 @@ contract Echidna is Setup {
         uint pairBalanceBefore = pair.balanceOf(address(handler));
         //handler needs some LP tokens to burn
         require(pairBalanceBefore > 0);
-        lpAmount = _between(lpAmount, 1, pairBalanceBefore);
+        lpAmount = clampBetween(lpAmount, 1, pairBalanceBefore);
 
         (uint reserve1Before, uint reserve2Before) = UniswapV2Library
             .getReserves(address(factory), address(token1), address(token2));
@@ -151,8 +163,16 @@ contract Echidna is Setup {
                 );
             uint pairBalanceAfter = pair.balanceOf(address(handler));
             uint kAfter = reserve1After * reserve2After;
-            assert(kBefore > kAfter);
-            assert(pairBalanceBefore > pairBalanceAfter);
+            assertGt(
+                kBefore,
+                kAfter,
+                "K must decrease when removing liquidity"
+            );
+            assertGt(
+                pairBalanceBefore,
+                pairBalanceAfter,
+                "LP token balance must decrease when removing liquidity"
+            );
         }
     }
 
@@ -198,8 +218,8 @@ contract Echidna is Setup {
         uint userBalance1 = token1.balanceOf(address(handler));
         require(userBalance1 > MINIMUM_AMOUNT);
 
-        x = _between(x, MINIMUM_AMOUNT, type(uint256).max / 100); // uint(-1) / 100 needed in POSTCONDITIONS to avoid overflow
-        x = _between(x, MINIMUM_AMOUNT, userBalance1);
+        x = clampBetween(x, MINIMUM_AMOUNT, type(uint256).max / 100); // uint(-1) / 100 needed in POSTCONDITIONS to avoid overflow
+        x = clampBetween(x, MINIMUM_AMOUNT, userBalance1);
 
         // use optimal x - it makes no sense to pay more for a given amount of tokens than necessary
         // nor it makes sense to "buy" 0 tokens
@@ -255,8 +275,8 @@ contract Echidna is Setup {
         xOut = amounts[1];
 
         // POSTCONDITIONS:
-        assert(x > xOut); // handler cannot get more than he gave
+        assertGt(x, xOut, "handler cannot get more tokens than what they give");
         // 100 * (x - xOut) will not overflow since we constrained x to be < uint(-1) / 100 before
-        assert((x - xOut) * 100 <= 3 * x); // (x - xOut) / x <= 0.03; no more than 3% loss of funds
+        assertLte((x - xOut) * 100, 3 * x, "maximum loss of funds is 3%"); // (x - xOut) / x <= 0.03;
     }
 }

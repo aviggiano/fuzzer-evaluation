@@ -4,3 +4,6 @@
 [submodule "protocols/uniswap-v2/lib/openzeppelin-contracts"]
 	path = protocols/uniswap-v2/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "protocols/uniswap-v2/lib/properties"]
+	path = protocols/uniswap-v2/lib/properties
+	url = https://github.com/crytic/properties
