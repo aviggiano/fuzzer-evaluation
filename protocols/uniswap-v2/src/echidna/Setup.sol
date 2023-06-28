@@ -16,55 +16,53 @@ contract Handler {
 }
 
 contract Setup {
-    UniswapV2ERC20 testToken1;
-    UniswapV2ERC20 testToken2;
-    UniswapV2Pair testPair;
+    UniswapV2ERC20 token1;
+    UniswapV2ERC20 token2;
+    UniswapV2Pair pair;
     UniswapV2Factory factory;
     UniswapV2Router01 router;
     mapping(address => Handler) handlers;
-    Handler user;
+    Handler handler;
     bool complete;
 
     constructor() {
-        testToken1 = new UniswapV2ERC20();
-        testToken2 = new UniswapV2ERC20();
+        token1 = new UniswapV2ERC20();
+        token2 = new UniswapV2ERC20();
         factory = new UniswapV2Factory(address(this)); //this contract will be the fee setter
         router = new UniswapV2Router01(address(factory), address(0)); // we don't need to test WETH pairs for now
-        address pair = factory.createPair(
-            address(testToken1),
-            address(testToken2)
+        pair = UniswapV2Pair(
+            factory.createPair(address(token1), address(token2))
         );
-        testPair = UniswapV2Pair(pair);
         // Sort the test tokens we just created, for clarity when writing invariant tests later
         (address testTokenA, address testTokenB) = UniswapV2Library.sortTokens(
-            address(testToken1),
-            address(testToken2)
+            address(token1),
+            address(token2)
         );
-        testToken1 = UniswapV2ERC20(testTokenA);
-        testToken2 = UniswapV2ERC20(testTokenB);
+        token1 = UniswapV2ERC20(testTokenA);
+        token2 = UniswapV2ERC20(testTokenB);
     }
 
     modifier initHandlers() {
         if (handlers[msg.sender] == Handler(address(0))) {
             handlers[msg.sender] = new Handler();
         }
-        user = handlers[msg.sender];
+        handler = handlers[msg.sender];
         _;
     }
 
     function _doApprovals() internal initHandlers {
         handlers[msg.sender].proxy(
-            address(testToken1),
+            address(token1),
             abi.encodeWithSelector(
-                testToken1.approve.selector,
+                token1.approve.selector,
                 address(router),
                 type(uint256).max
             )
         );
         handlers[msg.sender].proxy(
-            address(testToken2),
+            address(token2),
             abi.encodeWithSelector(
-                testToken2.approve.selector,
+                token2.approve.selector,
                 address(router),
                 type(uint256).max
             )
@@ -72,8 +70,8 @@ contract Setup {
     }
 
     function _init(uint256 amount1, uint256 amount2) internal initHandlers {
-        testToken2.mint(address(handlers[msg.sender]), amount2);
-        testToken1.mint(address(handlers[msg.sender]), amount1);
+        token2.mint(address(handlers[msg.sender]), amount2);
+        token1.mint(address(handlers[msg.sender]), amount1);
         _doApprovals();
         complete = true;
     }
