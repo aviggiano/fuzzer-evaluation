@@ -1,7 +1,8 @@
 pragma solidity ^0.8.0;
 import "./Setup.sol";
+import "@crytic/properties/contracts/util/PropertiesHelper.sol";
 
-contract Echidna is Setup {
+contract EchidnaInvariantTests is Setup, PropertiesAsserts {
     function echidnaTestProvideLiquidityInvariants(
         uint amount1,
         uint amount2

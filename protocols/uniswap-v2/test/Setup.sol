@@ -16,16 +16,25 @@ contract Handler {
 }
 
 contract Setup {
-    UniswapV2ERC20 token1;
-    UniswapV2ERC20 token2;
-    UniswapV2Pair pair;
-    UniswapV2Factory factory;
-    UniswapV2Router01 router;
-    mapping(address => Handler) handlers;
-    Handler handler;
-    bool complete;
+    UniswapV2ERC20 internal token1;
+    UniswapV2ERC20 internal token2;
+    UniswapV2Pair internal pair;
+    UniswapV2Factory internal factory;
+    UniswapV2Router01 internal router;
+    mapping(address => Handler) internal handlers;
+    Handler internal handler;
 
-    constructor() {
+    bool private complete;
+
+    modifier initHandlers() {
+        if (handlers[msg.sender] == Handler(address(0))) {
+            handlers[msg.sender] = new Handler();
+        }
+        handler = handlers[msg.sender];
+        _;
+    }
+
+    function _deploy() internal {
         token1 = new UniswapV2ERC20();
         token2 = new UniswapV2ERC20();
         factory = new UniswapV2Factory(address(this)); //this contract will be the fee setter
@@ -42,15 +51,7 @@ contract Setup {
         token2 = UniswapV2ERC20(testTokenB);
     }
 
-    modifier initHandlers() {
-        if (handlers[msg.sender] == Handler(address(0))) {
-            handlers[msg.sender] = new Handler();
-        }
-        handler = handlers[msg.sender];
-        _;
-    }
-
-    function _init(uint256 amount1, uint256 amount2) internal initHandlers {
+    function _init(uint256 amount1, uint256 amount2) internal {
         if (complete) return;
 
         token2.mint(address(handlers[msg.sender]), amount2);
@@ -72,42 +73,5 @@ contract Setup {
             )
         );
         complete = true;
-    }
-
-    /*
-    Helper function, copied from UniswapV2Library, needed in testPathIndependenceForSwaps.
-    */
-    function getAmountOut(
-        uint amountIn,
-        uint reserveIn,
-        uint reserveOut
-    ) internal pure returns (uint amountOut) {
-        require(amountIn > 0, "UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT");
-        require(
-            reserveIn > 0 && reserveOut > 0,
-            "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
-        );
-        uint amountInWithFee = amountIn * 997;
-        uint numerator = amountInWithFee * reserveOut;
-        uint denominator = reserveIn * 1000 + amountInWithFee;
-        amountOut = numerator / denominator;
-    }
-
-    /*
-    Helper function, copied from UniswapV2Library, needed in testPathIndependenceForSwaps.
-    */
-    function getAmountIn(
-        uint amountOut,
-        uint reserveIn,
-        uint reserveOut
-    ) internal pure returns (uint amountIn) {
-        require(amountOut > 0, "UniswapV2Library: INSUFFICIENT_OUTPUT_AMOUNT");
-        require(
-            reserveIn > 0 && reserveOut > 0,
-            "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
-        );
-        uint numerator = reserveIn * amountOut * 1000;
-        uint denominator = (reserveOut - amountOut) * (997);
-        amountIn = (numerator / denominator) + (1);
     }
 }
