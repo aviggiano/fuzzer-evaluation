@@ -2,20 +2,20 @@ pragma solidity ^0.8.0;
 import "./Setup.sol";
 import "@crytic/properties/contracts/util/PropertiesHelper.sol";
 
-contract EchidnaInvariantTests is Setup, PropertiesAsserts {
-    function echidnaTestProvideLiquidityInvariants(
+abstract contract Tester is Setup, PropertiesAsserts {
+    function provideLiquidityInvariants(
         uint amount1,
         uint amount2
     ) public initHandlers {
         //PRECONDITIONS:
+
         amount1 = clampBetween(amount1, 1000, type(uint256).max);
         amount2 = clampBetween(amount2, 1000, type(uint256).max);
         _init(amount1, amount2);
 
         uint pairBalanceBefore = pair.balanceOf(address(handler));
 
-        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
-            .getReserves(address(factory), address(token1), address(token2));
+        (uint reserve1Before, uint reserve2Before, ) = pair.getReserves();
 
         uint kBefore = reserve1Before * reserve2Before;
 
@@ -39,12 +39,7 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
         //POSTCONDITIONS
 
         if (success) {
-            (uint reserve1After, uint reserve2After) = UniswapV2Library
-                .getReserves(
-                    address(factory),
-                    address(token1),
-                    address(token2)
-                );
+            (uint reserve1After, uint reserve2After, ) = pair.getReserves();
             uint pairBalanceAfter = pair.balanceOf(address(handler));
             uint kAfter = reserve1After * reserve2After;
             assertLt(kBefore, kAfter, "K must increase when adding liquidity");
@@ -56,8 +51,9 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
         }
     }
 
-    function echidnaTestSwapTokens(uint swapAmountIn) public initHandlers {
+    function swapTokens(uint swapAmountIn) public initHandlers {
         //PRECONDITIONS:
+
         _init(swapAmountIn, swapAmountIn);
 
         address[] memory path = new address[](2);
@@ -69,10 +65,11 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
 
         require(prevBal1 > 0);
         swapAmountIn = clampBetween(swapAmountIn, 1, prevBal1);
-        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
-            .getReserves(address(factory), address(token1), address(token2));
+        (uint reserve1Before, uint reserve2Before, ) = pair.getReserves();
         uint kBefore = reserve1Before * reserve2Before;
+
         //CALL:
+
         (bool success, ) = handler.proxy(
             address(router),
             abi.encodeWithSelector(
@@ -84,6 +81,7 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
                 type(uint256).max
             )
         );
+
         //POSTCONDITIONS:
 
         if (success) {
@@ -93,12 +91,7 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
             uint balance2After = UniswapV2ERC20(path[1]).balanceOf(
                 address(handler)
             );
-            (uint reserve1After, uint reserve2After) = UniswapV2Library
-                .getReserves(
-                    address(factory),
-                    address(token1),
-                    address(token2)
-                );
+            (uint reserve1After, uint reserve2After, ) = pair.getReserves();
             uint kAfter = reserve1After * reserve2After;
             assertLte(kBefore, kAfter, "K must not decrease when swapping");
             assertLt(
@@ -114,9 +107,7 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
         }
     }
 
-    function echidnaTestRemoveLiquidityInvariants(
-        uint lpAmount
-    ) public initHandlers {
+    function removeLiquidityInvariants(uint lpAmount) public initHandlers {
         //PRECONDITIONS:
 
         uint pairBalanceBefore = pair.balanceOf(address(handler));
@@ -124,8 +115,7 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
         require(pairBalanceBefore > 0);
         lpAmount = clampBetween(lpAmount, 1, pairBalanceBefore);
 
-        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
-            .getReserves(address(factory), address(token1), address(token2));
+        (uint reserve1Before, uint reserve2Before, ) = pair.getReserves();
         //need to provide more than min liquidity
         uint kBefore = reserve1Before * reserve2Before;
         (bool success1, ) = handler.proxy(
@@ -137,6 +127,7 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
             )
         );
         require(success1);
+
         //CALL:
 
         (bool success, ) = handler.proxy(
@@ -156,12 +147,7 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
         //POSTCONDITIONS
 
         if (success) {
-            (uint reserve1After, uint reserve2After) = UniswapV2Library
-                .getReserves(
-                    address(factory),
-                    address(token1),
-                    address(token2)
-                );
+            (uint reserve1After, uint reserve2After, ) = pair.getReserves();
             uint pairBalanceAfter = pair.balanceOf(address(handler));
             uint kAfter = reserve1After * reserve2After;
             assertGt(
@@ -202,15 +188,12 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
     1. It has to be greater than MINIMUM_AMOUNT = 100.
     2. For some amount y of token2, it has to be minimal among all inputs giving the handler y testTokens2 from the swap.
     */
-    function echidnaTestPathIndependenceForSwaps(uint x) public initHandlers {
+    function pathIndependenceForSwaps(uint x) public initHandlers {
         // PRECONDITIONS:
+
         _init(1_000_000_000, 1_000_000_000);
 
-        (uint reserve1, uint reserve2) = UniswapV2Library.getReserves(
-            address(factory),
-            address(token1),
-            address(token2)
-        );
+        (uint reserve1, uint reserve2, ) = pair.getReserves();
         // if reserve1 or reserve2 <= 1, then we cannot even make a swap
         require(reserve1 > 1);
         require(reserve2 > 1);
@@ -226,10 +209,10 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
         // nor it makes sense to "buy" 0 tokens
         // scope created to prevent "stack too deep" error
         {
-            uint yOut = getAmountOut(x, reserve1, reserve2);
+            uint yOut = UniswapV2Library.getAmountOut(x, reserve1, reserve2);
             if (yOut == 0) yOut = 1;
             // x can only decrease here
-            x = getAmountIn(yOut, reserve1, reserve2);
+            x = UniswapV2Library.getAmountIn(yOut, reserve1, reserve2);
         }
         address[] memory path12 = new address[](2);
         path12[0] = address(token1);
@@ -245,6 +228,7 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
         uint y;
 
         // CALLS:
+
         (success, returnData) = handler.proxy(
             address(router),
             abi.encodeWithSelector(
@@ -276,6 +260,7 @@ contract EchidnaInvariantTests is Setup, PropertiesAsserts {
         xOut = amounts[1];
 
         // POSTCONDITIONS:
+
         assertGt(x, xOut, "handler cannot get more tokens than what they give");
         // 100 * (x - xOut) will not overflow since we constrained x to be < uint(-1) / 100 before
         assertLte((x - xOut) * 100, 3 * x, "maximum loss of funds is 3%"); // (x - xOut) / x <= 0.03;

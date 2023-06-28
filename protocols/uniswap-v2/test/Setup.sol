@@ -5,15 +5,7 @@ import "@uniswap/UniswapV2ERC20.sol";
 import "@uniswap/UniswapV2Factory.sol";
 import "@uniswap/contracts/libraries/UniswapV2Library.sol";
 import "@uniswap/contracts/UniswapV2Router01.sol";
-
-contract Handler {
-    function proxy(
-        address _target,
-        bytes memory _calldata
-    ) public returns (bool success, bytes memory returnData) {
-        (success, returnData) = address(_target).call(_calldata);
-    }
-}
+import "./Handler.sol";
 
 contract Setup {
     UniswapV2ERC20 internal token1;

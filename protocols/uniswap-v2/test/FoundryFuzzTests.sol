@@ -3,9 +3,9 @@ pragma solidity ^0.8.0;
 
 // Test Helpers, Mock Tokens
 import "forge-std/Test.sol";
-import "./MockWETH.sol";
 import {DeflatingERC20} from "@uniswap/contracts/test/DeflatingERC20.sol";
-import {MockToken} from "./MockToken.sol";
+import {MockToken} from "./mocks/MockToken.sol";
+import "./mocks/MockWETH.sol";
 
 // Pair factory and Pair
 import "@uniswap/UniswapV2Factory.sol";
