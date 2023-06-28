@@ -2,9 +2,6 @@ pragma solidity ^0.8.0;
 import "./Setup.sol";
 
 contract Echidna is Setup {
-    using SafeMath for uint;
-    event logUints(uint kBefore, uint kAfter);
-
     function echidnaTestProvideLiquidityInvariants(
         uint amount1,
         uint amount2
@@ -103,7 +100,6 @@ contract Echidna is Setup {
                     address(token2)
                 );
             uint kAfter = reserve1After * reserve2After;
-            emit logUints(kBefore, kAfter);
             assert(kBefore <= kAfter);
             assert(prevBal2 < balance2After);
             assert(prevBal1 > balance1After);
@@ -178,9 +174,9 @@ contract Echidna is Setup {
             reserveIn > 0 && reserveOut > 0,
             "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
         );
-        uint amountInWithFee = amountIn.mul(997);
-        uint numerator = amountInWithFee.mul(reserveOut);
-        uint denominator = reserveIn.mul(1000).add(amountInWithFee);
+        uint amountInWithFee = amountIn * 997;
+        uint numerator = amountInWithFee * reserveOut;
+        uint denominator = reserveIn * 1000 + amountInWithFee;
         amountOut = numerator / denominator;
     }
 
@@ -197,9 +193,9 @@ contract Echidna is Setup {
             reserveIn > 0 && reserveOut > 0,
             "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
         );
-        uint numerator = reserveIn.mul(amountOut).mul(1000);
-        uint denominator = reserveOut.sub(amountOut).mul(997);
-        amountIn = (numerator / denominator).add(1);
+        uint numerator = reserveIn * amountOut * 1000;
+        uint denominator = (reserveOut - amountOut) * (997);
+        amountIn = (numerator / denominator) + (1);
     }
 
     /*
