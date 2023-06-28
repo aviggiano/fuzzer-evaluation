@@ -9,9 +9,7 @@ contract Echidna is Setup {
         //PRECONDITIONS:
         amount1 = _between(amount1, 1000, type(uint256).max);
         amount2 = _between(amount2, 1000, type(uint256).max);
-        if (!complete) {
-            _init(amount1, amount2);
-        }
+        _init(amount1, amount2);
 
         uint pairBalanceBefore = pair.balanceOf(address(handler));
 
@@ -55,10 +53,7 @@ contract Echidna is Setup {
 
     function echidnaTestSwapTokens(uint swapAmountIn) public initHandlers {
         //PRECONDITIONS:
-
-        if (!complete) {
-            _init(swapAmountIn, swapAmountIn);
-        }
+        _init(swapAmountIn, swapAmountIn);
 
         address[] memory path = new address[](2);
         path[0] = address(token1);
@@ -162,43 +157,6 @@ contract Echidna is Setup {
     }
 
     /*
-    Helper function, copied from UniswapV2Library, needed in testPathIndependenceForSwaps.
-    */
-    function getAmountOut(
-        uint amountIn,
-        uint reserveIn,
-        uint reserveOut
-    ) internal pure returns (uint amountOut) {
-        require(amountIn > 0, "UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT");
-        require(
-            reserveIn > 0 && reserveOut > 0,
-            "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
-        );
-        uint amountInWithFee = amountIn * 997;
-        uint numerator = amountInWithFee * reserveOut;
-        uint denominator = reserveIn * 1000 + amountInWithFee;
-        amountOut = numerator / denominator;
-    }
-
-    /*
-    Helper function, copied from UniswapV2Library, needed in testPathIndependenceForSwaps.
-    */
-    function getAmountIn(
-        uint amountOut,
-        uint reserveIn,
-        uint reserveOut
-    ) internal pure returns (uint amountIn) {
-        require(amountOut > 0, "UniswapV2Library: INSUFFICIENT_OUTPUT_AMOUNT");
-        require(
-            reserveIn > 0 && reserveOut > 0,
-            "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
-        );
-        uint numerator = reserveIn * amountOut * 1000;
-        uint denominator = (reserveOut - amountOut) * (997);
-        amountIn = (numerator / denominator) + (1);
-    }
-
-    /*
     Swapping x of token1 for y token of token2 and back should (roughly) give handler x of token1.
     The following function checks this condition by assessing that the resulting x is no more than 3% from the original x.
     
@@ -225,7 +183,7 @@ contract Echidna is Setup {
     */
     function echidnaTestPathIndependenceForSwaps(uint x) public initHandlers {
         // PRECONDITIONS:
-        if (!complete) _init(1_000_000_000, 1_000_000_000);
+        _init(1_000_000_000, 1_000_000_000);
 
         (uint reserve1, uint reserve2) = UniswapV2Library.getReserves(
             address(factory),

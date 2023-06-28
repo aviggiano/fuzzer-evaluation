@@ -8,10 +8,10 @@ import "@uniswap/contracts/UniswapV2Router01.sol";
 
 contract Handler {
     function proxy(
-        address target,
+        address _target,
         bytes memory _calldata
     ) public returns (bool success, bytes memory returnData) {
-        (success, returnData) = address(target).call(_calldata);
+        (success, returnData) = address(_target).call(_calldata);
     }
 }
 
@@ -50,7 +50,11 @@ contract Setup {
         _;
     }
 
-    function _doApprovals() internal initHandlers {
+    function _init(uint256 amount1, uint256 amount2) internal initHandlers {
+        if (complete) return;
+
+        token2.mint(address(handlers[msg.sender]), amount2);
+        token1.mint(address(handlers[msg.sender]), amount1);
         handlers[msg.sender].proxy(
             address(token1),
             abi.encodeWithSelector(
@@ -67,12 +71,6 @@ contract Setup {
                 type(uint256).max
             )
         );
-    }
-
-    function _init(uint256 amount1, uint256 amount2) internal initHandlers {
-        token2.mint(address(handlers[msg.sender]), amount2);
-        token1.mint(address(handlers[msg.sender]), amount1);
-        _doApprovals();
         complete = true;
     }
 
@@ -82,5 +80,42 @@ contract Setup {
         uint256 upper
     ) internal pure returns (uint256) {
         return lower + (val % (upper - lower + 1));
+    }
+
+    /*
+    Helper function, copied from UniswapV2Library, needed in testPathIndependenceForSwaps.
+    */
+    function getAmountOut(
+        uint amountIn,
+        uint reserveIn,
+        uint reserveOut
+    ) internal pure returns (uint amountOut) {
+        require(amountIn > 0, "UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT");
+        require(
+            reserveIn > 0 && reserveOut > 0,
+            "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
+        );
+        uint amountInWithFee = amountIn * 997;
+        uint numerator = amountInWithFee * reserveOut;
+        uint denominator = reserveIn * 1000 + amountInWithFee;
+        amountOut = numerator / denominator;
+    }
+
+    /*
+    Helper function, copied from UniswapV2Library, needed in testPathIndependenceForSwaps.
+    */
+    function getAmountIn(
+        uint amountOut,
+        uint reserveIn,
+        uint reserveOut
+    ) internal pure returns (uint amountIn) {
+        require(amountOut > 0, "UniswapV2Library: INSUFFICIENT_OUTPUT_AMOUNT");
+        require(
+            reserveIn > 0 && reserveOut > 0,
+            "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
+        );
+        uint numerator = reserveIn * amountOut * 1000;
+        uint denominator = (reserveOut - amountOut) * (997);
+        amountIn = (numerator / denominator) + (1);
     }
 }
