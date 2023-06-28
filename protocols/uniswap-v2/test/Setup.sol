@@ -14,24 +14,14 @@ contract Setup {
     UniswapV2Factory internal factory;
     UniswapV2Router01 internal router;
 
-    mapping(address => Handler) internal handlersMap;
-    Handler[] internal handlers;
-    address[] internal senders;
     Handler internal handler;
     uint256 private constant MAX_NUMBER_OF_HANDLERS = 3;
 
     bool private complete;
 
-    modifier initHandlers() {
-        if (handlers.length >= MAX_NUMBER_OF_HANDLERS) {
-            handler = handlers[
-                uint256(uint160(msg.sender)) % MAX_NUMBER_OF_HANDLERS
-            ];
-        } else if (handlersMap[msg.sender] == Handler(address(0))) {
+    modifier initHandler() {
+        if (handler == Handler(address(0))) {
             handler = new Handler();
-
-            handlersMap[msg.sender] = handler;
-            handlers.push(handler);
         }
 
         _;

@@ -3,17 +3,21 @@ import "./Setup.sol";
 import "./Asserts.sol";
 
 abstract contract Tester is Setup, Asserts {
-    function provideLiquidityInvariants(
-        uint amount1,
-        uint amount2
-    ) public initHandlers {
+    function addLiquidity(uint amount1, uint amount2) public initHandler {
         //PRECONDITIONS:
 
-        amount1 = clampBetween(amount1, 1000, type(uint256).max);
-        amount2 = clampBetween(amount2, 1000, type(uint256).max);
+        amount1 = clampBetween(amount1, 1, type(uint256).max);
+        amount2 = clampBetween(amount2, 1, type(uint256).max);
         _init(amount1, amount2);
 
+        require(token1.balanceOf(address(handler)) > 0);
+        require(token2.balanceOf(address(handler)) > 0);
+
         uint pairBalanceBefore = pair.balanceOf(address(handler));
+        uint pairTotalSupplyBefore = pair.totalSupply();
+
+        uint balance1Before = token1.balanceOf(address(pair));
+        uint balance2Before = token2.balanceOf(address(pair));
 
         (uint reserve1Before, uint reserve2Before) = UniswapV2Library
             .getReserves(address(factory), address(token1), address(token2));
@@ -48,17 +52,131 @@ abstract contract Tester is Setup, Asserts {
                 );
 
             uint pairBalanceAfter = pair.balanceOf(address(handler));
+            uint pairTotalSupplyAfter = pair.totalSupply();
             uint kAfter = reserve1After * reserve2After;
+            lt(
+                reserve1Before,
+                reserve1After,
+                "Reserve 1 must increase when adding liquidity"
+            );
+            lt(
+                reserve2Before,
+                reserve2After,
+                "Reserve 2 must increase when adding liquidity"
+            );
+            lt(
+                pairTotalSupplyBefore,
+                pairTotalSupplyAfter,
+                "Total supply must increase when adding liquidity"
+            );
             lt(kBefore, kAfter, "K must increase when adding liquidity");
             lt(
                 pairBalanceBefore,
                 pairBalanceAfter,
                 "LP token balance must increase when adding liquidity"
             );
+        } else {
+            eq(
+                pair.balanceOf(address(handler)),
+                pairBalanceBefore,
+                "Adding liquidity should not mint LP tokens if the call fails"
+            );
+            t(
+                // amounts overflow max reserve balance
+                amount1 > type(uint112).max ||
+                    amount2 > type(uint112).max ||
+                    // amounts do not pass minimum initial liquidity check
+                    Math.sqrt(amount1 * amount2) <= pair.MINIMUM_LIQUIDITY() ||
+                    // amounts would mint zero liquidity
+                    Math.min(
+                        ((balance1Before - reserve1Before) *
+                            (pairTotalSupplyBefore)) / reserve1Before,
+                        ((balance2Before - reserve2Before) *
+                            (pairTotalSupplyBefore)) / reserve2Before
+                    ) ==
+                    0,
+                "Adding liquidity should only fail if the provided amounts is invalid"
+            );
         }
     }
 
-    function swapTokens(uint swapAmountIn) public initHandlers {
+    function removeLiquidity(uint lpAmount) public initHandler {
+        //PRECONDITIONS:
+
+        uint pairBalanceBefore = pair.balanceOf(address(handler));
+        uint pairTotalSupplyBefore = pair.totalSupply();
+        //handler needs some LP tokens to burn
+        require(pairBalanceBefore > 0);
+        lpAmount = clampBetween(lpAmount, 1, pairBalanceBefore);
+
+        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
+            .getReserves(address(factory), address(token1), address(token2));
+        //need to provide more than min liquidity
+        uint kBefore = reserve1Before * reserve2Before;
+        (bool success1, ) = handler.proxy(
+            address(pair),
+            abi.encodeWithSelector(
+                pair.approve.selector,
+                address(router),
+                type(uint256).max
+            )
+        );
+        require(success1);
+
+        //CALL:
+
+        (bool success, ) = handler.proxy(
+            address(router),
+            abi.encodeWithSelector(
+                router.removeLiquidity.selector,
+                address(token1),
+                address(token2),
+                lpAmount,
+                0,
+                0,
+                address(handler),
+                type(uint256).max
+            )
+        );
+
+        //POSTCONDITIONS
+
+        if (success) {
+            (uint reserve1After, uint reserve2After) = UniswapV2Library
+                .getReserves(
+                    address(factory),
+                    address(token1),
+                    address(token2)
+                );
+            uint pairBalanceAfter = pair.balanceOf(address(handler));
+            uint pairTotalSupplyAfter = pair.totalSupply();
+            uint kAfter = reserve1After * reserve2After;
+            gt(kBefore, kAfter, "K must decrease when removing liquidity");
+            gt(
+                pairBalanceBefore,
+                pairBalanceAfter,
+                "LP token balance must decrease when removing liquidity"
+            );
+
+            gt(
+                reserve1Before,
+                reserve1After,
+                "Reserve 1 must decrease when removing liquidity"
+            );
+            gt(
+                reserve2Before,
+                reserve2After,
+                "Reserve 2 must decrease when removing liquidity"
+            );
+            gt(
+                pairTotalSupplyBefore,
+                pairTotalSupplyAfter,
+                "Total supply must decrease when removing liquidity"
+            );
+        }
+    }
+
+    function swapExactTokensForTokens(uint swapAmountIn) public initHandler {
         //PRECONDITIONS:
 
         _init(swapAmountIn, swapAmountIn);
@@ -121,64 +239,6 @@ abstract contract Tester is Setup, Asserts {
         }
     }
 
-    function removeLiquidityInvariants(uint lpAmount) public initHandlers {
-        //PRECONDITIONS:
-
-        uint pairBalanceBefore = pair.balanceOf(address(handler));
-        //handler needs some LP tokens to burn
-        require(pairBalanceBefore > 0);
-        lpAmount = clampBetween(lpAmount, 1, pairBalanceBefore);
-
-        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
-            .getReserves(address(factory), address(token1), address(token2));
-        //need to provide more than min liquidity
-        uint kBefore = reserve1Before * reserve2Before;
-        (bool success1, ) = handler.proxy(
-            address(pair),
-            abi.encodeWithSelector(
-                pair.approve.selector,
-                address(router),
-                type(uint256).max
-            )
-        );
-        require(success1);
-
-        //CALL:
-
-        (bool success, ) = handler.proxy(
-            address(router),
-            abi.encodeWithSelector(
-                router.removeLiquidity.selector,
-                address(token1),
-                address(token2),
-                lpAmount,
-                0,
-                0,
-                address(handler),
-                type(uint256).max
-            )
-        );
-
-        //POSTCONDITIONS
-
-        if (success) {
-            (uint reserve1After, uint reserve2After) = UniswapV2Library
-                .getReserves(
-                    address(factory),
-                    address(token1),
-                    address(token2)
-                );
-            uint pairBalanceAfter = pair.balanceOf(address(handler));
-            uint kAfter = reserve1After * reserve2After;
-            gt(kBefore, kAfter, "K must decrease when removing liquidity");
-            gt(
-                pairBalanceBefore,
-                pairBalanceAfter,
-                "LP token balance must decrease when removing liquidity"
-            );
-        }
-    }
-
     /*
     Swapping x of token1 for y token of token2 and back should (roughly) give handler x of token1.
     The following function checks this condition by assessing that the resulting x is no more than 3% from the original x.
@@ -204,7 +264,9 @@ abstract contract Tester is Setup, Asserts {
     1. It has to be greater than MINIMUM_AMOUNT = 100.
     2. For some amount y of token2, it has to be minimal among all inputs giving the handler y testTokens2 from the swap.
     */
-    function pathIndependenceForSwaps(uint x) public initHandlers {
+    function swapExactTokensForTokensPathIndependence(
+        uint x
+    ) public initHandler {
         // PRECONDITIONS:
 
         _init(1_000_000_000, 1_000_000_000);

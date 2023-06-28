@@ -32,4 +32,18 @@ abstract contract Asserts is PropertiesAsserts {
         }
         assertLte(a, b, reason);
     }
+
+    function eq(uint256 a, uint256 b, string memory reason) internal {
+        if (!(a == b)) {
+            fail = true;
+        }
+        assertEq(a, b, reason);
+    }
+
+    function t(bool b, string memory reason) internal {
+        if (!(b)) {
+            fail = true;
+        }
+        assertWithMsg(b, reason);
+    }
 }
