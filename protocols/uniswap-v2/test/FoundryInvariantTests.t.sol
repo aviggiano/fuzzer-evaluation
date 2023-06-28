@@ -14,7 +14,7 @@ contract FoundryInvariantTests is Test, Setup {
         targetContract(address(tester));
     }
 
-    function invariant_AlwaysTrue() public {
-        assertTrue(true);
+    function invariant() public {
+        assertFalse(tester.invariantFailed());
     }
 }

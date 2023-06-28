@@ -32,7 +32,8 @@ library UniswapV2Library {
                             hex"ff",
                             factory,
                             keccak256(abi.encodePacked(token0, token1)),
-                            hex"1ca0726131e63169c9745e0a2f23eb3703b8d0ecde6c93790db3ffbdaafb6179" // init code hash
+                            // hex"96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f"
+                            hex"4f9388954b4439363fcc0418ac9c678b55855763b4e767435293d0494ca9a878"
                         )
                     )
                 )
@@ -40,7 +41,6 @@ library UniswapV2Library {
         );
     }
 
-    //OLD: 96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f
     // fetches and sorts the reserves for a pair
     function getReserves(
         address factory,

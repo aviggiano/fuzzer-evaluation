@@ -1,4 +1,3 @@
-//pragma solidity =0.5.16;
 pragma solidity ^0.8.0;
 import "./interfaces/IUniswapV2Factory.sol";
 import "./UniswapV2Pair.sol";
@@ -6,6 +5,9 @@ import "./UniswapV2Pair.sol";
 contract UniswapV2Factory is IUniswapV2Factory {
     address public feeTo;
     address public feeToSetter;
+
+    bytes32 public constant INIT_CODE_PAIR_HASH =
+        keccak256(abi.encodePacked(type(UniswapV2Pair).creationCode));
 
     mapping(address => mapping(address => address)) public getPair;
     address[] public allPairs;

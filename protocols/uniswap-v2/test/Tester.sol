@@ -1,8 +1,8 @@
 pragma solidity ^0.8.0;
 import "./Setup.sol";
-import "@crytic/properties/contracts/util/PropertiesHelper.sol";
+import "./Asserts.sol";
 
-abstract contract Tester is Setup, PropertiesAsserts {
+abstract contract Tester is Setup, Asserts {
     function provideLiquidityInvariants(
         uint amount1,
         uint amount2
@@ -15,7 +15,8 @@ abstract contract Tester is Setup, PropertiesAsserts {
 
         uint pairBalanceBefore = pair.balanceOf(address(handler));
 
-        (uint reserve1Before, uint reserve2Before, ) = pair.getReserves();
+        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
+            .getReserves(address(factory), address(token1), address(token2));
 
         uint kBefore = reserve1Before * reserve2Before;
 
@@ -39,11 +40,17 @@ abstract contract Tester is Setup, PropertiesAsserts {
         //POSTCONDITIONS
 
         if (success) {
-            (uint reserve1After, uint reserve2After, ) = pair.getReserves();
+            (uint reserve1After, uint reserve2After) = UniswapV2Library
+                .getReserves(
+                    address(factory),
+                    address(token1),
+                    address(token2)
+                );
+
             uint pairBalanceAfter = pair.balanceOf(address(handler));
             uint kAfter = reserve1After * reserve2After;
-            assertLt(kBefore, kAfter, "K must increase when adding liquidity");
-            assertLt(
+            lt(kBefore, kAfter, "K must increase when adding liquidity");
+            lt(
                 pairBalanceBefore,
                 pairBalanceAfter,
                 "LP token balance must increase when adding liquidity"
@@ -64,8 +71,10 @@ abstract contract Tester is Setup, PropertiesAsserts {
         uint prevBal2 = UniswapV2ERC20(path[1]).balanceOf(address(handler));
 
         require(prevBal1 > 0);
+
         swapAmountIn = clampBetween(swapAmountIn, 1, prevBal1);
-        (uint reserve1Before, uint reserve2Before, ) = pair.getReserves();
+        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
+            .getReserves(address(factory), address(token1), address(token2));
         uint kBefore = reserve1Before * reserve2Before;
 
         //CALL:
@@ -91,15 +100,20 @@ abstract contract Tester is Setup, PropertiesAsserts {
             uint balance2After = UniswapV2ERC20(path[1]).balanceOf(
                 address(handler)
             );
-            (uint reserve1After, uint reserve2After, ) = pair.getReserves();
+            (uint reserve1After, uint reserve2After) = UniswapV2Library
+                .getReserves(
+                    address(factory),
+                    address(token1),
+                    address(token2)
+                );
             uint kAfter = reserve1After * reserve2After;
-            assertLte(kBefore, kAfter, "K must not decrease when swapping");
-            assertLt(
+            lte(kBefore, kAfter, "K must not decrease when swapping");
+            lt(
                 prevBal2,
                 balance2After,
                 "pool tokenOut balance must decrease when swapping"
             );
-            assertGt(
+            gt(
                 prevBal1,
                 balance1After,
                 "pool tokenIn balance must increase when swapping"
@@ -115,7 +129,8 @@ abstract contract Tester is Setup, PropertiesAsserts {
         require(pairBalanceBefore > 0);
         lpAmount = clampBetween(lpAmount, 1, pairBalanceBefore);
 
-        (uint reserve1Before, uint reserve2Before, ) = pair.getReserves();
+        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
+            .getReserves(address(factory), address(token1), address(token2));
         //need to provide more than min liquidity
         uint kBefore = reserve1Before * reserve2Before;
         (bool success1, ) = handler.proxy(
@@ -147,15 +162,16 @@ abstract contract Tester is Setup, PropertiesAsserts {
         //POSTCONDITIONS
 
         if (success) {
-            (uint reserve1After, uint reserve2After, ) = pair.getReserves();
+            (uint reserve1After, uint reserve2After) = UniswapV2Library
+                .getReserves(
+                    address(factory),
+                    address(token1),
+                    address(token2)
+                );
             uint pairBalanceAfter = pair.balanceOf(address(handler));
             uint kAfter = reserve1After * reserve2After;
-            assertGt(
-                kBefore,
-                kAfter,
-                "K must decrease when removing liquidity"
-            );
-            assertGt(
+            gt(kBefore, kAfter, "K must decrease when removing liquidity");
+            gt(
                 pairBalanceBefore,
                 pairBalanceAfter,
                 "LP token balance must decrease when removing liquidity"
@@ -193,7 +209,11 @@ abstract contract Tester is Setup, PropertiesAsserts {
 
         _init(1_000_000_000, 1_000_000_000);
 
-        (uint reserve1, uint reserve2, ) = pair.getReserves();
+        (uint reserve1, uint reserve2) = UniswapV2Library.getReserves(
+            address(factory),
+            address(token1),
+            address(token2)
+        );
         // if reserve1 or reserve2 <= 1, then we cannot even make a swap
         require(reserve1 > 1);
         require(reserve2 > 1);
@@ -261,8 +281,8 @@ abstract contract Tester is Setup, PropertiesAsserts {
 
         // POSTCONDITIONS:
 
-        assertGt(x, xOut, "handler cannot get more tokens than what they give");
+        gt(x, xOut, "handler cannot get more tokens than what they give");
         // 100 * (x - xOut) will not overflow since we constrained x to be < uint(-1) / 100 before
-        assertLte((x - xOut) * 100, 3 * x, "maximum loss of funds is 3%"); // (x - xOut) / x <= 0.03;
+        lte((x - xOut) * 100, 3 * x, "maximum loss of funds is 3%"); // (x - xOut) / x <= 0.03;
     }
 }

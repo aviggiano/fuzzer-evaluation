@@ -15,4 +15,8 @@ contract FoundryTester is Tester {
         factory = _factory;
         router = _router;
     }
+
+    function invariantFailed() public view returns (bool) {
+        return fail;
+    }
 }

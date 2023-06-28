@@ -13,16 +13,27 @@ contract Setup {
     UniswapV2Pair internal pair;
     UniswapV2Factory internal factory;
     UniswapV2Router01 internal router;
-    mapping(address => Handler) internal handlers;
+
+    mapping(address => Handler) internal handlersMap;
+    Handler[] internal handlers;
+    address[] internal senders;
     Handler internal handler;
+    uint256 private constant MAX_NUMBER_OF_HANDLERS = 3;
 
     bool private complete;
 
     modifier initHandlers() {
-        if (handlers[msg.sender] == Handler(address(0))) {
-            handlers[msg.sender] = new Handler();
+        if (handlers.length >= MAX_NUMBER_OF_HANDLERS) {
+            handler = handlers[
+                uint256(uint160(msg.sender)) % MAX_NUMBER_OF_HANDLERS
+            ];
+        } else if (handlersMap[msg.sender] == Handler(address(0))) {
+            handler = new Handler();
+
+            handlersMap[msg.sender] = handler;
+            handlers.push(handler);
         }
-        handler = handlers[msg.sender];
+
         _;
     }
 
@@ -46,9 +57,9 @@ contract Setup {
     function _init(uint256 amount1, uint256 amount2) internal {
         if (complete) return;
 
-        token2.mint(address(handlers[msg.sender]), amount2);
-        token1.mint(address(handlers[msg.sender]), amount1);
-        handlers[msg.sender].proxy(
+        token2.mint(address(handler), amount2);
+        token1.mint(address(handler), amount1);
+        handler.proxy(
             address(token1),
             abi.encodeWithSelector(
                 token1.approve.selector,
@@ -56,7 +67,7 @@ contract Setup {
                 type(uint256).max
             )
         );
-        handlers[msg.sender].proxy(
+        handler.proxy(
             address(token2),
             abi.encodeWithSelector(
                 token2.approve.selector,
