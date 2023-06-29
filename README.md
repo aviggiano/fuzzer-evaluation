@@ -29,7 +29,8 @@ Evaluating fuzzer effectiveness through mutation testing
 | P-15 | Swapping decreases the sender's tokenIn balance |
 | P-16 | Swapping is "path independent" except for fees |
 | P-17 | Swapping does not decrease the `feeTo` LP balance |
-| P-18 | The balances of the two tokens should be in the valid range of `uint112` |
+| P-18 | Swapping should not fail if there's enough liquidity |
+| P-19 | The balances of the two tokens should be in the valid range of `uint112` |
 
 ## References
 

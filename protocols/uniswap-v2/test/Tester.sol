@@ -130,11 +130,14 @@ abstract contract Tester is Setup, Asserts {
                 "Adding liquidity should not mint LP tokens if the call fails"
             );
             t(
+                // UniswapV2: OVERFLOW
                 // amounts overflow max reserve balance
-                amount1 > type(uint112).max ||
-                    amount2 > type(uint112).max ||
+                amount1 + vars.reserve1Before > type(uint112).max ||
+                    amount2 + vars.reserve2Before > type(uint112).max ||
+                    // UniswapV2: INSUFFICIENT_LIQUIDITY_MINTED
                     // amounts do not pass minimum initial liquidity check
                     Math.sqrt(amount1 * amount2) <= pair.MINIMUM_LIQUIDITY() ||
+                    // UniswapV2: INSUFFICIENT_LIQUIDITY_MINTED
                     // amounts would mint zero liquidity
                     Math.min(
                         ((vars.pairBalance1Before - vars.reserve1Before) *
@@ -250,6 +253,7 @@ abstract contract Tester is Setup, Asserts {
             );
             // amounts returned to the user must be greater than zero
             t(
+                // UniswapV2: INSUFFICIENT_LIQUIDITY_BURNED
                 (lpAmount * vars.pairBalance1Before) /
                     vars.lpTotalSupplyBefore ==
                     0 ||
@@ -333,6 +337,21 @@ abstract contract Tester is Setup, Asserts {
                 feeTouserLpBalanceAfter,
                 feeTouserLpBalanceBefore,
                 "Swapping does not decrease `feeTo` LP tokens balance"
+            );
+        } else {
+            uint[] memory amounts = UniswapV2Library.getAmountsOut(
+                address(factory),
+                swapAmountIn,
+                path
+            );
+            t(
+                // UniswapV2: INSUFFICIENT_LIQUIDITY
+                amounts[1] > vars.reserve2Before ||
+                    // UniswapV2: INSUFFICIENT_OUTPUT_AMOUNT
+                    amounts[1] == 0 ||
+                    // UniswapV2: OVERFLOW
+                    swapAmountIn + vars.reserve1Before > type(uint112).max,
+                "Swapping should not fail if there's enough liquidity and output amount is non-zero and input amount does not overflow"
             );
         }
     }
