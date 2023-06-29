@@ -1,0 +1,14 @@
+diff --git a/protocols/uniswap-v2/src/UniswapV2Pair.sol b/protocols/uniswap-v2/src/UniswapV2Pair.sol
+index 83cfddc..274816e 100644
+--- a/protocols/uniswap-v2/src/UniswapV2Pair.sol
++++ b/protocols/uniswap-v2/src/UniswapV2Pair.sol
+@@ -12,7 +12,8 @@ import "./interfaces/IUniswapV2Callee.sol";
+     using SafeMath for uint;
+     using UQ112x112 for uint224;
+ 
+-    uint public constant MINIMUM_LIQUIDITY = 10 ** 3;
++    // https://rskswap.com/audit.html#orgc7f8ae1
++    uint public constant MINIMUM_LIQUIDITY = 0;
+     bytes4 private constant SELECTOR =
+         bytes4(keccak256(bytes("transfer(address,uint256)")));
+ 
