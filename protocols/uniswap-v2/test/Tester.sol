@@ -461,11 +461,11 @@ abstract contract Tester is Setup, Asserts {
         // POSTCONDITIONS:
 
         gt(x, xOut, "handler cannot get more tokens than what they give");
-        // 100 * (x - xOut) will not overflow since we constrained x to be < uint(-1) / 100 before
+        // 1000 * (x - xOut) will not overflow since we constrained x to be < uint(-1) / 1000 before
         lte(
             (x - xOut) * 1000,
             591 * x,
             "maximum loss of funds is 3% on each swap"
-        ); // (x - xOut) / x <= 0.03;
+        ); // (x - xOut) / x <= 0.03 on each swap;
     }
 }
