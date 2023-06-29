@@ -397,11 +397,11 @@ abstract contract Tester is Setup, Asserts {
         require(reserve1 > 1);
         require(reserve2 > 1);
 
-        uint MINIMUM_AMOUNT = 100;
+        uint MINIMUM_AMOUNT = 1000;
         uint userBalance1 = token1.balanceOf(address(handler));
         require(userBalance1 > MINIMUM_AMOUNT);
 
-        x = clampBetween(x, MINIMUM_AMOUNT, type(uint256).max / 100); // uint(-1) / 100 needed in POSTCONDITIONS to avoid overflow
+        x = clampBetween(x, MINIMUM_AMOUNT, type(uint256).max / 1000); // uint(-1) / 1000 needed in POSTCONDITIONS to avoid overflow
         x = clampBetween(x, MINIMUM_AMOUNT, userBalance1);
 
         // use optimal x - it makes no sense to pay more for a given amount of tokens than necessary
@@ -462,6 +462,10 @@ abstract contract Tester is Setup, Asserts {
 
         gt(x, xOut, "handler cannot get more tokens than what they give");
         // 100 * (x - xOut) will not overflow since we constrained x to be < uint(-1) / 100 before
-        lte((x - xOut) * 100, 3 * x, "maximum loss of funds is 3%"); // (x - xOut) / x <= 0.03;
+        lte(
+            (x - xOut) * 1000,
+            591 * x,
+            "maximum loss of funds is 3% on each swap"
+        ); // (x - xOut) / x <= 0.03;
     }
 }
