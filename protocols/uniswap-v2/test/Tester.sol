@@ -1,9 +1,12 @@
 pragma solidity ^0.8.0;
 import "./Setup.sol";
 import "./Asserts.sol";
-import "./SimpleMath.sol";
 
-abstract contract Tester is Setup, Asserts, SimpleMath {
+/// @title Foundry/Echidna compatible tester contract
+/// @author Justin Jacob <@technovision99>, Antonio Viggiano <@agfviggiano>
+/// @notice Serves as a compatible tester contract to compare foundry and echidna. This contract was largely inspired by @technovision99's work on the `crytic/echidna-streaming-series` repository.
+/// @dev Contains all necessary functions to be called by stateful fuuzers.
+abstract contract Tester is Setup, Asserts {
     struct Vars {
         uint256 userLpBalanceBefore;
         uint256 userLpBalanceAfter;
@@ -25,6 +28,9 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
         uint256 kAfter;
     }
 
+    uint private constant PATH_INDEPENDENCE_MINIMUM_AMOUNT = 10000;
+    uint private constant PATH_INDEPENDENCE_ERROR = 591;
+
     function addLiquidity(uint amount1, uint amount2) public initUser {
         //PRECONDITIONS:
 
@@ -34,8 +40,8 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
         amount2 = clampBetween(amount2, 1, type(uint256).max);
         _mintTokens(amount1, amount2);
 
-        require(token1.balanceOf(address(user)) > 0);
-        require(token2.balanceOf(address(user)) > 0);
+        if (token1.balanceOf(address(user)) == 0) return;
+        if (token2.balanceOf(address(user)) == 0) return;
 
         vars.userLpBalanceBefore = pair.balanceOf(address(user));
         vars.lpTotalSupplyBefore = pair.totalSupply();
@@ -119,10 +125,8 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
             );
             if (vars.kBefore == 0) {
                 eq(
-                    SimpleMath.square(
-                        vars.userLpBalanceAfter + pair.MINIMUM_LIQUIDITY()
-                    ),
-                    (amount1 * amount2),
+                    vars.userLpBalanceAfter,
+                    Math.sqrt(amount1 * amount2) - pair.MINIMUM_LIQUIDITY(),
                     "Adding liquidity for the first time should mint LP tokens equals to sqrt(amount1 * amount2) - MINIMUM_LIQUIDITY"
                 );
             }
@@ -139,11 +143,10 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
                     amount2 + vars.reserve2Before > type(uint112).max ||
                     // UniswapV2: INSUFFICIENT_LIQUIDITY_MINTED
                     // amounts do not pass minimum initial liquidity check
-                    (amount1 * amount2) <=
-                    SimpleMath.square(pair.MINIMUM_LIQUIDITY()) ||
+                    Math.sqrt(amount1 * amount2) <= pair.MINIMUM_LIQUIDITY() ||
                     // UniswapV2: INSUFFICIENT_LIQUIDITY_MINTED
                     // amounts would mint zero liquidity
-                    SimpleMath.min(
+                    Math.min(
                         ((vars.pairBalance1Before - vars.reserve1Before) *
                             (vars.lpTotalSupplyBefore)) / vars.reserve1Before,
                         ((vars.pairBalance2Before - vars.reserve2Before) *
@@ -162,7 +165,7 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
         vars.userLpBalanceBefore = pair.balanceOf(address(user));
         vars.lpTotalSupplyBefore = pair.totalSupply();
         //user needs some LP tokens to burn
-        require(vars.userLpBalanceBefore > 0);
+        if (vars.userLpBalanceBefore == 0) return;
         lpAmount = clampBetween(lpAmount, 1, vars.userLpBalanceBefore);
 
         (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
@@ -223,7 +226,6 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
                 vars.userLpBalanceAfter,
                 "LP token balance must decrease when removing liquidity"
             );
-
             gt(
                 vars.reserve1Before,
                 vars.reserve1After,
@@ -288,7 +290,7 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
 
         uint feeTouserLpBalanceBefore = pair.balanceOf(factory.feeTo());
 
-        require(vars.userBalance1Before > 0);
+        if (vars.userBalance1Before == 0) return;
 
         swapAmountIn = clampBetween(swapAmountIn, 1, vars.userBalance1Before);
         (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
@@ -387,7 +389,6 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
     */
     function swapExactTokensForTokensPathIndependence(uint x) public initUser {
         // PRECONDITIONS:
-
         _mintTokens(1_000_000_000, 1_000_000_000);
 
         (uint reserve1, uint reserve2) = UniswapV2Library.getReserves(
@@ -396,15 +397,18 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
             address(token2)
         );
         // if reserve1 or reserve2 <= 1, then we cannot even make a swap
-        require(reserve1 > 1);
-        require(reserve2 > 1);
+        if (reserve1 <= 1) return;
+        if (reserve2 <= 1) return;
 
-        uint MINIMUM_AMOUNT = 10000;
         uint userBalance1 = token1.balanceOf(address(user));
-        require(userBalance1 > MINIMUM_AMOUNT);
+        if (userBalance1 <= PATH_INDEPENDENCE_MINIMUM_AMOUNT) return;
 
-        x = clampBetween(x, MINIMUM_AMOUNT, type(uint256).max / 10000); // uint(-1) / 10000 needed in POSTCONDITIONS to avoid overflow
-        x = clampBetween(x, MINIMUM_AMOUNT, userBalance1);
+        x = clampBetween(
+            x,
+            PATH_INDEPENDENCE_MINIMUM_AMOUNT,
+            type(uint256).max / PATH_INDEPENDENCE_MINIMUM_AMOUNT
+        ); // uint(-1) / PATH_INDEPENDENCE_MINIMUM_AMOUNT needed in POSTCONDITIONS to avoid overflow
+        x = clampBetween(x, PATH_INDEPENDENCE_MINIMUM_AMOUNT, userBalance1);
 
         // use optimal x - it makes no sense to pay more for a given amount of tokens than necessary
         // nor it makes sense to "buy" 0 tokens
@@ -463,11 +467,11 @@ abstract contract Tester is Setup, Asserts, SimpleMath {
         // POSTCONDITIONS:
 
         gt(x, xOut, "user cannot get more tokens than what they give");
-        // 10000 * (x - xOut) will not overflow since we constrained x to be < uint(-1) / 10000 before
+        // PATH_INDEPENDENCE_MINIMUM_AMOUNT * (x - xOut) will not overflow since we constrained x to be < uint(-1) / PATH_INDEPENDENCE_MINIMUM_AMOUNT before
         lte(
-            (x - xOut) * MINIMUM_AMOUNT,
-            591 * x,
-            "maximum loss of funds is 3% on each swap"
-        ); // (x - xOut) / x <= 0.03 on each swap;
+            (x - xOut) * PATH_INDEPENDENCE_MINIMUM_AMOUNT,
+            PATH_INDEPENDENCE_ERROR * x,
+            "maximum loss of funds is PATH_INDEPENDENCE_ERROR on each swap"
+        ); // (x - xOut) / x <= PATH_INDEPENDENCE_ERROR on each swap;
     }
 }

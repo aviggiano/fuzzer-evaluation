@@ -5,6 +5,10 @@ import "forge-std/Test.sol";
 import "./Setup.sol";
 import "./FoundryTester.sol";
 
+/// @title Foundry-specific tester contract
+/// @author Antonio Viggiano <@agfviggiano>
+/// @notice Serves as a foundry-especific `Test` contract to be fuzzed
+/// @dev Deploys the foundry-specific `FoundryTester` contract and cherry-picks relevant functions to be fuzzed. Calls `_deploy` to deploy the dependent contracts and exposes the tester as the target contract.
 contract FoundryInvariantTests is Test, Setup {
     FoundryTester private tester;
 

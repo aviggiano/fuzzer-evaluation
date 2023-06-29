@@ -7,6 +7,10 @@ import "@uniswap/contracts/libraries/UniswapV2Library.sol";
 import "@uniswap/contracts/UniswapV2Router01.sol";
 import "./User.sol";
 
+/// @title Foundry/Echidna compatible setup contract
+/// @author Justin Jacob <@technovision99>, Antonio Viggiano <@agfviggiano>
+/// @notice Serves as a compatible setup contract to compare foundry and echidna. This contract was largely inspired by @technovision99's work on the `crytic/echidna-streaming-series` repository.
+/// @dev Contains modifiers and initialization functions common to both frameworks, in addition to deploment functions that must be applied at different stages. See specific tester contracts for more information.
 contract Setup {
     UniswapV2ERC20 internal token1;
     UniswapV2ERC20 internal token2;
