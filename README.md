@@ -1,10 +1,11 @@
 # fuzzer-evaluation
 Evaluating fuzzer effectiveness through mutation testing
 
-## Setup
+## Usage
 
-1. Install dependencies
-2. Follow installation instructions on all submodules
+```
+make test
+```
 
 ## Properties
 
