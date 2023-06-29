@@ -14,18 +14,18 @@ Evaluating fuzzer effectiveness through mutation testing
 | --- | --- |
 | P-01 | Adding liquidity increases K |
 | P-02 | Adding liquidity increases the total supply of LP tokens |
-| P-03 | Adding liquidity decreases K |
-| P-04 | Adding liquidity decreases the total supply of LP tokens |
-| P-05 | Swapping does not decrease K |
-| P-06 | Swapping increases the sender's tokenOut balance |
-| P-07 | Swapping decreases the sender's tokenIn balance |
-| P-08 | Swapping is "path independent" except for fees |
-| P-09 | The balances of the two tokens should be in the valid range of uint112 |
-| P-10 | Initial LP tokens should be the square root of the product of input amounts minus a minimal liquidity constant |
-| P-11 | Adding liquidity increases reserves of both tokens |
-| P-12 | Removing liquidity decreases reserves of both tokens |
-| P-13 | Adding liquidity increases the users' LP balance |
-| P-14 | Removing liquidity decreases the users' LP balance |
+| P-03 | Adding liquidity increases reserves of both tokens |
+| P-04 | Adding liquidity increases the users' LP balance |
+| P-05 | Removing liquidity decreases K |
+| P-06 | Removing liquidity decreases the total supply of LP tokens |
+| P-07 | Removing liquidity decreases reserves of both tokens |
+| P-08 | Removing liquidity decreases the users' LP balance |
+| P-09 | Swapping does not decrease K |
+| P-10 | Swapping increases the sender's tokenOut balance |
+| P-11 | Swapping decreases the sender's tokenIn balance |
+| P-12 | Swapping is "path independent" except for fees |
+| P-13 | The balances of the two tokens should be in the valid range of uint112 |
+| P-14 | Initial LP tokens should be the square root of the product of input amounts minus a minimal liquidity constant |
 
 ## References
 
