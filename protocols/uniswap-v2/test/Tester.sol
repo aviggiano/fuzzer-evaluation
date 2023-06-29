@@ -10,6 +10,8 @@ abstract contract Tester is Setup, Asserts {
         uint256 pairTotalSupplyAfter;
         uint256 balance1Before;
         uint256 balance2Before;
+        uint256 balance1After;
+        uint256 balance2After;
         uint256 reserve1Before;
         uint256 reserve1After;
         uint256 reserve2Before;
@@ -229,23 +231,28 @@ abstract contract Tester is Setup, Asserts {
     function swapExactTokensForTokens(uint swapAmountIn) public initHandler {
         //PRECONDITIONS:
 
+        Vars memory vars;
         _init(swapAmountIn, swapAmountIn);
 
         address[] memory path = new address[](2);
         path[0] = address(token1);
         path[1] = address(token2);
 
-        uint prevBal1 = UniswapV2ERC20(path[0]).balanceOf(address(handler));
-        uint prevBal2 = UniswapV2ERC20(path[1]).balanceOf(address(handler));
+        vars.balance1Before = UniswapV2ERC20(path[0]).balanceOf(
+            address(handler)
+        );
+        vars.balance2Before = UniswapV2ERC20(path[1]).balanceOf(
+            address(handler)
+        );
 
         uint feeToPairBalanceBefore = pair.balanceOf(factory.feeTo());
 
-        require(prevBal1 > 0);
+        require(vars.balance1Before > 0);
 
-        swapAmountIn = clampBetween(swapAmountIn, 1, prevBal1);
-        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
+        swapAmountIn = clampBetween(swapAmountIn, 1, vars.balance1Before);
+        (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
             .getReserves(address(factory), address(token1), address(token2));
-        uint kBefore = reserve1Before * reserve2Before;
+        vars.kBefore = vars.reserve1Before * vars.reserve2Before;
 
         //CALL:
 
@@ -264,29 +271,29 @@ abstract contract Tester is Setup, Asserts {
         //POSTCONDITIONS:
 
         if (success) {
-            uint balance1After = UniswapV2ERC20(path[0]).balanceOf(
+            vars.balance1After = UniswapV2ERC20(path[0]).balanceOf(
                 address(handler)
             );
-            uint balance2After = UniswapV2ERC20(path[1]).balanceOf(
+            vars.balance2After = UniswapV2ERC20(path[1]).balanceOf(
                 address(handler)
             );
             uint feeToPairBalanceAfter = pair.balanceOf(factory.feeTo());
-            (uint reserve1After, uint reserve2After) = UniswapV2Library
+            (vars.reserve1After, vars.reserve2After) = UniswapV2Library
                 .getReserves(
                     address(factory),
                     address(token1),
                     address(token2)
                 );
-            uint kAfter = reserve1After * reserve2After;
-            lte(kBefore, kAfter, "K must not decrease when swapping");
+            vars.kAfter = vars.reserve1After * vars.reserve2After;
+            lte(vars.kBefore, vars.kAfter, "K must not decrease when swapping");
             lt(
-                prevBal2,
-                balance2After,
+                vars.balance2Before,
+                vars.balance2After,
                 "pool tokenOut balance must decrease when swapping"
             );
             gt(
-                prevBal1,
-                balance1After,
+                vars.balance1Before,
+                vars.balance1After,
                 "pool tokenIn balance must increase when swapping"
             );
             gte(
