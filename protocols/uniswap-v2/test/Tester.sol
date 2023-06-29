@@ -3,8 +3,25 @@ import "./Setup.sol";
 import "./Asserts.sol";
 
 abstract contract Tester is Setup, Asserts {
+    struct Vars {
+        uint256 pairBalanceBefore;
+        uint256 pairBalanceAfter;
+        uint256 pairTotalSupplyBefore;
+        uint256 pairTotalSupplyAfter;
+        uint256 balance1Before;
+        uint256 balance2Before;
+        uint256 reserve1Before;
+        uint256 reserve1After;
+        uint256 reserve2Before;
+        uint256 reserve2After;
+        uint256 kBefore;
+        uint256 kAfter;
+    }
+
     function addLiquidity(uint amount1, uint amount2) public initHandler {
         //PRECONDITIONS:
+
+        Vars memory vars;
 
         amount1 = clampBetween(amount1, 1, type(uint256).max);
         amount2 = clampBetween(amount2, 1, type(uint256).max);
@@ -13,16 +30,16 @@ abstract contract Tester is Setup, Asserts {
         require(token1.balanceOf(address(handler)) > 0);
         require(token2.balanceOf(address(handler)) > 0);
 
-        uint pairBalanceBefore = pair.balanceOf(address(handler));
-        uint pairTotalSupplyBefore = pair.totalSupply();
+        vars.pairBalanceBefore = pair.balanceOf(address(handler));
+        vars.pairTotalSupplyBefore = pair.totalSupply();
 
-        uint balance1Before = token1.balanceOf(address(pair));
-        uint balance2Before = token2.balanceOf(address(pair));
+        vars.balance1Before = token1.balanceOf(address(pair));
+        vars.balance2Before = token2.balanceOf(address(pair));
 
-        (uint reserve1Before, uint reserve2Before) = UniswapV2Library
+        (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
             .getReserves(address(factory), address(token1), address(token2));
 
-        uint kBefore = reserve1Before * reserve2Before;
+        vars.kBefore = vars.reserve1Before * vars.reserve2Before;
 
         //CALL:
 
@@ -44,41 +61,52 @@ abstract contract Tester is Setup, Asserts {
         //POSTCONDITIONS
 
         if (success) {
-            (uint reserve1After, uint reserve2After) = UniswapV2Library
+            (vars.reserve1After, vars.reserve2After) = UniswapV2Library
                 .getReserves(
                     address(factory),
                     address(token1),
                     address(token2)
                 );
 
-            uint pairBalanceAfter = pair.balanceOf(address(handler));
-            uint pairTotalSupplyAfter = pair.totalSupply();
-            uint kAfter = reserve1After * reserve2After;
+            vars.pairBalanceAfter = pair.balanceOf(address(handler));
+            vars.pairTotalSupplyAfter = pair.totalSupply();
+            vars.kAfter = vars.reserve1After * vars.reserve2After;
             lt(
-                reserve1Before,
-                reserve1After,
+                vars.reserve1Before,
+                vars.reserve1After,
                 "Reserve 1 must increase when adding liquidity"
             );
             lt(
-                reserve2Before,
-                reserve2After,
+                vars.reserve2Before,
+                vars.reserve2After,
                 "Reserve 2 must increase when adding liquidity"
             );
             lt(
-                pairTotalSupplyBefore,
-                pairTotalSupplyAfter,
+                vars.pairTotalSupplyBefore,
+                vars.pairTotalSupplyAfter,
                 "Total supply must increase when adding liquidity"
             );
-            lt(kBefore, kAfter, "K must increase when adding liquidity");
             lt(
-                pairBalanceBefore,
-                pairBalanceAfter,
+                vars.kBefore,
+                vars.kAfter,
+                "K must increase when adding liquidity"
+            );
+            lt(
+                vars.pairBalanceBefore,
+                vars.pairBalanceAfter,
                 "LP token balance must increase when adding liquidity"
             );
+            if (vars.kBefore == 0) {
+                eq(
+                    vars.pairBalanceAfter,
+                    Math.sqrt(amount1 * amount2) - pair.MINIMUM_LIQUIDITY(),
+                    "Adding liquidity for the first time should mint LP tokens equals to sqrt(amount1 * amount2) - MINIMUM_LIQUIDITY"
+                );
+            }
         } else {
             eq(
                 pair.balanceOf(address(handler)),
-                pairBalanceBefore,
+                vars.pairBalanceBefore,
                 "Adding liquidity should not mint LP tokens if the call fails"
             );
             t(
@@ -89,10 +117,10 @@ abstract contract Tester is Setup, Asserts {
                     Math.sqrt(amount1 * amount2) <= pair.MINIMUM_LIQUIDITY() ||
                     // amounts would mint zero liquidity
                     Math.min(
-                        ((balance1Before - reserve1Before) *
-                            (pairTotalSupplyBefore)) / reserve1Before,
-                        ((balance2Before - reserve2Before) *
-                            (pairTotalSupplyBefore)) / reserve2Before
+                        ((vars.balance1Before - vars.reserve1Before) *
+                            (vars.pairTotalSupplyBefore)) / vars.reserve1Before,
+                        ((vars.balance2Before - vars.reserve2Before) *
+                            (vars.pairTotalSupplyBefore)) / vars.reserve2Before
                     ) ==
                     0,
                 "Adding liquidity should only fail if the provided amounts is invalid"
