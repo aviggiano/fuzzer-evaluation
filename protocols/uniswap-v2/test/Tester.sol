@@ -4,14 +4,18 @@ import "./Asserts.sol";
 
 abstract contract Tester is Setup, Asserts {
     struct Vars {
-        uint256 pairBalanceBefore;
-        uint256 pairBalanceAfter;
-        uint256 pairTotalSupplyBefore;
-        uint256 pairTotalSupplyAfter;
-        uint256 balance1Before;
-        uint256 balance2Before;
-        uint256 balance1After;
-        uint256 balance2After;
+        uint256 userLpBalanceBefore;
+        uint256 userLpBalanceAfter;
+        uint256 lpTotalSupplyBefore;
+        uint256 lpTotalSupplyAfter;
+        uint256 pairBalance1Before;
+        uint256 pairBalance2Before;
+        uint256 pairBalance1After;
+        uint256 pairBalance2After;
+        uint256 userBalance1Before;
+        uint256 userBalance2Before;
+        uint256 userBalance1After;
+        uint256 userBalance2After;
         uint256 reserve1Before;
         uint256 reserve1After;
         uint256 reserve2Before;
@@ -32,11 +36,13 @@ abstract contract Tester is Setup, Asserts {
         require(token1.balanceOf(address(handler)) > 0);
         require(token2.balanceOf(address(handler)) > 0);
 
-        vars.pairBalanceBefore = pair.balanceOf(address(handler));
-        vars.pairTotalSupplyBefore = pair.totalSupply();
+        vars.userLpBalanceBefore = pair.balanceOf(address(handler));
+        vars.lpTotalSupplyBefore = pair.totalSupply();
 
-        vars.balance1Before = token1.balanceOf(address(pair));
-        vars.balance2Before = token2.balanceOf(address(pair));
+        vars.pairBalance1Before = token1.balanceOf(address(pair));
+        vars.pairBalance2Before = token2.balanceOf(address(pair));
+        vars.userBalance1Before = token1.balanceOf(address(handler));
+        vars.userBalance2Before = token2.balanceOf(address(handler));
 
         (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
             .getReserves(address(factory), address(token1), address(token2));
@@ -70,8 +76,10 @@ abstract contract Tester is Setup, Asserts {
                     address(token2)
                 );
 
-            vars.pairBalanceAfter = pair.balanceOf(address(handler));
-            vars.pairTotalSupplyAfter = pair.totalSupply();
+            vars.userLpBalanceAfter = pair.balanceOf(address(handler));
+            vars.lpTotalSupplyAfter = pair.totalSupply();
+            vars.userBalance1After = token1.balanceOf(address(handler));
+            vars.userBalance2After = token2.balanceOf(address(handler));
             vars.kAfter = vars.reserve1After * vars.reserve2After;
             lt(
                 vars.reserve1Before,
@@ -84,8 +92,8 @@ abstract contract Tester is Setup, Asserts {
                 "Reserve 2 must increase when adding liquidity"
             );
             lt(
-                vars.pairTotalSupplyBefore,
-                vars.pairTotalSupplyAfter,
+                vars.lpTotalSupplyBefore,
+                vars.lpTotalSupplyAfter,
                 "Total supply must increase when adding liquidity"
             );
             lt(
@@ -94,13 +102,23 @@ abstract contract Tester is Setup, Asserts {
                 "K must increase when adding liquidity"
             );
             lt(
-                vars.pairBalanceBefore,
-                vars.pairBalanceAfter,
+                vars.userLpBalanceBefore,
+                vars.userLpBalanceAfter,
                 "LP token balance must increase when adding liquidity"
+            );
+            gt(
+                vars.userBalance1Before,
+                vars.userBalance1After,
+                "Adding liquidity decreases the users' token balances"
+            );
+            gt(
+                vars.userBalance2Before,
+                vars.userBalance2After,
+                "Adding liquidity decreases the users' token balances"
             );
             if (vars.kBefore == 0) {
                 eq(
-                    vars.pairBalanceAfter,
+                    vars.userLpBalanceAfter,
                     Math.sqrt(amount1 * amount2) - pair.MINIMUM_LIQUIDITY(),
                     "Adding liquidity for the first time should mint LP tokens equals to sqrt(amount1 * amount2) - MINIMUM_LIQUIDITY"
                 );
@@ -108,7 +126,7 @@ abstract contract Tester is Setup, Asserts {
         } else {
             eq(
                 pair.balanceOf(address(handler)),
-                vars.pairBalanceBefore,
+                vars.userLpBalanceBefore,
                 "Adding liquidity should not mint LP tokens if the call fails"
             );
             t(
@@ -119,10 +137,10 @@ abstract contract Tester is Setup, Asserts {
                     Math.sqrt(amount1 * amount2) <= pair.MINIMUM_LIQUIDITY() ||
                     // amounts would mint zero liquidity
                     Math.min(
-                        ((vars.balance1Before - vars.reserve1Before) *
-                            (vars.pairTotalSupplyBefore)) / vars.reserve1Before,
-                        ((vars.balance2Before - vars.reserve2Before) *
-                            (vars.pairTotalSupplyBefore)) / vars.reserve2Before
+                        ((vars.pairBalance1Before - vars.reserve1Before) *
+                            (vars.lpTotalSupplyBefore)) / vars.reserve1Before,
+                        ((vars.pairBalance2Before - vars.reserve2Before) *
+                            (vars.lpTotalSupplyBefore)) / vars.reserve2Before
                     ) ==
                     0,
                 "Adding liquidity should only fail if the provided amounts is invalid"
@@ -134,11 +152,11 @@ abstract contract Tester is Setup, Asserts {
         //PRECONDITIONS:
         Vars memory vars;
 
-        vars.pairBalanceBefore = pair.balanceOf(address(handler));
-        vars.pairTotalSupplyBefore = pair.totalSupply();
+        vars.userLpBalanceBefore = pair.balanceOf(address(handler));
+        vars.lpTotalSupplyBefore = pair.totalSupply();
         //handler needs some LP tokens to burn
-        require(vars.pairBalanceBefore > 0);
-        lpAmount = clampBetween(lpAmount, 1, vars.pairBalanceBefore);
+        require(vars.userLpBalanceBefore > 0);
+        lpAmount = clampBetween(lpAmount, 1, vars.userLpBalanceBefore);
 
         (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
             .getReserves(address(factory), address(token1), address(token2));
@@ -153,8 +171,10 @@ abstract contract Tester is Setup, Asserts {
             )
         );
         require(success1);
-        vars.balance1Before = token1.balanceOf(address(pair));
-        vars.balance2Before = token2.balanceOf(address(pair));
+        vars.pairBalance1Before = token1.balanceOf(address(pair));
+        vars.pairBalance2Before = token2.balanceOf(address(pair));
+        vars.userBalance1Before = token1.balanceOf(address(handler));
+        vars.userBalance2Before = token2.balanceOf(address(handler));
 
         //CALL:
 
@@ -181,8 +201,10 @@ abstract contract Tester is Setup, Asserts {
                     address(token1),
                     address(token2)
                 );
-            vars.pairBalanceAfter = pair.balanceOf(address(handler));
-            vars.pairTotalSupplyAfter = pair.totalSupply();
+            vars.userLpBalanceAfter = pair.balanceOf(address(handler));
+            vars.lpTotalSupplyAfter = pair.totalSupply();
+            vars.userBalance1After = token1.balanceOf(address(handler));
+            vars.userBalance2After = token2.balanceOf(address(handler));
             vars.kAfter = vars.reserve1After * vars.reserve2After;
             gt(
                 vars.kBefore,
@@ -190,8 +212,8 @@ abstract contract Tester is Setup, Asserts {
                 "K must decrease when removing liquidity"
             );
             gt(
-                vars.pairBalanceBefore,
-                vars.pairBalanceAfter,
+                vars.userLpBalanceBefore,
+                vars.userLpBalanceAfter,
                 "LP token balance must decrease when removing liquidity"
             );
 
@@ -206,22 +228,33 @@ abstract contract Tester is Setup, Asserts {
                 "Reserve 2 must decrease when removing liquidity"
             );
             gt(
-                vars.pairTotalSupplyBefore,
-                vars.pairTotalSupplyAfter,
+                vars.lpTotalSupplyBefore,
+                vars.lpTotalSupplyAfter,
                 "Total supply must decrease when removing liquidity"
+            );
+            lt(
+                vars.userBalance1Before,
+                vars.userBalance1After,
+                "Removing liquidity increases the users' token balances"
+            );
+            lt(
+                vars.userBalance2Before,
+                vars.userBalance2After,
+                "Removing liquidity increases the users' token balances"
             );
         } else {
             eq(
                 pair.balanceOf(address(handler)),
-                vars.pairBalanceBefore,
+                vars.userLpBalanceBefore,
                 "Removing liquidity should not burn LP tokens if the call fails"
             );
             // amounts returned to the user must be greater than zero
             t(
-                (lpAmount * vars.balance1Before) / vars.pairTotalSupplyBefore ==
+                (lpAmount * vars.pairBalance1Before) /
+                    vars.lpTotalSupplyBefore ==
                     0 ||
-                    (lpAmount * vars.balance2Before) /
-                        vars.pairTotalSupplyBefore ==
+                    (lpAmount * vars.pairBalance2Before) /
+                        vars.lpTotalSupplyBefore ==
                     0,
                 "Removing liquidity should never fail if the the returned amounts to the user are greater than zero"
             );
@@ -238,18 +271,18 @@ abstract contract Tester is Setup, Asserts {
         path[0] = address(token1);
         path[1] = address(token2);
 
-        vars.balance1Before = UniswapV2ERC20(path[0]).balanceOf(
+        vars.userBalance1Before = UniswapV2ERC20(path[0]).balanceOf(
             address(handler)
         );
-        vars.balance2Before = UniswapV2ERC20(path[1]).balanceOf(
+        vars.userBalance2Before = UniswapV2ERC20(path[1]).balanceOf(
             address(handler)
         );
 
-        uint feeToPairBalanceBefore = pair.balanceOf(factory.feeTo());
+        uint feeTouserLpBalanceBefore = pair.balanceOf(factory.feeTo());
 
-        require(vars.balance1Before > 0);
+        require(vars.userBalance1Before > 0);
 
-        swapAmountIn = clampBetween(swapAmountIn, 1, vars.balance1Before);
+        swapAmountIn = clampBetween(swapAmountIn, 1, vars.userBalance1Before);
         (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
             .getReserves(address(factory), address(token1), address(token2));
         vars.kBefore = vars.reserve1Before * vars.reserve2Before;
@@ -271,13 +304,13 @@ abstract contract Tester is Setup, Asserts {
         //POSTCONDITIONS:
 
         if (success) {
-            vars.balance1After = UniswapV2ERC20(path[0]).balanceOf(
+            vars.userBalance1After = UniswapV2ERC20(path[0]).balanceOf(
                 address(handler)
             );
-            vars.balance2After = UniswapV2ERC20(path[1]).balanceOf(
+            vars.userBalance2After = UniswapV2ERC20(path[1]).balanceOf(
                 address(handler)
             );
-            uint feeToPairBalanceAfter = pair.balanceOf(factory.feeTo());
+            uint feeTouserLpBalanceAfter = pair.balanceOf(factory.feeTo());
             (vars.reserve1After, vars.reserve2After) = UniswapV2Library
                 .getReserves(
                     address(factory),
@@ -287,18 +320,18 @@ abstract contract Tester is Setup, Asserts {
             vars.kAfter = vars.reserve1After * vars.reserve2After;
             lte(vars.kBefore, vars.kAfter, "K must not decrease when swapping");
             lt(
-                vars.balance2Before,
-                vars.balance2After,
+                vars.userBalance2Before,
+                vars.userBalance2After,
                 "pool tokenOut balance must decrease when swapping"
             );
             gt(
-                vars.balance1Before,
-                vars.balance1After,
+                vars.userBalance1Before,
+                vars.userBalance1After,
                 "pool tokenIn balance must increase when swapping"
             );
             gte(
-                feeToPairBalanceAfter,
-                feeToPairBalanceBefore,
+                feeTouserLpBalanceAfter,
+                feeTouserLpBalanceBefore,
                 "Swapping does not decrease `feeTo` LP tokens balance"
             );
         }
