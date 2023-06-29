@@ -5,7 +5,7 @@ import "@uniswap/UniswapV2ERC20.sol";
 import "@uniswap/UniswapV2Factory.sol";
 import "@uniswap/contracts/libraries/UniswapV2Library.sol";
 import "@uniswap/contracts/UniswapV2Router01.sol";
-import "./Handler.sol";
+import "./User.sol";
 
 contract Setup {
     UniswapV2ERC20 internal token1;
@@ -14,14 +14,13 @@ contract Setup {
     UniswapV2Factory internal factory;
     UniswapV2Router01 internal router;
 
-    Handler internal handler;
-    uint256 private constant MAX_NUMBER_OF_HANDLERS = 3;
+    User internal user;
 
     bool private complete;
 
-    modifier initHandler() {
-        if (handler == Handler(address(0))) {
-            handler = new Handler();
+    modifier initUser() {
+        if (user == User(address(0))) {
+            user = new User();
         }
 
         _;
@@ -44,12 +43,12 @@ contract Setup {
         token2 = UniswapV2ERC20(testTokenB);
     }
 
-    function _init(uint256 amount1, uint256 amount2) internal {
+    function _mintTokens(uint256 amount1, uint256 amount2) internal {
         if (complete) return;
 
-        token2.mint(address(handler), amount2);
-        token1.mint(address(handler), amount1);
-        handler.proxy(
+        token2.mint(address(user), amount2);
+        token1.mint(address(user), amount1);
+        user.proxy(
             address(token1),
             abi.encodeWithSelector(
                 token1.approve.selector,
@@ -57,7 +56,7 @@ contract Setup {
                 type(uint256).max
             )
         );
-        handler.proxy(
+        user.proxy(
             address(token2),
             abi.encodeWithSelector(
                 token2.approve.selector,

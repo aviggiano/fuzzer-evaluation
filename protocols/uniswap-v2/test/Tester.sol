@@ -1,8 +1,9 @@
 pragma solidity ^0.8.0;
 import "./Setup.sol";
 import "./Asserts.sol";
+import "./SimpleMath.sol";
 
-abstract contract Tester is Setup, Asserts {
+abstract contract Tester is Setup, Asserts, SimpleMath {
     struct Vars {
         uint256 userLpBalanceBefore;
         uint256 userLpBalanceAfter;
@@ -24,25 +25,25 @@ abstract contract Tester is Setup, Asserts {
         uint256 kAfter;
     }
 
-    function addLiquidity(uint amount1, uint amount2) public initHandler {
+    function addLiquidity(uint amount1, uint amount2) public initUser {
         //PRECONDITIONS:
 
         Vars memory vars;
 
         amount1 = clampBetween(amount1, 1, type(uint256).max);
         amount2 = clampBetween(amount2, 1, type(uint256).max);
-        _init(amount1, amount2);
+        _mintTokens(amount1, amount2);
 
-        require(token1.balanceOf(address(handler)) > 0);
-        require(token2.balanceOf(address(handler)) > 0);
+        require(token1.balanceOf(address(user)) > 0);
+        require(token2.balanceOf(address(user)) > 0);
 
-        vars.userLpBalanceBefore = pair.balanceOf(address(handler));
+        vars.userLpBalanceBefore = pair.balanceOf(address(user));
         vars.lpTotalSupplyBefore = pair.totalSupply();
 
         vars.pairBalance1Before = token1.balanceOf(address(pair));
         vars.pairBalance2Before = token2.balanceOf(address(pair));
-        vars.userBalance1Before = token1.balanceOf(address(handler));
-        vars.userBalance2Before = token2.balanceOf(address(handler));
+        vars.userBalance1Before = token1.balanceOf(address(user));
+        vars.userBalance2Before = token2.balanceOf(address(user));
 
         (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
             .getReserves(address(factory), address(token1), address(token2));
@@ -51,7 +52,7 @@ abstract contract Tester is Setup, Asserts {
 
         //CALL:
 
-        (bool success, ) = handler.proxy(
+        (bool success, ) = user.proxy(
             address(router),
             abi.encodeWithSelector(
                 router.addLiquidity.selector,
@@ -61,7 +62,7 @@ abstract contract Tester is Setup, Asserts {
                 amount2,
                 0,
                 0,
-                address(handler),
+                address(user),
                 type(uint256).max
             )
         );
@@ -76,10 +77,10 @@ abstract contract Tester is Setup, Asserts {
                     address(token2)
                 );
 
-            vars.userLpBalanceAfter = pair.balanceOf(address(handler));
+            vars.userLpBalanceAfter = pair.balanceOf(address(user));
             vars.lpTotalSupplyAfter = pair.totalSupply();
-            vars.userBalance1After = token1.balanceOf(address(handler));
-            vars.userBalance2After = token2.balanceOf(address(handler));
+            vars.userBalance1After = token1.balanceOf(address(user));
+            vars.userBalance2After = token2.balanceOf(address(user));
             vars.kAfter = vars.reserve1After * vars.reserve2After;
             lt(
                 vars.reserve1Before,
@@ -118,14 +119,16 @@ abstract contract Tester is Setup, Asserts {
             );
             if (vars.kBefore == 0) {
                 eq(
-                    vars.userLpBalanceAfter,
-                    Math.sqrt(amount1 * amount2) - pair.MINIMUM_LIQUIDITY(),
+                    SimpleMath.square(
+                        vars.userLpBalanceAfter + pair.MINIMUM_LIQUIDITY()
+                    ),
+                    (amount1 * amount2),
                     "Adding liquidity for the first time should mint LP tokens equals to sqrt(amount1 * amount2) - MINIMUM_LIQUIDITY"
                 );
             }
         } else {
             eq(
-                pair.balanceOf(address(handler)),
+                pair.balanceOf(address(user)),
                 vars.userLpBalanceBefore,
                 "Adding liquidity should not mint LP tokens if the call fails"
             );
@@ -136,10 +139,11 @@ abstract contract Tester is Setup, Asserts {
                     amount2 + vars.reserve2Before > type(uint112).max ||
                     // UniswapV2: INSUFFICIENT_LIQUIDITY_MINTED
                     // amounts do not pass minimum initial liquidity check
-                    Math.sqrt(amount1 * amount2) <= pair.MINIMUM_LIQUIDITY() ||
+                    (amount1 * amount2) <=
+                    SimpleMath.square(pair.MINIMUM_LIQUIDITY()) ||
                     // UniswapV2: INSUFFICIENT_LIQUIDITY_MINTED
                     // amounts would mint zero liquidity
-                    Math.min(
+                    SimpleMath.min(
                         ((vars.pairBalance1Before - vars.reserve1Before) *
                             (vars.lpTotalSupplyBefore)) / vars.reserve1Before,
                         ((vars.pairBalance2Before - vars.reserve2Before) *
@@ -151,13 +155,13 @@ abstract contract Tester is Setup, Asserts {
         }
     }
 
-    function removeLiquidity(uint lpAmount) public initHandler {
+    function removeLiquidity(uint lpAmount) public initUser {
         //PRECONDITIONS:
         Vars memory vars;
 
-        vars.userLpBalanceBefore = pair.balanceOf(address(handler));
+        vars.userLpBalanceBefore = pair.balanceOf(address(user));
         vars.lpTotalSupplyBefore = pair.totalSupply();
-        //handler needs some LP tokens to burn
+        //user needs some LP tokens to burn
         require(vars.userLpBalanceBefore > 0);
         lpAmount = clampBetween(lpAmount, 1, vars.userLpBalanceBefore);
 
@@ -165,7 +169,7 @@ abstract contract Tester is Setup, Asserts {
             .getReserves(address(factory), address(token1), address(token2));
         //need to approve more than min liquidity
         vars.kBefore = vars.reserve1Before * vars.reserve2Before;
-        (bool success1, ) = handler.proxy(
+        (bool success1, ) = user.proxy(
             address(pair),
             abi.encodeWithSelector(
                 pair.approve.selector,
@@ -176,12 +180,12 @@ abstract contract Tester is Setup, Asserts {
         require(success1);
         vars.pairBalance1Before = token1.balanceOf(address(pair));
         vars.pairBalance2Before = token2.balanceOf(address(pair));
-        vars.userBalance1Before = token1.balanceOf(address(handler));
-        vars.userBalance2Before = token2.balanceOf(address(handler));
+        vars.userBalance1Before = token1.balanceOf(address(user));
+        vars.userBalance2Before = token2.balanceOf(address(user));
 
         //CALL:
 
-        (bool success, ) = handler.proxy(
+        (bool success, ) = user.proxy(
             address(router),
             abi.encodeWithSelector(
                 router.removeLiquidity.selector,
@@ -190,7 +194,7 @@ abstract contract Tester is Setup, Asserts {
                 lpAmount,
                 0,
                 0,
-                address(handler),
+                address(user),
                 type(uint256).max
             )
         );
@@ -204,10 +208,10 @@ abstract contract Tester is Setup, Asserts {
                     address(token1),
                     address(token2)
                 );
-            vars.userLpBalanceAfter = pair.balanceOf(address(handler));
+            vars.userLpBalanceAfter = pair.balanceOf(address(user));
             vars.lpTotalSupplyAfter = pair.totalSupply();
-            vars.userBalance1After = token1.balanceOf(address(handler));
-            vars.userBalance2After = token2.balanceOf(address(handler));
+            vars.userBalance1After = token1.balanceOf(address(user));
+            vars.userBalance2After = token2.balanceOf(address(user));
             vars.kAfter = vars.reserve1After * vars.reserve2After;
             gt(
                 vars.kBefore,
@@ -247,7 +251,7 @@ abstract contract Tester is Setup, Asserts {
             );
         } else {
             eq(
-                pair.balanceOf(address(handler)),
+                pair.balanceOf(address(user)),
                 vars.userLpBalanceBefore,
                 "Removing liquidity should not burn LP tokens if the call fails"
             );
@@ -265,21 +269,21 @@ abstract contract Tester is Setup, Asserts {
         }
     }
 
-    function swapExactTokensForTokens(uint swapAmountIn) public initHandler {
+    function swapExactTokensForTokens(uint swapAmountIn) public initUser {
         //PRECONDITIONS:
 
         Vars memory vars;
-        _init(swapAmountIn, swapAmountIn);
+        _mintTokens(swapAmountIn, swapAmountIn);
 
         address[] memory path = new address[](2);
         path[0] = address(token1);
         path[1] = address(token2);
 
         vars.userBalance1Before = UniswapV2ERC20(path[0]).balanceOf(
-            address(handler)
+            address(user)
         );
         vars.userBalance2Before = UniswapV2ERC20(path[1]).balanceOf(
-            address(handler)
+            address(user)
         );
 
         uint feeTouserLpBalanceBefore = pair.balanceOf(factory.feeTo());
@@ -293,14 +297,14 @@ abstract contract Tester is Setup, Asserts {
 
         //CALL:
 
-        (bool success, ) = handler.proxy(
+        (bool success, ) = user.proxy(
             address(router),
             abi.encodeWithSelector(
                 router.swapExactTokensForTokens.selector,
                 swapAmountIn,
                 0,
                 path,
-                address(handler),
+                address(user),
                 type(uint256).max
             )
         );
@@ -309,10 +313,10 @@ abstract contract Tester is Setup, Asserts {
 
         if (success) {
             vars.userBalance1After = UniswapV2ERC20(path[0]).balanceOf(
-                address(handler)
+                address(user)
             );
             vars.userBalance2After = UniswapV2ERC20(path[1]).balanceOf(
-                address(handler)
+                address(user)
             );
             uint feeTouserLpBalanceAfter = pair.balanceOf(factory.feeTo());
             (vars.reserve1After, vars.reserve2After) = UniswapV2Library
@@ -357,36 +361,34 @@ abstract contract Tester is Setup, Asserts {
     }
 
     /*
-    Swapping x of token1 for y token of token2 and back should (roughly) give handler x of token1.
+    Swapping x of token1 for y token of token2 and back should (roughly) give user x of token1.
     The following function checks this condition by assessing that the resulting x is no more than 3% from the original x.
     
-    However, this condition may be false when the pool has roughly the same amount of A and B and handler swaps minimal amount of tokens.
+    However, this condition may be false when the pool has roughly the same amount of A and B and user swaps minimal amount of tokens.
     For instance, if pool consists of:
     - 1000 A
     - 1500 B
-    then handler can swap 2 A for 2 B (1002 * 1497 = 1 499 994 < 1 500 000 = k, so the handler won't get 3 B).
-    Then, while handler swaps back 2 B in the pool, he will get only 1 A, which is 50% loss from initial 2 A. 
+    then user can swap 2 A for 2 B (1002 * 1497 = 1 499 994 < 1 500 000 = k, so the user won't get 3 B).
+    Then, while user swaps back 2 B in the pool, he will get only 1 A, which is 50% loss from initial 2 A. 
 
-    Similar situation may happen if the handler pays for some constant amount of token2 more than he needs to.
+    Similar situation may happen if the user pays for some constant amount of token2 more than he needs to.
     For instance, consider a pool with:
     - 20 000 of token A
     - 5 of token B
-    Then, k = 100 000. If handler pays 10 000 of A, we will get only 1 token B (since otherwise new k < 100 000).
+    Then, k = 100 000. If user pays 10 000 of A, we will get only 1 token B (since otherwise new k < 100 000).
     Now, k = 120 000, and the pool consists of 30 000 A and 4 B. 
     If he swaps back 1 B for A, he gets only 6 000 A back (pool consists of 5 B and 24 000 A and k stays the same).
     So, after the trades, he lost 4 000 of A, which is 40% of his initial balance.
-    But this wouldn't happen if handler swapped initially 5 000 of A for 1 B.
+    But this wouldn't happen if user swapped initially 5 000 of A for 1 B.
     
-    To prevent such situations, the following function imposes following limits on the handler's input:
+    To prevent such situations, the following function imposes following limits on the user's input:
     1. It has to be greater than MINIMUM_AMOUNT = 100.
-    2. For some amount y of token2, it has to be minimal among all inputs giving the handler y testTokens2 from the swap.
+    2. For some amount y of token2, it has to be minimal among all inputs giving the user y testTokens2 from the swap.
     */
-    function swapExactTokensForTokensPathIndependence(
-        uint x
-    ) public initHandler {
+    function swapExactTokensForTokensPathIndependence(uint x) public initUser {
         // PRECONDITIONS:
 
-        _init(1_000_000_000, 1_000_000_000);
+        _mintTokens(1_000_000_000, 1_000_000_000);
 
         (uint reserve1, uint reserve2) = UniswapV2Library.getReserves(
             address(factory),
@@ -397,11 +399,11 @@ abstract contract Tester is Setup, Asserts {
         require(reserve1 > 1);
         require(reserve2 > 1);
 
-        uint MINIMUM_AMOUNT = 1000;
-        uint userBalance1 = token1.balanceOf(address(handler));
+        uint MINIMUM_AMOUNT = 10000;
+        uint userBalance1 = token1.balanceOf(address(user));
         require(userBalance1 > MINIMUM_AMOUNT);
 
-        x = clampBetween(x, MINIMUM_AMOUNT, type(uint256).max / 1000); // uint(-1) / 1000 needed in POSTCONDITIONS to avoid overflow
+        x = clampBetween(x, MINIMUM_AMOUNT, type(uint256).max / 10000); // uint(-1) / 10000 needed in POSTCONDITIONS to avoid overflow
         x = clampBetween(x, MINIMUM_AMOUNT, userBalance1);
 
         // use optimal x - it makes no sense to pay more for a given amount of tokens than necessary
@@ -428,14 +430,14 @@ abstract contract Tester is Setup, Asserts {
 
         // CALLS:
 
-        (success, returnData) = handler.proxy(
+        (success, returnData) = user.proxy(
             address(router),
             abi.encodeWithSelector(
                 router.swapExactTokensForTokens.selector,
                 x,
                 0,
                 path12,
-                address(handler),
+                address(user),
                 type(uint256).max
             )
         );
@@ -443,14 +445,14 @@ abstract contract Tester is Setup, Asserts {
         amounts = abi.decode(returnData, (uint[]));
         // y should be the same as yOut computed previously
         y = amounts[1];
-        (success, returnData) = handler.proxy(
+        (success, returnData) = user.proxy(
             address(router),
             abi.encodeWithSelector(
                 router.swapExactTokensForTokens.selector,
                 y,
                 0,
                 path21,
-                address(handler),
+                address(user),
                 type(uint256).max
             )
         );
@@ -460,10 +462,10 @@ abstract contract Tester is Setup, Asserts {
 
         // POSTCONDITIONS:
 
-        gt(x, xOut, "handler cannot get more tokens than what they give");
-        // 1000 * (x - xOut) will not overflow since we constrained x to be < uint(-1) / 1000 before
+        gt(x, xOut, "user cannot get more tokens than what they give");
+        // 10000 * (x - xOut) will not overflow since we constrained x to be < uint(-1) / 10000 before
         lte(
-            (x - xOut) * 1000,
+            (x - xOut) * MINIMUM_AMOUNT,
             591 * x,
             "maximum loss of funds is 3% on each swap"
         ); // (x - xOut) / x <= 0.03 on each swap;

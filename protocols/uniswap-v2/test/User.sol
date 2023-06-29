@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-contract Handler {
+contract User {
     function proxy(
         address _target,
         bytes memory _calldata
