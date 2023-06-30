@@ -2,8 +2,8 @@
 
 set -ux
 
-RESULTS="results.txt"
-PARAMETERS="parameters.txt"
+RESULTS="$(pwd)/results.txt"
+PARAMETERS="$(pwd)/parameters.txt"
 
 echo "echidna=$(echidna --version)" > $PARAMETERS
 echo "slither=$(slither --version)" >> $PARAMETERS
