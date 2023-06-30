@@ -30,7 +30,7 @@ for SEED in $(cat seeds.txt); do
 
 			forge clean
 			START=$(date +%s)
-			echidna . --contract EchidnaTester --config test/config.yaml
+			echidna . --contract EchidnaTester --config test/config.yaml >/dev/null
 			RESULT=$?
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
