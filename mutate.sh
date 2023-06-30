@@ -9,13 +9,21 @@ for PROTOCOL in $(ls protocols); do
 	mkdir -p mutants/slither
 	i=0
 	for FILE in $(find src -type f -name '*.sol'); do 
-		i=$((i+1))
-		MUTANT=mutants/slither/$(printf "%02d" $i).patch
-		slither-mutate $FILE --solc-remaps @openzeppelin/=lib/openzeppelin-contracts/contracts --solc-remaps @uniswap/=src/ > $MUTANT
+		PATCH=$(mktemp)
+		slither-mutate $FILE --solc-remaps @openzeppelin/=lib/openzeppelin-contracts/contracts --solc-remaps @uniswap/=src/ > $PATCH
 		# ignore files without changes
-		if [ $(wc -l < $MUTANT) -eq 1 ]; then
-			rm $MUTANT
-			i=$((i-1))
+		exit;
+		if [ $(wc -l < $PATCH) -gt 1 ]; then
+			# ignore files with more than 1 change
+			if [ $(grep '\s./src' $PATCH | awk '{print $NF}' | sort -u | wc -l) -eq 1 ]; then
+				i=$((i+1))
+				patch < $PATCH || true
+				MUTANT=mutants/slither/$(printf "%02d" $i).patch
+				git diff > $MUTANT
+				git checkout .
+				find . -name '*.sol.orig' -exec rm {} \;
+				find . -name '*.sol.rej' -exec rm {} \;
+			fi;
 		fi;
 	done
 
