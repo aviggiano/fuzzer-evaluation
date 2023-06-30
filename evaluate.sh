@@ -17,7 +17,7 @@ for SEED in $(cat seeds.txt); do
 		cd protocols/$PROTOCOL
 		for MUTANT_FILE in $(find mutants -type f | sort); do
 			git apply $MUTANT_FILE
-			MUTANT=$(echo $MUTANT_FILE | grep -o '\d\d')
+			MUTANT=$(echo $MUTANT_FILE | grep -o '[0-9][0-9]')
 
 			forge clean
 			START=$(date +%s)
