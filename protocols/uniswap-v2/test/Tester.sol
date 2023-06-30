@@ -16,9 +16,6 @@ abstract contract Tester is Setup, Asserts {
 
         _before();
 
-        if (vars.userBalance1Before == 0) return;
-        if (vars.userBalance2Before == 0) return;
-
         //ACTION:
 
         (bool success, ) = user.proxy(
@@ -151,7 +148,7 @@ abstract contract Tester is Setup, Asserts {
         _before();
 
         //user needs some LP tokens to burn
-        if (vars.userLpBalanceBefore == 0) return;
+        require(vars.userLpBalanceBefore > 0);
         lpAmount = clampBetween(lpAmount, 1, vars.userLpBalanceBefore);
 
         //need to approve more than min liquidity
@@ -163,7 +160,7 @@ abstract contract Tester is Setup, Asserts {
                 type(uint256).max
             )
         );
-        require(success1);
+        t(success1, "This call should never fail");
 
         //ACTION:
 
@@ -286,7 +283,7 @@ abstract contract Tester is Setup, Asserts {
         path[0] = address(token1);
         path[1] = address(token2);
 
-        if (vars.userBalance1Before == 0) return;
+        require(vars.userBalance1Before > 0);
 
         swapAmountIn = clampBetween(swapAmountIn, 1, vars.userBalance1Before);
 

@@ -4,7 +4,7 @@ Evaluating fuzzer effectiveness
 ## Usage
 
 ```
-./test.sh
+make test
 ```
 
 ## Properties
