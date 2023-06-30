@@ -4,7 +4,6 @@ import "./interfaces/IUniswapV2Pair.sol";
 import "./UniswapV2ERC20.sol";
 import "./libraries/Math.sol";
 import "./libraries/UQ112x112.sol";
-import "./contracts/libraries/UniswapV2Library.sol";
 import "./interfaces/IERC20.sol";
 import "./interfaces/IUniswapV2Factory.sol";
 import "./interfaces/IUniswapV2Callee.sol";
@@ -247,15 +246,11 @@ import "./interfaces/IUniswapV2Callee.sol";
         );
         {
             // scope for reserve{0,1}Adjusted, avoids stack too deep errors
-            uint balance0Adjusted = balance0.mul(BASE_PERCENT).sub(
-                amount0In.mul(FEE_PERCENT)
-            );
-            uint balance1Adjusted = balance1.mul(BASE_PERCENT).sub(
-                amount1In.mul(FEE_PERCENT)
-            );
+            uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(3));
+            uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(3));
             require(
                 balance0Adjusted.mul(balance1Adjusted) >=
-                    uint(_reserve0).mul(_reserve1).mul(BASE_PERCENT ** 2),
+                    uint(_reserve0).mul(_reserve1).mul(1000 ** 2),
                 "UniswapV2: K"
             );
         }
