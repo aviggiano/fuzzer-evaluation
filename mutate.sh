@@ -12,7 +12,6 @@ for PROTOCOL in $(ls protocols); do
 		PATCH=$(mktemp)
 		slither-mutate $FILE --solc-remaps @openzeppelin/=lib/openzeppelin-contracts/contracts --solc-remaps @uniswap/=src/ > $PATCH
 		# ignore files without changes
-		exit;
 		if [ $(wc -l < $PATCH) -gt 1 ]; then
 			# ignore files with more than 1 change
 			if [ $(grep '\s./src' $PATCH | awk '{print $NF}' | sort -u | wc -l) -eq 1 ]; then
