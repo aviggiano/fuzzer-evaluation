@@ -1,0 +1,13 @@
+diff --git a/protocols/uniswap-v2/src/libraries/UQ112x112.sol b/protocols/uniswap-v2/src/libraries/UQ112x112.sol
+index aa73b47..f7e09d7 100644
+--- a/protocols/uniswap-v2/src/libraries/UQ112x112.sol
++++ b/protocols/uniswap-v2/src/libraries/UQ112x112.sol
+@@ -15,6 +15,7 @@ library UQ112x112 {
+ 
+     // divide a UQ112x112 by a uint112, returning a UQ112x112
+     function uqdiv(uint224 x, uint112 y) internal pure returns (uint224 z) {
+-        z = x / uint224(y);
++        /// AssignmentMutation(`x / uint224(y)` |==> `1`) of: `z = x / uint224(y);`
++        z = 1;
+     }
+ }

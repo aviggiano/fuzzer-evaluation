@@ -1,0 +1,14 @@
+diff --git a/protocols/uniswap-v2/src/libraries/FullMath.sol b/protocols/uniswap-v2/src/libraries/FullMath.sol
+index 7725c04..acbd17a 100644
+--- a/protocols/uniswap-v2/src/libraries/FullMath.sol
++++ b/protocols/uniswap-v2/src/libraries/FullMath.sol
+@@ -85,7 +85,8 @@ library FullMath {
+             x >>= 64;
+             r += 64;
+         }
+-        if (x >= 2 ** 32) {
++        /// BinaryOpMutation(`**` |==> `%`) of: `if (x >= 2 ** 32) {`
++        if (x >= 2%32) {
+             x >>= 32;
+             r += 32;
+         }

@@ -1,0 +1,14 @@
+diff --git a/protocols/uniswap-v2/src/libraries/Babylonian.sol b/protocols/uniswap-v2/src/libraries/Babylonian.sol
+index 11ce6a3..366ccc0 100644
+--- a/protocols/uniswap-v2/src/libraries/Babylonian.sol
++++ b/protocols/uniswap-v2/src/libraries/Babylonian.sol
+@@ -8,7 +8,8 @@ library Babylonian {
+     function sqrt(uint256 y) internal pure returns (uint256 z) {
+         if (y > 3) {
+             z = y;
+-            uint256 x = y / 2 + 1;
++            /// BinaryOpMutation(`/` |==> `%`) of: `uint256 x = y / 2 + 1;`
++            uint256 x = y%2 + 1;
+             while (x < z) {
+                 z = x;
+                 x = (y / x + x) / 2;
