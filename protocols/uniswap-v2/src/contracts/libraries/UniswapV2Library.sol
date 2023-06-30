@@ -1,6 +1,7 @@
 pragma solidity ^0.8.0;
 import "@uniswap/interfaces/IUniswapV2Pair.sol";
 import "@uniswap/libraries/SafeMath.sol";
+import "@uniswap/UniswapV2Factory.sol";
 
 library UniswapV2Library {
     using SafeMath for uint;
@@ -22,7 +23,7 @@ library UniswapV2Library {
         address factory,
         address tokenA,
         address tokenB
-    ) internal pure returns (address pair) {
+    ) internal view returns (address pair) {
         (address token0, address token1) = sortTokens(tokenA, tokenB);
         pair = address(
             uint160(
@@ -32,8 +33,7 @@ library UniswapV2Library {
                             hex"ff",
                             factory,
                             keccak256(abi.encodePacked(token0, token1)),
-                            // hex"96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f"
-                            hex"4f9388954b4439363fcc0418ac9c678b55855763b4e767435293d0494ca9a878"
+                            UniswapV2Factory(factory).INIT_CODE_PAIR_HASH()
                         )
                     )
                 )
