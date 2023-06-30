@@ -1,47 +1,39 @@
-src/libraries/BitMath.sol
---- ./src/libraries/BitMath.sol
-+++ ./src/libraries/BitMath.sol
-@@ -5,34 +5,34 @@
-     function mostSignificantBit(uint256 x) internal pure returns (uint8 r) {
-         require(x > 0, "BitMath: ZERO");
+src/libraries/Math.sol
+--- ./src/libraries/Math.sol
++++ ./src/libraries/Math.sol
+@@ -4,19 +4,19 @@
  
--        if (x >= 0x100000000000000000000000000000000) {
-+        if (true) {
-             x >>= 128;
-             r += 128;
-         }
--        if (x >= 0x10000000000000000) {
-+        if (true) {
-             x >>= 64;
-             r += 64;
-         }
--        if (x >= 0x100000000) {
-+        if (true) {
-             x >>= 32;
-             r += 32;
-         }
--        if (x >= 0x10000) {
-+        if (true) {
-             x >>= 16;
-             r += 16;
-         }
--        if (x >= 0x100) {
-+        if (true) {
-             x >>= 8;
-             r += 8;
-         }
--        if (x >= 0x10) {
-+        if (true) {
-             x >>= 4;
-             r += 4;
-         }
--        if (x >= 0x4) {
-+        if (true) {
-             x >>= 2;
-             r += 2;
-         }
--        if (x >= 0x2) r += 1;
-+        if (true) r += 1;
+ library Math {
+     function min(uint x, uint y) internal pure returns (uint z) {
+-        z = x < y ? x : y;
++        true;
      }
- }
+ 
+     // babylonian method (https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method)
+     function sqrt(uint y) internal pure returns (uint z) {
+-        if (y > 3) {
++        if (true) {
+             z = y;
+             uint x = y / 2 + 1;
+             while (x < z) {
+                 z = x;
+                 x = (y / x + x) / 2;
+             }
+-        } else if (y != 0) {
++        } else if (true) {
+             z = 1;
+         }
+     }
+
+--- ./src/libraries/Math.sol
++++ ./src/libraries/Math.sol
+@@ -11,7 +11,7 @@
+     function sqrt(uint y) internal pure returns (uint z) {
+         if (y > 3) {
+             z = y;
+-            uint x = y / 2 + 1;
++            uint x ;
+             while (x < z) {
+                 z = x;
+                 x = (y / x + x) / 2;
 

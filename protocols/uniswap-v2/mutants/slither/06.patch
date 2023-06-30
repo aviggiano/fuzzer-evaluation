@@ -1,49 +1,33 @@
-src/libraries/AddressStringUtil.sol
---- ./src/libraries/AddressStringUtil.sol
-+++ ./src/libraries/AddressStringUtil.sol
-@@ -32,7 +32,7 @@
-     // this method converts those values to the unicode/ascii code point for the hex representation
-     // uses upper case for the characters
-     function char(uint8 b) private pure returns (bytes1 c) {
--        if (b < 10) {
+src/libraries/Babylonian.sol
+--- ./src/libraries/Babylonian.sol
++++ ./src/libraries/Babylonian.sol
+@@ -6,14 +6,14 @@
+ // https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method
+ library Babylonian {
+     function sqrt(uint256 y) internal pure returns (uint256 z) {
+-        if (y > 3) {
 +        if (true) {
-             return bytes1(b + 0x30);
-         } else {
-             return bytes1(b + 0x37);
-
---- ./src/libraries/AddressStringUtil.sol
-+++ ./src/libraries/AddressStringUtil.sol
-@@ -13,15 +13,15 @@
-             "AddressStringUtil: INVALID_LEN"
-         );
- 
--        bytes memory s = new bytes(len);
--        uint256 addrNum = uint256(uint160(addr));
-+        bytes memory s ;
-+        uint256 addrNum ;
-         for (uint256 i = 0; i < len / 2; i++) {
-             // shift right and truncate all but the least significant byte to extract the byte at position 19-i
--            uint8 b = uint8(addrNum >> (8 * (19 - i)));
-+            uint8 b ;
-             // first hex character is the most significant 4 bits
--            uint8 hi = b >> 4;
-+            uint8 hi ;
-             // second hex character is the least significant 4 bits
--            uint8 lo = b - (hi << 4);
-+            uint8 lo ;
-             s[2 * i] = char(hi);
-             s[2 * i + 1] = char(lo);
+             z = y;
+             uint256 x = y / 2 + 1;
+             while (x < z) {
+                 z = x;
+                 x = (y / x + x) / 2;
+             }
+-        } else if (y != 0) {
++        } else if (true) {
+             z = 1;
          }
+         // else z = 0
 
---- ./src/libraries/AddressStringUtil.sol
-+++ ./src/libraries/AddressStringUtil.sol
-@@ -15,7 +15,7 @@
- 
-         bytes memory s = new bytes(len);
-         uint256 addrNum = uint256(uint160(addr));
--        for (uint256 i = 0; i < len / 2; i++) {
-+        for (uint256 i ; i < len / 2; i++) {
-             // shift right and truncate all but the least significant byte to extract the byte at position 19-i
-             uint8 b = uint8(addrNum >> (8 * (19 - i)));
-             // first hex character is the most significant 4 bits
+--- ./src/libraries/Babylonian.sol
++++ ./src/libraries/Babylonian.sol
+@@ -8,7 +8,7 @@
+     function sqrt(uint256 y) internal pure returns (uint256 z) {
+         if (y > 3) {
+             z = y;
+-            uint256 x = y / 2 + 1;
++            uint256 x ;
+             while (x < z) {
+                 z = x;
+                 x = (y / x + x) / 2;
 

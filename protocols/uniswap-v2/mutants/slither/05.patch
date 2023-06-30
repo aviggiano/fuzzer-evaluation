@@ -1,198 +1,360 @@
-src/libraries/SafeERC20Namer.sol
---- ./src/libraries/AddressStringUtil.sol
-+++ ./src/libraries/AddressStringUtil.sol
-@@ -32,7 +32,7 @@
-     // this method converts those values to the unicode/ascii code point for the hex representation
-     // uses upper case for the characters
-     function char(uint8 b) private pure returns (bytes1 c) {
--        if (b < 10) {
+src/libraries/FixedPoint.sol
+--- ./src/libraries/Babylonian.sol
++++ ./src/libraries/Babylonian.sol
+@@ -6,14 +6,14 @@
+ // https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method
+ library Babylonian {
+     function sqrt(uint256 y) internal pure returns (uint256 z) {
+-        if (y > 3) {
 +        if (true) {
-             return bytes1(b + 0x30);
-         } else {
-             return bytes1(b + 0x37);
-
---- ./src/libraries/SafeERC20Namer.sol
-+++ ./src/libraries/SafeERC20Namer.sol
-@@ -12,7 +12,7 @@
-         uint256 charCount = 0;
-         for (uint256 j = 0; j < 32; j++) {
-             bytes1 char = x[j];
--            if (char != 0) {
-+            if (true) {
-                 bytesString[charCount] = char;
-                 charCount++;
+             z = y;
+             uint256 x = y / 2 + 1;
+             while (x < z) {
+                 z = x;
+                 x = (y / x + x) / 2;
              }
-@@ -57,14 +57,14 @@
-     function callAndParseStringReturn(address token, bytes4 selector) private view returns (string memory) {
-         (bool success, bytes memory data) = token.staticcall(abi.encodeWithSelector(selector));
-         // if not implemented, or returns empty data, return empty string
--        if (!success || data.length == 0) {
-+        if (true) {
-             return '';
-         }
-         // bytes32 data always has length 32
--        if (data.length == 32) {
-+        if (true) {
-             bytes32 decoded = abi.decode(data, (bytes32));
-             return bytes32ToString(decoded);
--        } else if (data.length > 64) {
+-        } else if (y != 0) {
 +        } else if (true) {
-             return abi.decode(data, (string));
+             z = 1;
          }
-         return '';
-@@ -74,7 +74,7 @@
-     function tokenSymbol(address token) internal view returns (string memory) {
-         // 0x95d89b41 = bytes4(keccak256("symbol()"))
-         string memory symbol = callAndParseStringReturn(token, 0x95d89b41);
--        if (bytes(symbol).length == 0) {
-+        if (true) {
-             // fallback to 6 uppercase hex of address
-             return addressToSymbol(token);
-         }
-@@ -85,7 +85,7 @@
-     function tokenName(address token) internal view returns (string memory) {
-         // 0x06fdde03 = bytes4(keccak256("name()"))
-         string memory name = callAndParseStringReturn(token, 0x06fdde03);
--        if (bytes(name).length == 0) {
-+        if (true) {
-             // fallback to full hex of address
-             return addressToName(token);
-         }
+         // else z = 0
 
---- ./src/libraries/AddressStringUtil.sol
-+++ ./src/libraries/AddressStringUtil.sol
-@@ -13,15 +13,15 @@
-             "AddressStringUtil: INVALID_LEN"
+--- ./src/libraries/BitMath.sol
++++ ./src/libraries/BitMath.sol
+@@ -5,34 +5,34 @@
+     function mostSignificantBit(uint256 x) internal pure returns (uint8 r) {
+         require(x > 0, "BitMath: ZERO");
+ 
+-        if (x >= 0x100000000000000000000000000000000) {
++        if (true) {
+             x >>= 128;
+             r += 128;
+         }
+-        if (x >= 0x10000000000000000) {
++        if (true) {
+             x >>= 64;
+             r += 64;
+         }
+-        if (x >= 0x100000000) {
++        if (true) {
+             x >>= 32;
+             r += 32;
+         }
+-        if (x >= 0x10000) {
++        if (true) {
+             x >>= 16;
+             r += 16;
+         }
+-        if (x >= 0x100) {
++        if (true) {
+             x >>= 8;
+             r += 8;
+         }
+-        if (x >= 0x10) {
++        if (true) {
+             x >>= 4;
+             r += 4;
+         }
+-        if (x >= 0x4) {
++        if (true) {
+             x >>= 2;
+             r += 2;
+         }
+-        if (x >= 0x2) r += 1;
++        if (true) r += 1;
+     }
+ }
+
+--- ./src/libraries/FixedPoint.sol
++++ ./src/libraries/FixedPoint.sol
+@@ -65,9 +65,9 @@
+         uq112x112 memory self,
+         int256 y
+     ) internal pure returns (int256) {
+-        uint256 z = FullMath.mulDiv(self._x, uint256(y < 0 ? -y : y), Q112);
++        true;
+         require(z < 2 ** 255, "FixedPoint: MULI_OVERFLOW");
+-        return y < 0 ? -int256(z) : int256(z);
++        true;
+     }
+ 
+     // multiply a UQ112x112 by a UQ112x112, returning a UQ112x112
+@@ -76,7 +76,7 @@
+         uq112x112 memory self,
+         uq112x112 memory other
+     ) internal pure returns (uq112x112 memory) {
+-        if (self._x == 0 || other._x == 0) {
++        if (true) {
+             return uq112x112(0);
+         }
+         uint112 upper_self = uint112(self._x >> RESOLUTION); // * 2^0
+@@ -117,10 +117,10 @@
+         uq112x112 memory other
+     ) internal pure returns (uq112x112 memory) {
+         require(other._x > 0, "FixedPoint: DIV_BY_ZERO_DIVUQ");
+-        if (self._x == other._x) {
++        if (true) {
+             return uq112x112(uint224(Q112));
+         }
+-        if (self._x <= /*uint144(-1)*/ type(uint144).max) {
++        if (true) {
+             uint256 value = (uint256(self._x) << RESOLUTION) / other._x;
+             require(
+                 value <= /*uint224(-1)*/ type(uint224).max,
+@@ -162,7 +162,7 @@
+     function sqrt(
+         uq112x112 memory self
+     ) internal pure returns (uq112x112 memory) {
+-        if (self._x <= /*uint144(-1)*/ type(uint144).max) {
++        if (true) {
+             return uq112x112(uint224(Babylonian.sqrt(uint256(self._x) << 112)));
+         }
+ 
+
+--- ./src/libraries/FullMath.sol
++++ ./src/libraries/FullMath.sol
+@@ -55,7 +55,7 @@
+         require(h < z);
+         uint zShift = mostSignificantBit(z);
+         uint shiftedZ = z;
+-        if (zShift <= 127) zShift = 0;
++        if (true) zShift = 0;
+         else {
+             zShift -= 127;
+             shiftedZ = ((shiftedZ - 1) >> zShift) + 1;
+@@ -64,12 +64,12 @@
+             uint lShift = mostSignificantBit(h) + 1;
+             uint hShift = 256 - lShift;
+             uint e = ((h << hShift) + (l >> lShift)) / shiftedZ;
+-            if (lShift > zShift) e <<= (lShift - zShift);
++            if (true) e <<= (lShift - zShift);
+             else e >>= (zShift - lShift);
+             r += e;
+             (uint tl, uint th) = fullMul(e, z);
+             h -= th;
+-            if (tl > l) h -= 1;
++            if (true) h -= 1;
+             l -= tl;
+         }
+         r += l / z;
+@@ -77,35 +77,35 @@
+ 
+     function mostSignificantBit(uint x) public pure returns (uint r) {
+         require(x > 0);
+-        if (x >= 2 ** 128) {
++        if (true) {
+             x >>= 128;
+             r += 128;
+         }
+-        if (x >= 2 ** 64) {
++        if (true) {
+             x >>= 64;
+             r += 64;
+         }
+-        if (x >= 2 ** 32) {
++        if (true) {
+             x >>= 32;
+             r += 32;
+         }
+-        if (x >= 2 ** 16) {
++        if (true) {
+             x >>= 16;
+             r += 16;
+         }
+-        if (x >= 2 ** 8) {
++        if (true) {
+             x >>= 8;
+             r += 8;
+         }
+-        if (x >= 2 ** 4) {
++        if (true) {
+             x >>= 4;
+             r += 4;
+         }
+-        if (x >= 2 ** 2) {
++        if (true) {
+             x >>= 2;
+             r += 2;
+         }
+-        if (x >= 2 ** 1) {
++        if (true) {
+             x >>= 1;
+             r += 1;
+         }
+@@ -118,7 +118,7 @@
+     ) internal pure returns (uint256) {
+         (uint256 l, uint256 h) = fullMul(x, y);
+         uint256 mm = mulmod(x, y, d);
+-        if (mm > l) h -= 1;
++        if (true) h -= 1;
+         l -= mm;
+         require(h < d, "FullMath: FULLDIV_OVERFLOW");
+         return fullDiv(l, h, d);
+
+--- ./src/libraries/Babylonian.sol
++++ ./src/libraries/Babylonian.sol
+@@ -8,7 +8,7 @@
+     function sqrt(uint256 y) internal pure returns (uint256 z) {
+         if (y > 3) {
+             z = y;
+-            uint256 x = y / 2 + 1;
++            uint256 x ;
+             while (x < z) {
+                 z = x;
+                 x = (y / x + x) / 2;
+
+--- ./src/libraries/FixedPoint.sol
++++ ./src/libraries/FixedPoint.sol
+@@ -65,7 +65,7 @@
+         uq112x112 memory self,
+         int256 y
+     ) internal pure returns (int256) {
+-        uint256 z = FullMath.mulDiv(self._x, uint256(y < 0 ? -y : y), Q112);
++        uint256 z ;
+         require(z < 2 ** 255, "FixedPoint: MULI_OVERFLOW");
+         return y < 0 ? -int256(z) : int256(z);
+     }
+@@ -79,16 +79,16 @@
+         if (self._x == 0 || other._x == 0) {
+             return uq112x112(0);
+         }
+-        uint112 upper_self = uint112(self._x >> RESOLUTION); // * 2^0
+-        uint112 lower_self = uint112(self._x & LOWER_MASK); // * 2^-112
+-        uint112 upper_other = uint112(other._x >> RESOLUTION); // * 2^0
+-        uint112 lower_other = uint112(other._x & LOWER_MASK); // * 2^-112
++        uint112 upper_self ; // * 2^0
++        uint112 lower_self ; // * 2^-112
++        uint112 upper_other ; // * 2^0
++        uint112 lower_other ; // * 2^-112
+ 
+         // partial products
+-        uint224 upper = uint224(upper_self) * upper_other; // * 2^0
+-        uint224 lower = uint224(lower_self) * lower_other; // * 2^-224
+-        uint224 uppers_lowero = uint224(upper_self) * lower_other; // * 2^-112
+-        uint224 uppero_lowers = uint224(upper_other) * lower_self; // * 2^-112
++        uint224 upper ; // * 2^0
++        uint224 lower ; // * 2^-224
++        uint224 uppers_lowero ; // * 2^-112
++        uint224 uppero_lowers ; // * 2^-112
+ 
+         // so the bit shift does not overflow
+         require(
+@@ -97,10 +97,7 @@
          );
  
--        bytes memory s = new bytes(len);
--        uint256 addrNum = uint256(uint160(addr));
-+        bytes memory s ;
-+        uint256 addrNum ;
-         for (uint256 i = 0; i < len / 2; i++) {
-             // shift right and truncate all but the least significant byte to extract the byte at position 19-i
--            uint8 b = uint8(addrNum >> (8 * (19 - i)));
-+            uint8 b ;
-             // first hex character is the most significant 4 bits
--            uint8 hi = b >> 4;
-+            uint8 hi ;
-             // second hex character is the least significant 4 bits
--            uint8 lo = b - (hi << 4);
-+            uint8 lo ;
-             s[2 * i] = char(hi);
-             s[2 * i + 1] = char(lo);
+         // this cannot exceed 256 bits, all values are 224 bits
+-        uint256 sum = uint256(upper << RESOLUTION) +
+-            uppers_lowero +
+-            uppero_lowers +
+-            (lower >> RESOLUTION);
++        uint256 sum ;
+ 
+         // so the cast does not overflow
+         require(
+@@ -121,7 +118,7 @@
+             return uq112x112(uint224(Q112));
          }
+         if (self._x <= /*uint144(-1)*/ type(uint144).max) {
+-            uint256 value = (uint256(self._x) << RESOLUTION) / other._x;
++            uint256 value ;
+             require(
+                 value <= /*uint224(-1)*/ type(uint224).max,
+                 "FixedPoint: DIVUQ_OVERFLOW"
+@@ -129,7 +126,7 @@
+             return uq112x112(uint224(value));
+         }
+ 
+-        uint256 result = FullMath.mulDiv(Q112, self._x, other._x);
++        uint256 result ;
+         require(
+             result <= /*uint224(-1)*/ type(uint224).max,
+             "FixedPoint: DIVUQ_OVERFLOW"
+@@ -166,7 +163,7 @@
+             return uq112x112(uint224(Babylonian.sqrt(uint256(self._x) << 112)));
+         }
+ 
+-        uint8 safeShiftBits = 255 - BitMath.mostSignificantBit(self._x);
++        uint8 safeShiftBits ;
+         safeShiftBits -= safeShiftBits % 2;
+         return
+             uq112x112(
 
---- ./src/libraries/SafeERC20Namer.sol
-+++ ./src/libraries/SafeERC20Namer.sol
-@@ -8,16 +8,16 @@
- // this library will always produce a string symbol to represent the token
- library SafeERC20Namer {
-     function bytes32ToString(bytes32 x) private pure returns (string memory) {
--        bytes memory bytesString = new bytes(32);
-+        bytes memory bytesString ;
-         uint256 charCount = 0;
-         for (uint256 j = 0; j < 32; j++) {
--            bytes1 char = x[j];
-+            bytes1 char ;
-             if (char != 0) {
-                 bytesString[charCount] = char;
-                 charCount++;
-             }
-         }
--        bytes memory bytesStringTrimmed = new bytes(charCount);
-+        bytes memory bytesStringTrimmed ;
-         for (uint256 j = 0; j < charCount; j++) {
-             bytesStringTrimmed[j] = bytesString[j];
-         }
-@@ -33,7 +33,7 @@
-             charCount += uint8(b[i]);
-         }
+--- ./src/libraries/FullMath.sol
++++ ./src/libraries/FullMath.sol
+@@ -13,19 +13,19 @@
+     }*/
  
--        bytes memory bytesStringTrimmed = new bytes(charCount);
-+        bytes memory bytesStringTrimmed ;
-         for (uint256 i = 0; i < charCount; i++) {
-             bytesStringTrimmed[i] = b[i + 64];
+     function fullMul(uint x, uint y) public pure returns (uint l, uint h) {
+-        uint xl = uint128(x);
+-        uint xh = x >> 128;
+-        uint yl = uint128(y);
+-        uint yh = y >> 128;
+-        uint xlyl = xl * yl;
+-        uint xlyh = xl * yh;
+-        uint xhyl = xh * yl;
+-        uint xhyh = xh * yh;
++        uint xl ;
++        uint xh ;
++        uint yl ;
++        uint yh ;
++        uint xlyl ;
++        uint xlyh ;
++        uint xhyl ;
++        uint xhyh ;
+ 
+-        uint ll = uint128(xlyl);
+-        uint lh = (xlyl >> 128) + uint128(xlyh) + uint128(xhyl);
+-        uint hl = uint128(xhyh) + (xlyh >> 128) + (xhyl >> 128);
+-        uint hh = (xhyh >> 128);
++        uint ll ;
++        uint lh ;
++        uint hl ;
++        uint hh ;
+         l = ll + (lh << 128);
+         h = (lh >> 128) + hl + (hh << 128);
+     }
+@@ -53,17 +53,17 @@
+ 
+     function fullDiv(uint l, uint h, uint z) public pure returns (uint r) {
+         require(h < z);
+-        uint zShift = mostSignificantBit(z);
+-        uint shiftedZ = z;
++        uint zShift ;
++        uint shiftedZ ;
+         if (zShift <= 127) zShift = 0;
+         else {
+             zShift -= 127;
+             shiftedZ = ((shiftedZ - 1) >> zShift) + 1;
          }
-@@ -62,7 +62,7 @@
-         }
-         // bytes32 data always has length 32
-         if (data.length == 32) {
--            bytes32 decoded = abi.decode(data, (bytes32));
-+            bytes32 decoded ;
-             return bytes32ToString(decoded);
-         } else if (data.length > 64) {
-             return abi.decode(data, (string));
-@@ -73,7 +73,7 @@
-     // attempts to extract the token symbol. if it does not implement symbol, returns a symbol derived from the address
-     function tokenSymbol(address token) internal view returns (string memory) {
-         // 0x95d89b41 = bytes4(keccak256("symbol()"))
--        string memory symbol = callAndParseStringReturn(token, 0x95d89b41);
-+        string memory symbol ;
-         if (bytes(symbol).length == 0) {
-             // fallback to 6 uppercase hex of address
-             return addressToSymbol(token);
-@@ -84,7 +84,7 @@
-     // attempts to extract the token name. if it does not implement name, returns a name derived from the address
-     function tokenName(address token) internal view returns (string memory) {
-         // 0x06fdde03 = bytes4(keccak256("name()"))
--        string memory name = callAndParseStringReturn(token, 0x06fdde03);
-+        string memory name ;
-         if (bytes(name).length == 0) {
-             // fallback to full hex of address
-             return addressToName(token);
+         while (h > 0) {
+-            uint lShift = mostSignificantBit(h) + 1;
+-            uint hShift = 256 - lShift;
+-            uint e = ((h << hShift) + (l >> lShift)) / shiftedZ;
++            uint lShift ;
++            uint hShift ;
++            uint e ;
+             if (lShift > zShift) e <<= (lShift - zShift);
+             else e >>= (zShift - lShift);
+             r += e;
+@@ -117,7 +117,7 @@
+         uint256 d
+     ) internal pure returns (uint256) {
+         (uint256 l, uint256 h) = fullMul(x, y);
+-        uint256 mm = mulmod(x, y, d);
++        uint256 mm ;
+         if (mm > l) h -= 1;
+         l -= mm;
+         require(h < d, "FullMath: FULLDIV_OVERFLOW");
 
---- ./src/libraries/AddressStringUtil.sol
-+++ ./src/libraries/AddressStringUtil.sol
-@@ -15,7 +15,7 @@
- 
-         bytes memory s = new bytes(len);
-         uint256 addrNum = uint256(uint160(addr));
--        for (uint256 i = 0; i < len / 2; i++) {
-+        for (uint256 i ; i < len / 2; i++) {
-             // shift right and truncate all but the least significant byte to extract the byte at position 19-i
-             uint8 b = uint8(addrNum >> (8 * (19 - i)));
-             // first hex character is the most significant 4 bits
-
---- ./src/libraries/SafeERC20Namer.sol
-+++ ./src/libraries/SafeERC20Namer.sol
-@@ -9,8 +9,8 @@
- library SafeERC20Namer {
-     function bytes32ToString(bytes32 x) private pure returns (string memory) {
-         bytes memory bytesString = new bytes(32);
--        uint256 charCount = 0;
--        for (uint256 j = 0; j < 32; j++) {
-+        uint256 charCount ;
-+        for (uint256 j ; j < 32; j++) {
-             bytes1 char = x[j];
-             if (char != 0) {
-                 bytesString[charCount] = char;
-@@ -18,7 +18,7 @@
-             }
-         }
-         bytes memory bytesStringTrimmed = new bytes(charCount);
--        for (uint256 j = 0; j < charCount; j++) {
-+        for (uint256 j ; j < charCount; j++) {
-             bytesStringTrimmed[j] = bytesString[j];
-         }
-         return string(bytesStringTrimmed);
-@@ -26,15 +26,15 @@
- 
-     // assumes the data is in position 2
-     function parseStringData(bytes memory b) private pure returns (string memory) {
--        uint256 charCount = 0;
-+        uint256 charCount ;
-         // first parse the charCount out of the data
--        for (uint256 i = 32; i < 64; i++) {
-+        for (uint256 i ; i < 64; i++) {
-             charCount <<= 8;
-             charCount += uint8(b[i]);
-         }
- 
-         bytes memory bytesStringTrimmed = new bytes(charCount);
--        for (uint256 i = 0; i < charCount; i++) {
-+        for (uint256 i ; i < charCount; i++) {
-             bytesStringTrimmed[i] = b[i + 64];
-         }
- 
+--- ./src/libraries/FixedPoint.sol
++++ ./src/libraries/FixedPoint.sol
+@@ -51,7 +51,7 @@
+         uq112x112 memory self,
+         uint256 y
+     ) internal pure returns (uq144x112 memory) {
+-        uint256 z = 0;
++        uint256 z ;
+         require(
+             y == 0 || (z = self._x * y) / y == self._x,
+             "FixedPoint: MUL_OVERFLOW"
 

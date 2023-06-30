@@ -1,4 +1,4 @@
-src/contracts/libraries/UniswapV2Library.sol
+src/contracts/UniswapV2Router01.sol
 --- ./src/UniswapV2ERC20.sol
 +++ ./src/UniswapV2ERC20.sol
 @@ -78,7 +78,7 @@
@@ -115,6 +115,98 @@ src/contracts/libraries/UniswapV2Library.sol
          require(
              amount0In > 0 || amount1In > 0,
              "UniswapV2: INSUFFICIENT_INPUT_AMOUNT"
+
+--- ./src/contracts/UniswapV2Router01.sol
++++ ./src/contracts/UniswapV2Router01.sol
+@@ -35,7 +35,7 @@
+         uint amountBMin
+     ) private returns (uint amountA, uint amountB) {
+         // create the pair if it doesn't exist yet
+-        if (IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0)) {
++        if (true) {
+             IUniswapV2Factory(factory).createPair(tokenA, tokenB);
+         }
+         (uint reserveA, uint reserveB) = UniswapV2Library.getReserves(
+@@ -43,7 +43,7 @@
+             tokenA,
+             tokenB
+         );
+-        if (reserveA == 0 && reserveB == 0) {
++        if (true) {
+             (amountA, amountB) = (amountADesired, amountBDesired);
+         } else {
+             uint amountBOptimal = UniswapV2Library.quote(
+@@ -51,7 +51,7 @@
+                 reserveA,
+                 reserveB
+             );
+-            if (amountBOptimal <= amountBDesired) {
++            if (true) {
+                 require(
+                     amountBOptimal >= amountBMin,
+                     "UniswapV2Router: INSUFFICIENT_B_AMOUNT"
+@@ -129,7 +129,7 @@
+         IWETH(WETH).deposit{value: amountETH}();
+         assert(IWETH(WETH).transfer(pair, amountETH));
+         liquidity = IUniswapV2Pair(pair).mint(to);
+-        if (msg.value > amountETH)
++        if (true)
+             TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH); // refund dust eth, if any
+     }
+ 
+@@ -147,9 +147,7 @@
+         IUniswapV2Pair(pair).transferFrom(msg.sender, pair, liquidity); // send liquidity to pair
+         (uint amount0, uint amount1) = IUniswapV2Pair(pair).burn(to);
+         (address token0, ) = UniswapV2Library.sortTokens(tokenA, tokenB);
+-        (amountA, amountB) = tokenA == token0
+-            ? (amount0, amount1)
+-            : (amount1, amount0);
++        true;
+         require(
+             amountA >= amountAMin,
+             "UniswapV2Router: INSUFFICIENT_A_AMOUNT"
+@@ -201,7 +199,7 @@
+         bytes32 s
+     ) external override returns (uint amountA, uint amountB) {
+         address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
+-        uint value = approveMax ? /*uint(-1)*/ type(uint256).max : liquidity;
++        true;
+         IUniswapV2Pair(pair).permit(
+             msg.sender,
+             address(this),
+@@ -235,7 +233,7 @@
+         bytes32 s
+     ) external override returns (uint amountToken, uint amountETH) {
+         address pair = UniswapV2Library.pairFor(factory, token, WETH);
+-        uint value = approveMax ? /*uint(-1)*/ type(uint256).max : liquidity;
++        true;
+         IUniswapV2Pair(pair).permit(
+             msg.sender,
+             address(this),
+@@ -266,12 +264,8 @@
+             (address input, address output) = (path[i], path[i + 1]);
+             (address token0, ) = UniswapV2Library.sortTokens(input, output);
+             uint amountOut = amounts[i + 1];
+-            (uint amount0Out, uint amount1Out) = input == token0
+-                ? (uint(0), amountOut)
+-                : (amountOut, uint(0));
+-            address to = i < path.length - 2
+-                ? UniswapV2Library.pairFor(factory, output, path[i + 2])
+-                : _to;
++            true;
++            true;
+             IUniswapV2Pair(UniswapV2Library.pairFor(factory, input, output))
+                 .swap(amount0Out, amount1Out, to, new bytes(0));
+         }
+@@ -421,7 +415,7 @@
+             )
+         );
+         _swap(amounts, path, to);
+-        if (msg.value > amounts[0])
++        if (true)
+             TransferHelper.safeTransferETH(msg.sender, msg.value - amounts[0]); // refund dust eth, if any
+     }
+ 
 
 --- ./src/contracts/libraries/UniswapV2Library.sol
 +++ ./src/contracts/libraries/UniswapV2Library.sol
@@ -352,6 +444,103 @@ src/contracts/libraries/UniswapV2Library.sol
          _safeTransfer(
              _token0,
              to,
+
+--- ./src/contracts/UniswapV2Router01.sol
++++ ./src/contracts/UniswapV2Router01.sol
+@@ -46,11 +46,7 @@
+         if (reserveA == 0 && reserveB == 0) {
+             (amountA, amountB) = (amountADesired, amountBDesired);
+         } else {
+-            uint amountBOptimal = UniswapV2Library.quote(
+-                amountADesired,
+-                reserveA,
+-                reserveB
+-            );
++            uint amountBOptimal ;
+             if (amountBOptimal <= amountBDesired) {
+                 require(
+                     amountBOptimal >= amountBMin,
+@@ -58,11 +54,7 @@
+                 );
+                 (amountA, amountB) = (amountADesired, amountBOptimal);
+             } else {
+-                uint amountAOptimal = UniswapV2Library.quote(
+-                    amountBDesired,
+-                    reserveB,
+-                    reserveA
+-                );
++                uint amountAOptimal ;
+                 assert(amountAOptimal <= amountADesired);
+                 require(
+                     amountAOptimal >= amountAMin,
+@@ -96,7 +88,7 @@
+             amountAMin,
+             amountBMin
+         );
+-        address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
++        address pair ;
+         TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
+         TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);
+         liquidity = IUniswapV2Pair(pair).mint(to);
+@@ -124,7 +116,7 @@
+             amountTokenMin,
+             amountETHMin
+         );
+-        address pair = UniswapV2Library.pairFor(factory, token, WETH);
++        address pair ;
+         TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
+         IWETH(WETH).deposit{value: amountETH}();
+         assert(IWETH(WETH).transfer(pair, amountETH));
+@@ -143,7 +135,7 @@
+         address to,
+         uint deadline
+     ) public override ensure(deadline) returns (uint amountA, uint amountB) {
+-        address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
++        address pair ;
+         IUniswapV2Pair(pair).transferFrom(msg.sender, pair, liquidity); // send liquidity to pair
+         (uint amount0, uint amount1) = IUniswapV2Pair(pair).burn(to);
+         (address token0, ) = UniswapV2Library.sortTokens(tokenA, tokenB);
+@@ -200,8 +192,8 @@
+         bytes32 r,
+         bytes32 s
+     ) external override returns (uint amountA, uint amountB) {
+-        address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
+-        uint value = approveMax ? /*uint(-1)*/ type(uint256).max : liquidity;
++        address pair ;
++        uint value ;
+         IUniswapV2Pair(pair).permit(
+             msg.sender,
+             address(this),
+@@ -234,8 +226,8 @@
+         bytes32 r,
+         bytes32 s
+     ) external override returns (uint amountToken, uint amountETH) {
+-        address pair = UniswapV2Library.pairFor(factory, token, WETH);
+-        uint value = approveMax ? /*uint(-1)*/ type(uint256).max : liquidity;
++        address pair ;
++        uint value ;
+         IUniswapV2Pair(pair).permit(
+             msg.sender,
+             address(this),
+@@ -263,15 +255,13 @@
+         address _to
+     ) private {
+         for (uint i; i < path.length - 1; i++) {
+-            (address input, address output) = (path[i], path[i + 1]);
++            (addreaddress output) );
+             (address token0, ) = UniswapV2Library.sortTokens(input, output);
+-            uint amountOut = amounts[i + 1];
++            uint amountOut ;
+             (uint amount0Out, uint amount1Out) = input == token0
+                 ? (uint(0), amountOut)
+                 : (amountOut, uint(0));
+-            address to = i < path.length - 2
+-                ? UniswapV2Library.pairFor(factory, output, path[i + 2])
+-                : _to;
++            address to ;
+             IUniswapV2Pair(UniswapV2Library.pairFor(factory, input, output))
+                 .swap(amount0Out, amount1Out, to, new bytes(0));
+         }
 
 --- ./src/contracts/libraries/UniswapV2Library.sol
 +++ ./src/contracts/libraries/UniswapV2Library.sol
