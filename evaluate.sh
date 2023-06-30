@@ -6,7 +6,8 @@ RESULTS="$(pwd)/results.txt"
 PARAMETERS="$(pwd)/parameters.txt"
 SEEDS="$(pwd)/seeds.txt"
 
-echo "echidna=$(echidna --version)" > $PARAMETERS
+echo "instance=$(wget -q -O - http://instance-data/latest/meta-data/instance-type)" > $PARAMETERS
+echo "echidna=$(echidna --version)" >> $PARAMETERS
 echo "slither=$(slither --version)" >> $PARAMETERS
 echo "forge=$(forge --version)" >> $PARAMETERS
 echo "solc=$(solc --version | head -2 | tail -1)" >> $PARAMETERS
