@@ -1,0 +1,14 @@
+diff --git a/protocols/uniswap-v2/src/libraries/BitMath.sol b/protocols/uniswap-v2/src/libraries/BitMath.sol
+index 6169e32..1e12a1d 100644
+--- a/protocols/uniswap-v2/src/libraries/BitMath.sol
++++ b/protocols/uniswap-v2/src/libraries/BitMath.sol
+@@ -30,7 +30,8 @@ library BitMath {
+             r += 4;
+         }
+         if (x >= 0x4) {
+-            x >>= 2;
++            /// AssignmentMutation(`2` |==> `1`) of: `x >>= 2;`
++            x >>= 1;
+             r += 2;
+         }
+         if (x >= 0x2) r += 1;

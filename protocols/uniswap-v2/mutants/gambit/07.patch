@@ -1,0 +1,14 @@
+diff --git a/protocols/uniswap-v2/src/contracts/UniswapV2Router01.sol b/protocols/uniswap-v2/src/contracts/UniswapV2Router01.sol
+index 3e52377..784c070 100644
+--- a/protocols/uniswap-v2/src/contracts/UniswapV2Router01.sol
++++ b/protocols/uniswap-v2/src/contracts/UniswapV2Router01.sol
+@@ -35,7 +35,8 @@ contract UniswapV2Router01 is IUniswapV2Router01 {
+         uint amountBMin
+     ) private returns (uint amountA, uint amountB) {
+         // create the pair if it doesn't exist yet
+-        if (IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0)) {
++        /// IfStatementMutation(`IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0)` |==> `true`) of: `if (IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0)) {`
++        if (true) {
+             IUniswapV2Factory(factory).createPair(tokenA, tokenB);
+         }
+         (uint reserveA, uint reserveB) = UniswapV2Library.getReserves(
