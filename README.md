@@ -1,5 +1,5 @@
 # fuzzer-evaluation
-Evaluating fuzzer effectiveness through mutation testing
+Evaluating fuzzer effectiveness
 
 ## Usage
 
