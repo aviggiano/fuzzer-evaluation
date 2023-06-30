@@ -14,3 +14,6 @@ mutate:
 
 evaluate:
 	./evaluate.sh
+
+screen:
+	screen -L -d -m make evaluate
