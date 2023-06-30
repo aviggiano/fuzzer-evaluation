@@ -35,7 +35,7 @@ for SEED in $(cat seeds.txt); do
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
 
-			echo "foundry,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
+			echo "echidna,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
 
 			# cleanup
 			git checkout .
