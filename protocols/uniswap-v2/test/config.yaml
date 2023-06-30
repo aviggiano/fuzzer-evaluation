@@ -2,3 +2,4 @@ testMode: assertion
 corpusDir: corpus
 seqLen: 25
 testLimit: 10000
+shrinkLimit: 0
