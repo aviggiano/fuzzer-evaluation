@@ -5,6 +5,10 @@ set -ux
 RESULTS="$(pwd)/results.txt"
 PARAMETERS="$(pwd)/parameters.txt"
 SEEDS="$(pwd)/seeds.txt"
+WORKERS=$(cat /proc/cpuinfo | grep processor | wc -l)
+if [ $WORKERS -eq 0 ]; then
+	WORKERS=1
+fi
 
 echo "instance=$(wget -q -O - http://instance-data/latest/meta-data/instance-type)" > $PARAMETERS
 echo "echidna=$(echidna --version)" >> $PARAMETERS
@@ -31,7 +35,7 @@ for PROTOCOL in $(ls protocols); do
 
 			forge clean
 			START=$(date +%s)
-			echidna . --contract EchidnaTester --config test/config.yaml --seed $SEED >/dev/null
+			echidna . --contract EchidnaTester --config test/config.yaml --workers $WORKERS --seed $SEED >/dev/null
 			RESULT=$?
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
