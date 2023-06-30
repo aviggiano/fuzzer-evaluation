@@ -19,6 +19,7 @@ for SEED in $(cat seeds.txt); do
 			git apply $MUTANT_FILE
 			MUTANT=$(echo $MUTANT_FILE | grep -o '\d\d')
 
+			forge clean
 			START=$(date +%s)
 			forge test
 			RESULT=$?
@@ -27,6 +28,7 @@ for SEED in $(cat seeds.txt); do
 
 			echo "foundry,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
 
+			forge clean
 			START=$(date +%s)
 			echidna . --contract EchidnaTester --config test/config.yaml
 			RESULT=$?
