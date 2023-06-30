@@ -314,11 +314,8 @@ abstract contract Tester is Setup, Asserts {
             eq(
                 vars.userBalance2After,
                 vars.userBalance2Before +
-                    UniswapV2Library.getAmountOut(
-                        swapAmountIn,
-                        vars.reserve1Before,
-                        vars.reserve2Before
-                    ),
+                    ((swapAmountIn * 997) * vars.reserve2Before) /
+                    ((vars.reserve1Before * 1000) + (swapAmountIn * 997)),
                 "P-17 | Swapping increases the sender's tokenOut balance by an amount defined by the x*y=k product"
             );
             eq(
