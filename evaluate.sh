@@ -2,7 +2,14 @@
 
 set -ux
 
-RESULTS=$(printf "results__echidna=%s__slither=%s__forge=%s__solc=%s.txt" "$(echidna --version)" "$(slither --version)" "$(forge --version)" "$(solc --version | head -2 | tail -1)")
+RESULTS="results.txt"
+PARAMETERS="parameters.txt"
+
+echo "echidna=$(echidna --version)" > $PARAMETERS
+echo "slither=$(slither --version)" >> $PARAMETERS
+echo "forge=$(forge --version)" >> $PARAMETERS
+echo "solc=$(solc --version | head -2 | tail -1)" >> $PARAMETERS
+
 echo "fuzzer,protocol,seed,mutant,time,result" > $RESULTS
 
 for SEED in $(cat seeds.txt); do
