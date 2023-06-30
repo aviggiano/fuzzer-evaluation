@@ -26,7 +26,6 @@ for PROTOCOL in $(ls protocols); do
 		fi;
 	done
 
-	i=0
 	mkdir -p mutants/gambit
 	for FILE in $(find src -type f -name '*.sol'); do 
 		MUTANT_DIR=$(mktemp -d)
