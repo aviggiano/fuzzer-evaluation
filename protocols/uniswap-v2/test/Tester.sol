@@ -7,56 +7,19 @@ import "./Asserts.sol";
 /// @notice Serves as a compatible tester contract to compare foundry and echidna. This contract was largely inspired by @technovision99's work on the `crytic/echidna-streaming-series` repository.
 /// @dev Contains all necessary functions to be called by stateful fuuzers.
 abstract contract Tester is Setup, Asserts {
-    struct Vars {
-        uint256 userLpBalanceBefore;
-        uint256 userLpBalanceAfter;
-        uint256 lpTotalSupplyBefore;
-        uint256 lpTotalSupplyAfter;
-        uint256 pairBalance1Before;
-        uint256 pairBalance2Before;
-        uint256 pairBalance1After;
-        uint256 pairBalance2After;
-        uint256 userBalance1Before;
-        uint256 userBalance2Before;
-        uint256 userBalance1After;
-        uint256 userBalance2After;
-        uint256 reserve1Before;
-        uint256 reserve1After;
-        uint256 reserve2Before;
-        uint256 reserve2After;
-        uint256 kBefore;
-        uint256 kAfter;
-    }
-
-    uint private constant PATH_INDEPENDENCE_MINIMUM_AMOUNT = 10000;
-    uint private constant PATH_INDEPENDENCE_ERROR = 591;
-
     function addLiquidity(uint amount1, uint amount2) public initUser {
         //PRECONDITIONS:
-
-        Vars memory vars;
-
         amount1 = clampBetween(amount1, 1, type(uint256).max);
         amount2 = clampBetween(amount2, 1, type(uint256).max);
-        _mintTokens(amount1, amount2);
 
-        if (token1.balanceOf(address(user)) == 0) return;
-        if (token2.balanceOf(address(user)) == 0) return;
+        _mintTokensOnce(amount1, amount2);
 
-        vars.userLpBalanceBefore = pair.balanceOf(address(user));
-        vars.lpTotalSupplyBefore = pair.totalSupply();
+        _before();
 
-        vars.pairBalance1Before = token1.balanceOf(address(pair));
-        vars.pairBalance2Before = token2.balanceOf(address(pair));
-        vars.userBalance1Before = token1.balanceOf(address(user));
-        vars.userBalance2Before = token2.balanceOf(address(user));
+        if (vars.userBalance1Before == 0) return;
+        if (vars.userBalance2Before == 0) return;
 
-        (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
-            .getReserves(address(factory), address(token1), address(token2));
-
-        vars.kBefore = vars.reserve1Before * vars.reserve2Before;
-
-        //CALL:
+        //ACTION:
 
         (bool success, ) = user.proxy(
             address(router),
@@ -73,69 +36,94 @@ abstract contract Tester is Setup, Asserts {
             )
         );
 
+        _after();
         //POSTCONDITIONS
 
         if (success) {
-            (vars.reserve1After, vars.reserve2After) = UniswapV2Library
-                .getReserves(
-                    address(factory),
-                    address(token1),
-                    address(token2)
-                );
-
-            vars.userLpBalanceAfter = pair.balanceOf(address(user));
-            vars.lpTotalSupplyAfter = pair.totalSupply();
-            vars.userBalance1After = token1.balanceOf(address(user));
-            vars.userBalance2After = token2.balanceOf(address(user));
-            vars.kAfter = vars.reserve1After * vars.reserve2After;
-            lt(
-                vars.reserve1Before,
-                vars.reserve1After,
-                "Reserve 1 must increase when adding liquidity"
-            );
-            lt(
-                vars.reserve2Before,
-                vars.reserve2After,
-                "Reserve 2 must increase when adding liquidity"
-            );
-            lt(
-                vars.lpTotalSupplyBefore,
-                vars.lpTotalSupplyAfter,
-                "Total supply must increase when adding liquidity"
-            );
-            lt(
-                vars.kBefore,
+            gt(
                 vars.kAfter,
-                "K must increase when adding liquidity"
+                vars.kBefore,
+                "P-01 | Adding liquidity increases K"
+            );
+            gt(
+                vars.lpTotalSupplyAfter,
+                vars.lpTotalSupplyBefore,
+                "P-02 | Adding liquidity increases the total supply of LP tokens"
+            );
+            gt(
+                vars.reserve1After,
+                vars.reserve1Before,
+                "P-03 | Adding liquidity increases reserves of both tokens"
+            );
+            gt(
+                vars.reserve2After,
+                vars.reserve2Before,
+                "P-03 | Adding liquidity increases reserves of both tokens"
+            );
+            gt(
+                vars.userLpBalanceAfter,
+                vars.userLpBalanceBefore,
+                "P-04 | Adding liquidity increases the user's LP balance"
             );
             lt(
-                vars.userLpBalanceBefore,
-                vars.userLpBalanceAfter,
-                "LP token balance must increase when adding liquidity"
-            );
-            gt(
-                vars.userBalance1Before,
                 vars.userBalance1After,
-                "Adding liquidity decreases the users' token balances"
+                vars.userBalance1Before,
+                "P-05 | Adding liquidity decreases the user's token balances"
             );
-            gt(
-                vars.userBalance2Before,
+            lt(
                 vars.userBalance2After,
-                "Adding liquidity decreases the users' token balances"
+                vars.userBalance2Before,
+                "P-05 | Adding liquidity decreases the user's token balances"
             );
             if (vars.kBefore == 0) {
                 eq(
                     vars.userLpBalanceAfter,
                     Math.sqrt(amount1 * amount2) - pair.MINIMUM_LIQUIDITY(),
-                    "Adding liquidity for the first time should mint LP tokens equals to sqrt(amount1 * amount2) - MINIMUM_LIQUIDITY"
+                    "P-06 | Adding liquidity for the first time should mint LP tokens equals to the square root of the product of the token amounts minus a minimum liquidity constant"
                 );
             }
         } else {
             eq(
-                pair.balanceOf(address(user)),
-                vars.userLpBalanceBefore,
-                "Adding liquidity should not mint LP tokens if the call fails"
+                vars.reserve1After,
+                vars.reserve1Before,
+                "P-07 | Adding liquidity should not change anything if it fails"
             );
+            eq(
+                vars.reserve2After,
+                vars.reserve2Before,
+                "P-07 | Adding liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.userLpBalanceAfter,
+                vars.userLpBalanceBefore,
+                "P-07 | Adding liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.feeToLpBalanceAfter,
+                vars.feeToLpBalanceBefore,
+                "P-07 | Adding liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.lpTotalSupplyAfter,
+                vars.lpTotalSupplyBefore,
+                "P-07 | Adding liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.userBalance1After,
+                vars.userBalance1Before,
+                "P-07 | Adding liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.userBalance2After,
+                vars.userBalance2Before,
+                "P-07 | Adding liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.kAfter,
+                vars.kBefore,
+                "P-07 | Adding liquidity should not change anything if it fails"
+            );
+            // TODO decode each error and break down revert conditions accordingly
             t(
                 // UniswapV2: OVERFLOW
                 // amounts overflow max reserve balance
@@ -153,25 +141,20 @@ abstract contract Tester is Setup, Asserts {
                             (vars.lpTotalSupplyBefore)) / vars.reserve2Before
                     ) ==
                     0,
-                "Adding liquidity should only fail if the provided amounts is invalid"
+                "P-08 | Adding liquidity should not fail if the provided amounts are withing the valid range of `uint112`, would mint positive liquidity and are above the minimum initial liquidity check when minting for the first time"
             );
         }
     }
 
     function removeLiquidity(uint lpAmount) public initUser {
         //PRECONDITIONS:
-        Vars memory vars;
+        _before();
 
-        vars.userLpBalanceBefore = pair.balanceOf(address(user));
-        vars.lpTotalSupplyBefore = pair.totalSupply();
         //user needs some LP tokens to burn
         if (vars.userLpBalanceBefore == 0) return;
         lpAmount = clampBetween(lpAmount, 1, vars.userLpBalanceBefore);
 
-        (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
-            .getReserves(address(factory), address(token1), address(token2));
         //need to approve more than min liquidity
-        vars.kBefore = vars.reserve1Before * vars.reserve2Before;
         (bool success1, ) = user.proxy(
             address(pair),
             abi.encodeWithSelector(
@@ -181,12 +164,8 @@ abstract contract Tester is Setup, Asserts {
             )
         );
         require(success1);
-        vars.pairBalance1Before = token1.balanceOf(address(pair));
-        vars.pairBalance2Before = token2.balanceOf(address(pair));
-        vars.userBalance1Before = token1.balanceOf(address(user));
-        vars.userBalance2Before = token2.balanceOf(address(user));
 
-        //CALL:
+        //ACTION:
 
         (bool success, ) = user.proxy(
             address(router),
@@ -202,60 +181,86 @@ abstract contract Tester is Setup, Asserts {
             )
         );
 
+        _after();
+
         //POSTCONDITIONS
 
         if (success) {
-            (vars.reserve1After, vars.reserve2After) = UniswapV2Library
-                .getReserves(
-                    address(factory),
-                    address(token1),
-                    address(token2)
-                );
-            vars.userLpBalanceAfter = pair.balanceOf(address(user));
-            vars.lpTotalSupplyAfter = pair.totalSupply();
-            vars.userBalance1After = token1.balanceOf(address(user));
-            vars.userBalance2After = token2.balanceOf(address(user));
-            vars.kAfter = vars.reserve1After * vars.reserve2After;
-            gt(
-                vars.kBefore,
+            lt(
                 vars.kAfter,
-                "K must decrease when removing liquidity"
+                vars.kBefore,
+                "P-09 | Removing liquidity decreases K"
             );
-            gt(
-                vars.userLpBalanceBefore,
-                vars.userLpBalanceAfter,
-                "LP token balance must decrease when removing liquidity"
-            );
-            gt(
-                vars.reserve1Before,
-                vars.reserve1After,
-                "Reserve 1 must decrease when removing liquidity"
-            );
-            gt(
-                vars.reserve2Before,
-                vars.reserve2After,
-                "Reserve 2 must decrease when removing liquidity"
-            );
-            gt(
-                vars.lpTotalSupplyBefore,
+            lt(
                 vars.lpTotalSupplyAfter,
-                "Total supply must decrease when removing liquidity"
+                vars.lpTotalSupplyBefore,
+                "P-10 | Removing liquidity decreases the total supply of LP tokens"
             );
             lt(
-                vars.userBalance1Before,
+                vars.reserve1After,
+                vars.reserve1Before,
+                "P-11 | Removing liquidity decreases reserves of both tokens"
+            );
+            lt(
+                vars.reserve2After,
+                vars.reserve2Before,
+                "P-11 | Removing liquidity decreases reserves of both tokens"
+            );
+            lt(
+                vars.userLpBalanceAfter,
+                vars.userLpBalanceBefore,
+                "P-12 | Removing liquidity decreases the user's LP balance"
+            );
+            gt(
                 vars.userBalance1After,
-                "Removing liquidity increases the users' token balances"
+                vars.userBalance1Before,
+                "P-13 | Removing liquidity increases the user's token balances"
             );
-            lt(
-                vars.userBalance2Before,
+            gt(
                 vars.userBalance2After,
-                "Removing liquidity increases the users' token balances"
+                vars.userBalance2Before,
+                "P-13 | Removing liquidity increases the user's token balances"
             );
         } else {
             eq(
-                pair.balanceOf(address(user)),
+                vars.reserve1After,
+                vars.reserve1Before,
+                "P-14 | Removing liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.reserve2After,
+                vars.reserve2Before,
+                "P-14 | Removing liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.userLpBalanceAfter,
                 vars.userLpBalanceBefore,
-                "Removing liquidity should not burn LP tokens if the call fails"
+                "P-14 | Removing liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.feeToLpBalanceAfter,
+                vars.feeToLpBalanceBefore,
+                "P-14 | Removing liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.lpTotalSupplyAfter,
+                vars.lpTotalSupplyBefore,
+                "P-14 | Removing liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.userBalance1After,
+                vars.userBalance1Before,
+                "P-14 | Removing liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.userBalance2After,
+                vars.userBalance2Before,
+                "P-14 | Removing liquidity should not change anything if it fails"
+            );
+            eq(
+                vars.kAfter,
+                vars.kBefore,
+                "P-14 | Removing liquidity should not change anything if it fails"
             );
             // amounts returned to the user must be greater than zero
             t(
@@ -266,7 +271,7 @@ abstract contract Tester is Setup, Asserts {
                     (lpAmount * vars.pairBalance2Before) /
                         vars.lpTotalSupplyBefore ==
                     0,
-                "Removing liquidity should never fail if the the returned amounts to the user are greater than zero"
+                "P-15 | Removing liquidity should not fail if the returned amounts to the user are greater than zero"
             );
         }
     }
@@ -274,30 +279,18 @@ abstract contract Tester is Setup, Asserts {
     function swapExactTokensForTokens(uint swapAmountIn) public initUser {
         //PRECONDITIONS:
 
-        Vars memory vars;
-        _mintTokens(swapAmountIn, swapAmountIn);
+        _mintTokensOnce(swapAmountIn, swapAmountIn);
+        _before();
 
         address[] memory path = new address[](2);
         path[0] = address(token1);
         path[1] = address(token2);
 
-        vars.userBalance1Before = UniswapV2ERC20(path[0]).balanceOf(
-            address(user)
-        );
-        vars.userBalance2Before = UniswapV2ERC20(path[1]).balanceOf(
-            address(user)
-        );
-
-        uint feeTouserLpBalanceBefore = pair.balanceOf(factory.feeTo());
-
         if (vars.userBalance1Before == 0) return;
 
         swapAmountIn = clampBetween(swapAmountIn, 1, vars.userBalance1Before);
-        (vars.reserve1Before, vars.reserve2Before) = UniswapV2Library
-            .getReserves(address(factory), address(token1), address(token2));
-        vars.kBefore = vars.reserve1Before * vars.reserve2Before;
 
-        //CALL:
+        //ACTION:
 
         (bool success, ) = user.proxy(
             address(router),
@@ -311,38 +304,30 @@ abstract contract Tester is Setup, Asserts {
             )
         );
 
+        _after();
+
         //POSTCONDITIONS:
 
         if (success) {
-            vars.userBalance1After = UniswapV2ERC20(path[0]).balanceOf(
-                address(user)
-            );
-            vars.userBalance2After = UniswapV2ERC20(path[1]).balanceOf(
-                address(user)
-            );
-            uint feeTouserLpBalanceAfter = pair.balanceOf(factory.feeTo());
-            (vars.reserve1After, vars.reserve2After) = UniswapV2Library
-                .getReserves(
-                    address(factory),
-                    address(token1),
-                    address(token2)
-                );
-            vars.kAfter = vars.reserve1After * vars.reserve2After;
-            lte(vars.kBefore, vars.kAfter, "K must not decrease when swapping");
-            lt(
-                vars.userBalance2Before,
-                vars.userBalance2After,
-                "pool tokenOut balance must decrease when swapping"
+            gte(
+                vars.kAfter,
+                vars.kBefore,
+                "P-16 | Swapping does not decrease K"
             );
             gt(
-                vars.userBalance1Before,
+                vars.userBalance2After,
+                vars.userBalance2Before,
+                "P-17 | Swapping increases the sender's tokenOut balance"
+            );
+            lt(
                 vars.userBalance1After,
-                "pool tokenIn balance must increase when swapping"
+                vars.userBalance1Before,
+                "P-18 | Swapping decreases the sender's tokenIn balance"
             );
             gte(
-                feeTouserLpBalanceAfter,
-                feeTouserLpBalanceBefore,
-                "Swapping does not decrease `feeTo` LP tokens balance"
+                vars.feeToLpBalanceAfter,
+                vars.feeToLpBalanceBefore,
+                "P-19 | Swapping does not decrease the `feeTo` LP balance"
             );
         } else {
             uint[] memory amounts = UniswapV2Library.getAmountsOut(
@@ -350,6 +335,7 @@ abstract contract Tester is Setup, Asserts {
                 swapAmountIn,
                 path
             );
+            // TODO decode each error and break down revert conditions accordingly
             t(
                 // UniswapV2: INSUFFICIENT_LIQUIDITY
                 amounts[1] > vars.reserve2Before ||
@@ -357,121 +343,8 @@ abstract contract Tester is Setup, Asserts {
                     amounts[1] == 0 ||
                     // UniswapV2: OVERFLOW
                     swapAmountIn + vars.reserve1Before > type(uint112).max,
-                "Swapping should not fail if there's enough liquidity and output amount is non-zero and input amount does not overflow"
+                "P-20 | Swapping should not fail if there's enough liquidity, if the output would be positive and if the input would not overflow the valid range of `uint112`"
             );
         }
-    }
-
-    /*
-    Swapping x of token1 for y token of token2 and back should (roughly) give user x of token1.
-    The following function checks this condition by assessing that the resulting x is no more than 3% from the original x.
-    
-    However, this condition may be false when the pool has roughly the same amount of A and B and user swaps minimal amount of tokens.
-    For instance, if pool consists of:
-    - 1000 A
-    - 1500 B
-    then user can swap 2 A for 2 B (1002 * 1497 = 1 499 994 < 1 500 000 = k, so the user won't get 3 B).
-    Then, while user swaps back 2 B in the pool, he will get only 1 A, which is 50% loss from initial 2 A. 
-
-    Similar situation may happen if the user pays for some constant amount of token2 more than he needs to.
-    For instance, consider a pool with:
-    - 20 000 of token A
-    - 5 of token B
-    Then, k = 100 000. If user pays 10 000 of A, we will get only 1 token B (since otherwise new k < 100 000).
-    Now, k = 120 000, and the pool consists of 30 000 A and 4 B. 
-    If he swaps back 1 B for A, he gets only 6 000 A back (pool consists of 5 B and 24 000 A and k stays the same).
-    So, after the trades, he lost 4 000 of A, which is 40% of his initial balance.
-    But this wouldn't happen if user swapped initially 5 000 of A for 1 B.
-    
-    To prevent such situations, the following function imposes following limits on the user's input:
-    1. It has to be greater than MINIMUM_AMOUNT = 100.
-    2. For some amount y of token2, it has to be minimal among all inputs giving the user y testTokens2 from the swap.
-    */
-    function swapExactTokensForTokensPathIndependence(uint x) public initUser {
-        // PRECONDITIONS:
-        _mintTokens(1_000_000_000, 1_000_000_000);
-
-        (uint reserve1, uint reserve2) = UniswapV2Library.getReserves(
-            address(factory),
-            address(token1),
-            address(token2)
-        );
-        // if reserve1 or reserve2 <= 1, then we cannot even make a swap
-        if (reserve1 <= 1) return;
-        if (reserve2 <= 1) return;
-
-        uint userBalance1 = token1.balanceOf(address(user));
-        if (userBalance1 <= PATH_INDEPENDENCE_MINIMUM_AMOUNT) return;
-
-        x = clampBetween(
-            x,
-            PATH_INDEPENDENCE_MINIMUM_AMOUNT,
-            type(uint256).max / PATH_INDEPENDENCE_MINIMUM_AMOUNT
-        ); // uint(-1) / PATH_INDEPENDENCE_MINIMUM_AMOUNT needed in POSTCONDITIONS to avoid overflow
-        x = clampBetween(x, PATH_INDEPENDENCE_MINIMUM_AMOUNT, userBalance1);
-
-        // use optimal x - it makes no sense to pay more for a given amount of tokens than necessary
-        // nor it makes sense to "buy" 0 tokens
-        // scope created to prevent "stack too deep" error
-        {
-            uint yOut = UniswapV2Library.getAmountOut(x, reserve1, reserve2);
-            if (yOut == 0) yOut = 1;
-            // x can only decrease here
-            x = UniswapV2Library.getAmountIn(yOut, reserve1, reserve2);
-        }
-        address[] memory path12 = new address[](2);
-        path12[0] = address(token1);
-        path12[1] = address(token2);
-        address[] memory path21 = new address[](2);
-        path21[0] = address(token2);
-        path21[1] = address(token1);
-
-        bool success;
-        bytes memory returnData;
-        uint[] memory amounts;
-        uint xOut;
-        uint y;
-
-        // CALLS:
-
-        (success, returnData) = user.proxy(
-            address(router),
-            abi.encodeWithSelector(
-                router.swapExactTokensForTokens.selector,
-                x,
-                0,
-                path12,
-                address(user),
-                type(uint256).max
-            )
-        );
-        if (!success) return;
-        amounts = abi.decode(returnData, (uint[]));
-        // y should be the same as yOut computed previously
-        y = amounts[1];
-        (success, returnData) = user.proxy(
-            address(router),
-            abi.encodeWithSelector(
-                router.swapExactTokensForTokens.selector,
-                y,
-                0,
-                path21,
-                address(user),
-                type(uint256).max
-            )
-        );
-        if (!success) return;
-        amounts = abi.decode(returnData, (uint[]));
-        xOut = amounts[1];
-
-        // POSTCONDITIONS:
-
-        gt(x, xOut, "user cannot get more tokens than what they give");
-        // PATH_INDEPENDENCE_MINIMUM_AMOUNT * (x - xOut) will not overflow since we constrained x to be < uint(-1) / PATH_INDEPENDENCE_MINIMUM_AMOUNT before
-        lte(
-            (x - xOut) * PATH_INDEPENDENCE_MINIMUM_AMOUNT,
-            PATH_INDEPENDENCE_ERROR * x,
-            "maximum loss of funds is PATH_INDEPENDENCE_ERROR on each swap"
-        ); // (x - xOut) / x <= PATH_INDEPENDENCE_ERROR on each swap;
     }
 }

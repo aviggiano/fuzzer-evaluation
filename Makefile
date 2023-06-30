@@ -20,3 +20,9 @@ test:
 		echidna . --contract EchidnaTester --config test/config.yaml;								\
 		cd -;														\
 	done
+
+evaluate:
+	echo TODO
+
+mutate:
+	echo TODO

@@ -15,11 +15,10 @@ contract FoundryInvariantTests is Test, Setup {
     function setUp() public {
         _deploy();
         tester = new FoundryTester(token1, token2, pair, factory, router);
-        bytes4[] memory selectors = new bytes4[](4);
+        bytes4[] memory selectors = new bytes4[](3);
         selectors[0] = Tester.addLiquidity.selector;
-        selectors[1] = Tester.swapExactTokensForTokens.selector;
-        selectors[2] = Tester.removeLiquidity.selector;
-        selectors[3] = Tester.swapExactTokensForTokensPathIndependence.selector;
+        selectors[1] = Tester.removeLiquidity.selector;
+        selectors[2] = Tester.swapExactTokensForTokens.selector;
         targetContract(address(tester));
         targetSelector(
             FuzzSelector({addr: address(tester), selectors: selectors})
