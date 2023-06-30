@@ -4,6 +4,7 @@ set -ux
 
 RESULTS="$(pwd)/results.txt"
 PARAMETERS="$(pwd)/parameters.txt"
+SEEDS="$(pwd)/seeds.txt"
 
 echo "echidna=$(echidna --version)" > $PARAMETERS
 echo "slither=$(slither --version)" >> $PARAMETERS
@@ -17,7 +18,7 @@ for PROTOCOL in $(ls protocols); do
 	for MUTANT_FILE in $(find mutants -type f | sort); do
 		git apply $MUTANT_FILE
 		MUTANT=$(echo $MUTANT_FILE | grep -o '[0-9][0-9]')
-		for SEED in $(cat seeds.txt); do
+		for SEED in $(cat $SEEDS); do
 			forge clean
 			START=$(date +%s)
 			forge test --fuzz-seed $SEED
