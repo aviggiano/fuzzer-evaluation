@@ -314,11 +314,15 @@ abstract contract Tester is Setup, Asserts {
                 vars.kBefore,
                 "P-16 | Swapping does not decrease K"
             );
-            // Δy=(x+rΔx)/(y+rΔx)
-            gt(
+            eq(
                 vars.userBalance2After,
-                vars.userBalance2Before,
-                "P-17 | Swapping increases the sender's tokenOut balance"
+                vars.userBalance2Before +
+                    UniswapV2Library.getAmountOut(
+                        swapAmountIn,
+                        vars.reserve1Before,
+                        vars.reserve2Before
+                    ),
+                "P-17 | Swapping increases the sender's tokenOut balance by an amount defined by the x*y=k product"
             );
             eq(
                 vars.userBalance1After,

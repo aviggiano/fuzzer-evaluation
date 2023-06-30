@@ -3,6 +3,9 @@ import "@uniswap/interfaces/IUniswapV2Pair.sol";
 import "@uniswap/libraries/SafeMath.sol";
 import "@uniswap/UniswapV2Factory.sol";
 
+uint constant BASE_PERCENT = 1000;
+uint constant FEE_PERCENT = 3;
+
 library UniswapV2Library {
     using SafeMath for uint;
 
@@ -81,9 +84,9 @@ library UniswapV2Library {
             reserveIn > 0 && reserveOut > 0,
             "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
         );
-        uint amountInWithFee = amountIn.mul(997);
+        uint amountInWithFee = amountIn.mul(BASE_PERCENT - FEE_PERCENT);
         uint numerator = amountInWithFee.mul(reserveOut);
-        uint denominator = reserveIn.mul(1000).add(amountInWithFee);
+        uint denominator = reserveIn.mul(BASE_PERCENT).add(amountInWithFee);
         amountOut = numerator / denominator;
     }
 
@@ -98,8 +101,10 @@ library UniswapV2Library {
             reserveIn > 0 && reserveOut > 0,
             "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
         );
-        uint numerator = reserveIn.mul(amountOut).mul(1000);
-        uint denominator = reserveOut.sub(amountOut).mul(997);
+        uint numerator = reserveIn.mul(amountOut).mul(BASE_PERCENT);
+        uint denominator = reserveOut.sub(amountOut).mul(
+            BASE_PERCENT - FEE_PERCENT
+        );
         amountIn = (numerator / denominator).add(1);
     }
 
