@@ -3,8 +3,16 @@ Evaluating fuzzer effectiveness
 
 ## Usage
 
+Test against the default codebase ("ground truth")
+
 ```
 make test
+```
+
+Test against mutated code (injected bugs)
+
+```
+make evaluate
 ```
 
 ## Properties
