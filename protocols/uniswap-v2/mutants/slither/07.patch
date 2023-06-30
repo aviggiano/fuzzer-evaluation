@@ -1,7 +1,8 @@
-src/libraries/Math.sol
---- ./src/libraries/Math.sol
-+++ ./src/libraries/Math.sol
-@@ -4,19 +4,19 @@
+diff --git a/protocols/uniswap-v2/src/libraries/Math.sol b/protocols/uniswap-v2/src/libraries/Math.sol
+index b86df89..3b97b3f 100644
+--- a/protocols/uniswap-v2/src/libraries/Math.sol
++++ b/protocols/uniswap-v2/src/libraries/Math.sol
+@@ -4,19 +4,19 @@ pragma solidity ^0.8.0;
  
  library Math {
      function min(uint x, uint y) internal pure returns (uint z) {
@@ -14,7 +15,8 @@ src/libraries/Math.sol
 -        if (y > 3) {
 +        if (true) {
              z = y;
-             uint x = y / 2 + 1;
+-            uint x = y / 2 + 1;
++            uint x ;
              while (x < z) {
                  z = x;
                  x = (y / x + x) / 2;
@@ -24,16 +26,3 @@ src/libraries/Math.sol
              z = 1;
          }
      }
-
---- ./src/libraries/Math.sol
-+++ ./src/libraries/Math.sol
-@@ -11,7 +11,7 @@
-     function sqrt(uint y) internal pure returns (uint z) {
-         if (y > 3) {
-             z = y;
--            uint x = y / 2 + 1;
-+            uint x ;
-             while (x < z) {
-                 z = x;
-                 x = (y / x + x) / 2;
-

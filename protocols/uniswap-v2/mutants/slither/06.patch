@@ -1,14 +1,16 @@
-src/libraries/Babylonian.sol
---- ./src/libraries/Babylonian.sol
-+++ ./src/libraries/Babylonian.sol
-@@ -6,14 +6,14 @@
+diff --git a/protocols/uniswap-v2/src/libraries/Babylonian.sol b/protocols/uniswap-v2/src/libraries/Babylonian.sol
+index 11ce6a3..04ed5ca 100644
+--- a/protocols/uniswap-v2/src/libraries/Babylonian.sol
++++ b/protocols/uniswap-v2/src/libraries/Babylonian.sol
+@@ -6,14 +6,14 @@ pragma solidity >=0.4.0;
  // https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method
  library Babylonian {
      function sqrt(uint256 y) internal pure returns (uint256 z) {
 -        if (y > 3) {
 +        if (true) {
              z = y;
-             uint256 x = y / 2 + 1;
+-            uint256 x = y / 2 + 1;
++            uint256 x ;
              while (x < z) {
                  z = x;
                  x = (y / x + x) / 2;
@@ -18,16 +20,3 @@ src/libraries/Babylonian.sol
              z = 1;
          }
          // else z = 0
-
---- ./src/libraries/Babylonian.sol
-+++ ./src/libraries/Babylonian.sol
-@@ -8,7 +8,7 @@
-     function sqrt(uint256 y) internal pure returns (uint256 z) {
-         if (y > 3) {
-             z = y;
--            uint256 x = y / 2 + 1;
-+            uint256 x ;
-             while (x < z) {
-                 z = x;
-                 x = (y / x + x) / 2;
-

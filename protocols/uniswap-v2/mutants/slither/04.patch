@@ -1,7 +1,8 @@
-src/libraries/BitMath.sol
---- ./src/libraries/BitMath.sol
-+++ ./src/libraries/BitMath.sol
-@@ -5,34 +5,34 @@
+diff --git a/protocols/uniswap-v2/src/libraries/BitMath.sol b/protocols/uniswap-v2/src/libraries/BitMath.sol
+index 6169e32..2e3af26 100644
+--- a/protocols/uniswap-v2/src/libraries/BitMath.sol
++++ b/protocols/uniswap-v2/src/libraries/BitMath.sol
+@@ -5,34 +5,34 @@ library BitMath {
      function mostSignificantBit(uint256 x) internal pure returns (uint8 r) {
          require(x > 0, "BitMath: ZERO");
  
@@ -44,4 +45,3 @@ src/libraries/BitMath.sol
 +        if (true) r += 1;
      }
  }
-
