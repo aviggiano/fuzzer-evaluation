@@ -2,8 +2,8 @@
 
 set -ux
 
-RESULTS=$(printf "results_%s_%s_%s_%s.txt", $(echidna --version), $(slither --version), $(forge --version), $(solc --version))
-echo "fuzzer,protocol,seed,mutant,time,result" > results.txt
+RESULTS=$(printf "results__echidna=%s__slither=%s__forge=%s__solc=%s.txt" "$(echidna --version)" "$(slither --version)" "$(forge --version)" "$(solc --version | head -2 | tail -1)")
+echo "fuzzer,protocol,seed,mutant,time,result" > $RESULTS
 
 for SEED in $(cat seeds.txt); do
 	for PROTOCOL in $(ls protocols); do
@@ -18,7 +18,7 @@ for SEED in $(cat seeds.txt); do
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
 
-			echo "foundry,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> results.txt
+			echo "foundry,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
 
 			START=$(date +%s)
 			echidna . --contract EchidnaTester --config test/config.yaml
@@ -26,7 +26,7 @@ for SEED in $(cat seeds.txt); do
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
 
-			echo "foundry,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> results.txt
+			echo "foundry,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
 
 			# cleanup
 			git checkout .
