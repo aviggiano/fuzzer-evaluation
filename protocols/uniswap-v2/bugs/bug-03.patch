@@ -8,7 +8,7 @@ index 83cfddc..c1135be 100644
              // scope for reserve{0,1}Adjusted, avoids stack too deep errors
 -            uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(3));
 -            uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(3));
-+            // https://medium.com/immunefi/building-a-poc-for-the-uranium-heist-ec83fbd83e9f
++            // https://rekt.news/uranium-rekt/
 +            uint balance0Adjusted = balance0.mul(10000).sub(amount0In.mul(16));
 +            uint balance1Adjusted = balance1.mul(10000).sub(amount1In.mul(16));
              require(
