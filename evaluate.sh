@@ -2,6 +2,7 @@
 
 set -ux
 
+RESULTS=$(printf "results_%s_%s_%s_%s.txt", $(echidna --version), $(slither --version), $(forge --version), $(solc --version))
 echo "fuzzer,protocol,seed,mutant,time,result" > results.txt
 
 for SEED in $(cat seeds.txt); do

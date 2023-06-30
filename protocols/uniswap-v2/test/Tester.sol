@@ -1,12 +1,13 @@
 pragma solidity ^0.8.0;
 import "./Setup.sol";
 import "./Asserts.sol";
+import "@crytic/properties/contracts/util/PropertiesHelper.sol";
 
 /// @title Foundry/Echidna compatible tester contract
 /// @author Justin Jacob <@technovision99>, Antonio Viggiano <@agfviggiano>
 /// @notice Serves as a compatible tester contract to compare foundry and echidna. This contract was largely inspired by @technovision99's work on the `crytic/echidna-streaming-series` repository.
 /// @dev Contains all necessary functions to be called by stateful fuuzers.
-abstract contract Tester is Setup, Asserts {
+abstract contract Tester is Setup, Asserts, PropertiesAsserts {
     function addLiquidity(uint amount1, uint amount2) public initUser {
         //PRECONDITIONS:
         amount1 = clampBetween(amount1, 1, type(uint256).max);

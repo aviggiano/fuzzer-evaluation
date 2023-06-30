@@ -1,11 +1,14 @@
 pragma solidity ^0.8.0;
 import "./Tester.sol";
+import "./Asserts.sol";
 
 /// @title Foundry-specific tester contract
 /// @author Antonio Viggiano <@agfviggiano>
 /// @notice Serves as a foundry-especific tester contract to be fuzzed
 /// @dev Inherits from a base `Tester` contract that exposes all functions to be fuzzed. In invariant tests, foundry requires all target contracts to be deployed on the `setUp` function inherited from the `Test` contract from `forge-std`, which is why `_deploy` is called there, and the foundry-specific `FoundryTester` tester contract receives the target contracts as constructor arguments. In addition, it exposes a `invariantFailed` public view method that will be checked against in order to validate if any assertion failed from the `Asserts` contract.
-contract FoundryTester is Tester {
+contract FoundryTester is Asserts, Tester {
+    bool private fail;
+
     constructor(
         UniswapV2ERC20 _token1,
         UniswapV2ERC20 _token2,
@@ -22,5 +25,41 @@ contract FoundryTester is Tester {
 
     function invariantFailed() public view returns (bool) {
         return fail;
+    }
+
+    function gt(uint256 a, uint256 b, string memory) internal override {
+        if (!(a > b)) {
+            fail = true;
+        }
+    }
+
+    function gte(uint256 a, uint256 b, string memory) internal override {
+        if (!(a >= b)) {
+            fail = true;
+        }
+    }
+
+    function lt(uint256 a, uint256 b, string memory) internal override {
+        if (!(a < b)) {
+            fail = true;
+        }
+    }
+
+    function lte(uint256 a, uint256 b, string memory) internal override {
+        if (!(a <= b)) {
+            fail = true;
+        }
+    }
+
+    function eq(uint256 a, uint256 b, string memory) internal override {
+        if (!(a == b)) {
+            fail = true;
+        }
+    }
+
+    function t(bool b, string memory) internal override {
+        if (!(b)) {
+            fail = true;
+        }
     }
 }
