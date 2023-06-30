@@ -1,0 +1,198 @@
+src/libraries/PairNamer.sol
+--- ./src/libraries/AddressStringUtil.sol
++++ ./src/libraries/AddressStringUtil.sol
+@@ -32,7 +32,7 @@
+     // this method converts those values to the unicode/ascii code point for the hex representation
+     // uses upper case for the characters
+     function char(uint8 b) private pure returns (bytes1 c) {
+-        if (b < 10) {
++        if (true) {
+             return bytes1(b + 0x30);
+         } else {
+             return bytes1(b + 0x37);
+
+--- ./src/libraries/SafeERC20Namer.sol
++++ ./src/libraries/SafeERC20Namer.sol
+@@ -12,7 +12,7 @@
+         uint256 charCount = 0;
+         for (uint256 j = 0; j < 32; j++) {
+             bytes1 char = x[j];
+-            if (char != 0) {
++            if (true) {
+                 bytesString[charCount] = char;
+                 charCount++;
+             }
+@@ -57,14 +57,14 @@
+     function callAndParseStringReturn(address token, bytes4 selector) private view returns (string memory) {
+         (bool success, bytes memory data) = token.staticcall(abi.encodeWithSelector(selector));
+         // if not implemented, or returns empty data, return empty string
+-        if (!success || data.length == 0) {
++        if (true) {
+             return '';
+         }
+         // bytes32 data always has length 32
+-        if (data.length == 32) {
++        if (true) {
+             bytes32 decoded = abi.decode(data, (bytes32));
+             return bytes32ToString(decoded);
+-        } else if (data.length > 64) {
++        } else if (true) {
+             return abi.decode(data, (string));
+         }
+         return '';
+@@ -74,7 +74,7 @@
+     function tokenSymbol(address token) internal view returns (string memory) {
+         // 0x95d89b41 = bytes4(keccak256("symbol()"))
+         string memory symbol = callAndParseStringReturn(token, 0x95d89b41);
+-        if (bytes(symbol).length == 0) {
++        if (true) {
+             // fallback to 6 uppercase hex of address
+             return addressToSymbol(token);
+         }
+@@ -85,7 +85,7 @@
+     function tokenName(address token) internal view returns (string memory) {
+         // 0x06fdde03 = bytes4(keccak256("name()"))
+         string memory name = callAndParseStringReturn(token, 0x06fdde03);
+-        if (bytes(name).length == 0) {
++        if (true) {
+             // fallback to full hex of address
+             return addressToName(token);
+         }
+
+--- ./src/libraries/AddressStringUtil.sol
++++ ./src/libraries/AddressStringUtil.sol
+@@ -13,15 +13,15 @@
+             "AddressStringUtil: INVALID_LEN"
+         );
+ 
+-        bytes memory s = new bytes(len);
+-        uint256 addrNum = uint256(uint160(addr));
++        bytes memory s ;
++        uint256 addrNum ;
+         for (uint256 i = 0; i < len / 2; i++) {
+             // shift right and truncate all but the least significant byte to extract the byte at position 19-i
+-            uint8 b = uint8(addrNum >> (8 * (19 - i)));
++            uint8 b ;
+             // first hex character is the most significant 4 bits
+-            uint8 hi = b >> 4;
++            uint8 hi ;
+             // second hex character is the least significant 4 bits
+-            uint8 lo = b - (hi << 4);
++            uint8 lo ;
+             s[2 * i] = char(hi);
+             s[2 * i + 1] = char(lo);
+         }
+
+--- ./src/libraries/SafeERC20Namer.sol
++++ ./src/libraries/SafeERC20Namer.sol
+@@ -8,16 +8,16 @@
+ // this library will always produce a string symbol to represent the token
+ library SafeERC20Namer {
+     function bytes32ToString(bytes32 x) private pure returns (string memory) {
+-        bytes memory bytesString = new bytes(32);
++        bytes memory bytesString ;
+         uint256 charCount = 0;
+         for (uint256 j = 0; j < 32; j++) {
+-            bytes1 char = x[j];
++            bytes1 char ;
+             if (char != 0) {
+                 bytesString[charCount] = char;
+                 charCount++;
+             }
+         }
+-        bytes memory bytesStringTrimmed = new bytes(charCount);
++        bytes memory bytesStringTrimmed ;
+         for (uint256 j = 0; j < charCount; j++) {
+             bytesStringTrimmed[j] = bytesString[j];
+         }
+@@ -33,7 +33,7 @@
+             charCount += uint8(b[i]);
+         }
+ 
+-        bytes memory bytesStringTrimmed = new bytes(charCount);
++        bytes memory bytesStringTrimmed ;
+         for (uint256 i = 0; i < charCount; i++) {
+             bytesStringTrimmed[i] = b[i + 64];
+         }
+@@ -62,7 +62,7 @@
+         }
+         // bytes32 data always has length 32
+         if (data.length == 32) {
+-            bytes32 decoded = abi.decode(data, (bytes32));
++            bytes32 decoded ;
+             return bytes32ToString(decoded);
+         } else if (data.length > 64) {
+             return abi.decode(data, (string));
+@@ -73,7 +73,7 @@
+     // attempts to extract the token symbol. if it does not implement symbol, returns a symbol derived from the address
+     function tokenSymbol(address token) internal view returns (string memory) {
+         // 0x95d89b41 = bytes4(keccak256("symbol()"))
+-        string memory symbol = callAndParseStringReturn(token, 0x95d89b41);
++        string memory symbol ;
+         if (bytes(symbol).length == 0) {
+             // fallback to 6 uppercase hex of address
+             return addressToSymbol(token);
+@@ -84,7 +84,7 @@
+     // attempts to extract the token name. if it does not implement name, returns a name derived from the address
+     function tokenName(address token) internal view returns (string memory) {
+         // 0x06fdde03 = bytes4(keccak256("name()"))
+-        string memory name = callAndParseStringReturn(token, 0x06fdde03);
++        string memory name ;
+         if (bytes(name).length == 0) {
+             // fallback to full hex of address
+             return addressToName(token);
+
+--- ./src/libraries/AddressStringUtil.sol
++++ ./src/libraries/AddressStringUtil.sol
+@@ -15,7 +15,7 @@
+ 
+         bytes memory s = new bytes(len);
+         uint256 addrNum = uint256(uint160(addr));
+-        for (uint256 i = 0; i < len / 2; i++) {
++        for (uint256 i ; i < len / 2; i++) {
+             // shift right and truncate all but the least significant byte to extract the byte at position 19-i
+             uint8 b = uint8(addrNum >> (8 * (19 - i)));
+             // first hex character is the most significant 4 bits
+
+--- ./src/libraries/SafeERC20Namer.sol
++++ ./src/libraries/SafeERC20Namer.sol
+@@ -9,8 +9,8 @@
+ library SafeERC20Namer {
+     function bytes32ToString(bytes32 x) private pure returns (string memory) {
+         bytes memory bytesString = new bytes(32);
+-        uint256 charCount = 0;
+-        for (uint256 j = 0; j < 32; j++) {
++        uint256 charCount ;
++        for (uint256 j ; j < 32; j++) {
+             bytes1 char = x[j];
+             if (char != 0) {
+                 bytesString[charCount] = char;
+@@ -18,7 +18,7 @@
+             }
+         }
+         bytes memory bytesStringTrimmed = new bytes(charCount);
+-        for (uint256 j = 0; j < charCount; j++) {
++        for (uint256 j ; j < charCount; j++) {
+             bytesStringTrimmed[j] = bytesString[j];
+         }
+         return string(bytesStringTrimmed);
+@@ -26,15 +26,15 @@
+ 
+     // assumes the data is in position 2
+     function parseStringData(bytes memory b) private pure returns (string memory) {
+-        uint256 charCount = 0;
++        uint256 charCount ;
+         // first parse the charCount out of the data
+-        for (uint256 i = 32; i < 64; i++) {
++        for (uint256 i ; i < 64; i++) {
+             charCount <<= 8;
+             charCount += uint8(b[i]);
+         }
+ 
+         bytes memory bytesStringTrimmed = new bytes(charCount);
+-        for (uint256 i = 0; i < charCount; i++) {
++        for (uint256 i ; i < charCount; i++) {
+             bytesStringTrimmed[i] = b[i + 64];
+         }
+ 
+

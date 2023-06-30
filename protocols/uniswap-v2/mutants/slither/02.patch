@@ -1,0 +1,51 @@
+src/UniswapV2ERC20.sol
+--- ./src/UniswapV2ERC20.sol
++++ ./src/UniswapV2ERC20.sol
+@@ -78,7 +78,7 @@
+         address to,
+         uint value
+     ) external returns (bool) {
+-        if (allowance[from][msg.sender] != /*uint(-1)*/ type(uint256).max) {
++        if (true) {
+             allowance[from][msg.sender] = allowance[from][msg.sender].sub(
+                 value
+             );
+
+--- ./src/UniswapV2ERC20.sol
++++ ./src/UniswapV2ERC20.sol
+@@ -22,7 +22,7 @@
+     //event Transfer(address indexed from, address indexed to, uint value);
+ 
+     constructor() /*public*/ {
+-        uint chainId = block.chainid;
++        uint chainId ;
+         /*assembly {
+             chainId := chainid
+         }*/
+@@ -97,23 +97,8 @@
+         bytes32 s
+     ) external {
+         require(deadline >= block.timestamp, "UniswapV2: EXPIRED");
+-        bytes32 digest = keccak256(
+-            abi.encodePacked(
+-                "\x19\x01",
+-                DOMAIN_SEPARATOR,
+-                keccak256(
+-                    abi.encode(
+-                        PERMIT_TYPEHASH,
+-                        owner,
+-                        spender,
+-                        value,
+-                        nonces[owner]++,
+-                        deadline
+-                    )
+-                )
+-            )
+-        );
+-        address recoveredAddress = ecrecover(digest, v, r, s);
++        bytes32 digest ;
++        address recoveredAddress ;
+         require(
+             recoveredAddress != address(0) && recoveredAddress == owner,
+             "UniswapV2: INVALID_SIGNATURE"
+
