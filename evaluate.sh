@@ -17,14 +17,15 @@ echo "slither=$(slither --version)" >> $PARAMETERS
 echo "forge=$(forge --version)" >> $PARAMETERS
 echo "solc=$(solc --version | head -2 | tail -1)" >> $PARAMETERS
 
-echo "fuzzer,protocol,mutant,seed,time,result" > $RESULTS
+echo "fuzzer,protocol,seed,mutant,time,result" > $RESULTS
 
-for PROTOCOL in $(ls protocols); do
-	cd protocols/$PROTOCOL
-	for MUTANT_FILE in $(find mutants -type f | sort -t'/' -k 3,3); do
-		git apply $MUTANT_FILE
-		MUTANT=$(echo $MUTANT_FILE | grep -o '[0-9][0-9]')
-		for SEED in $(cat $SEEDS); do
+for SEED in $(cat $SEEDS); do
+	for PROTOCOL in $(ls protocols); do
+		cd protocols/$PROTOCOL
+		for MUTANT_FILE in $(find mutants -type f | sort -t'/' -k 3,3); do
+			git apply $MUTANT_FILE
+			MUTANT=$(echo $MUTANT_FILE | grep -o '[0-9][0-9]')
+
 			forge clean
 			START=$(date +%s)
 			timeout $TIMEOUT forge test --fuzz-seed $SEED
@@ -32,7 +33,7 @@ for PROTOCOL in $(ls protocols); do
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
 
-			echo "foundry,$PROTOCOL,$MUTANT,$SEED,$TIME,$RESULT" >> $RESULTS
+			echo "foundry,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
 
 			forge clean
 			START=$(date +%s)
@@ -41,10 +42,11 @@ for PROTOCOL in $(ls protocols); do
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
 
-			echo "echidna,$PROTOCOL,$MUTANT,$SEED,$TIME,$RESULT" >> $RESULTS
+			echo "echidna,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
+
+			# cleanup
+			git checkout .
 		done
-		# cleanup
-		git checkout .
+		cd -
 	done
-	cd -
 done
