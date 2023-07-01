@@ -21,7 +21,7 @@ echo "fuzzer,protocol,mutant,seed,time,result" > $RESULTS
 
 for PROTOCOL in $(ls protocols); do
 	cd protocols/$PROTOCOL
-	for MUTANT_FILE in $(find mutants -type f | sort); do
+	for MUTANT_FILE in $(find mutants -type f | sort -t'/' -k 3,3); do
 		git apply $MUTANT_FILE
 		MUTANT=$(echo $MUTANT_FILE | grep -o '[0-9][0-9]')
 		for SEED in $(cat $SEEDS); do
