@@ -2,6 +2,7 @@
 
 set -ux
 
+TIMEOUT=3600
 RESULTS="$(pwd)/results.txt"
 PARAMETERS="$(pwd)/parameters.txt"
 SEEDS="$(pwd)/seeds.txt"
@@ -26,7 +27,7 @@ for PROTOCOL in $(ls protocols); do
 		for SEED in $(cat $SEEDS); do
 			forge clean
 			START=$(date +%s)
-			forge test --fuzz-seed $SEED
+			timeout $TIMEOUT forge test --fuzz-seed $SEED
 			RESULT=$?
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
@@ -35,7 +36,7 @@ for PROTOCOL in $(ls protocols); do
 
 			forge clean
 			START=$(date +%s)
-			echidna . --contract EchidnaTester --config test/config.yaml --workers $WORKERS --seed $SEED >/dev/null
+			timeout $TIMEOUT echidna . --contract EchidnaTester --config test/config.yaml --workers $WORKERS --seed $SEED >/dev/null
 			RESULT=$?
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eux
+set -ux
 
 for PROTOCOL in $(ls protocols); do
 	cd protocols/$PROTOCOL
