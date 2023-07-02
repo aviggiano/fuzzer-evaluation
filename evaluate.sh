@@ -22,13 +22,13 @@ echo "fuzzer,protocol,seed,mutant,time,result" > $RESULTS
 for SEED in $(cat $SEEDS); do
 	for PROTOCOL in $(ls protocols); do
 		cd protocols/$PROTOCOL
-		for MUTANT_FILE in $(find mutants -type f | sort -t'/' -k 3,3); do
+		for MUTANT_FILE in $(find mutants -type f | sort -r -t'/' -k 3,3); do
 			git apply $MUTANT_FILE
 			MUTANT=$(echo $MUTANT_FILE | grep -o '[0-9][0-9]')
 
 			forge clean
 			START=$(date +%s)
-			timeout $TIMEOUT forge test --fuzz-seed $SEED
+			timeout -k 10 $TIMEOUT forge test --fuzz-seed $SEED
 			RESULT=$?
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
