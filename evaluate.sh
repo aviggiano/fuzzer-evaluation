@@ -37,7 +37,7 @@ for SEED in $(cat $SEEDS); do
 
 			forge clean
 			START=$(date +%s)
-			timeout $TIMEOUT echidna . --contract EchidnaTester --config test/config.yaml --workers $WORKERS --seed $SEED >/dev/null
+			timeout -k 10 $TIMEOUT echidna . --contract EchidnaTester --config test/config.yaml --workers $WORKERS --seed $SEED >/dev/null
 			RESULT=$?
 			END=$(date +%s)
 			TIME=$(echo "$END - $START" | bc)
