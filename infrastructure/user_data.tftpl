@@ -15,8 +15,8 @@ solc-select use 0.8.20
 
 function update_results() {
   while true; do
-    aws s3 cp parameters.txt s3://${S3_BUCKET}/$INSTANCE_ID/
-    aws s3 cp results.txt s3://${S3_BUCKET}/$INSTANCE_ID/
+    aws s3 cp parameters.txt s3://$S3_BUCKET/$INSTANCE_ID/
+    aws s3 cp results.txt s3://$S3_BUCKET/$INSTANCE_ID/
     sleep 60;
   done;
 }

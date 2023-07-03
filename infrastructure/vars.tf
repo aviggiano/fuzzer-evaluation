@@ -24,3 +24,13 @@ variable "ami_id" {
   type        = string
   description = "EC2 AMI ID"
 }
+
+variable "aws_access_key_id" {
+  type        = string
+  description = "AWS Access Key Id"
+}
+
+variable "aws_access_key_secret" {
+  type        = string
+  description = "AWS Access Key Secret"
+}

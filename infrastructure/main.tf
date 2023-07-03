@@ -15,28 +15,14 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_default_security_group" "default" {
-  vpc_id = aws_vpc.mainvpc.id
-
-  ingress {
-    protocol  = -1
-    self      = true
-    from_port = 0
-    to_port   = 0
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+data "aws_vpc" "default" {
+  default = true
 }
 
 resource "aws_instance" "ec2_instance" {
   ami                         = var.ami_id
   instance_type               = var.instance_type
-  vpc_security_group_ids      = [aws_default_security_group.default.id]
+  vpc_security_group_ids      = [data.aws_vpc.default.id]
   user_data_replace_on_change = true
 
   key_name = var.ec2_instance_key_name
