@@ -26,6 +26,6 @@ contract FoundryInvariantTests is Test, Setup {
     }
 
     function invariant() public {
-        assertFalse(tester.invariantFailed());
+        assertFalse(tester.failed(), tester.message());
     }
 }

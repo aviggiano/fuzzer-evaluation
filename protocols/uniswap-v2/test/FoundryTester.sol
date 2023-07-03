@@ -7,7 +7,8 @@ import "./Asserts.sol";
 /// @notice Serves as a foundry-especific tester contract to be fuzzed
 /// @dev Inherits from a base `Tester` contract that exposes all functions to be fuzzed. In invariant tests, foundry requires all target contracts to be deployed on the `setUp` function inherited from the `Test` contract from `forge-std`, which is why `_deploy` is called there, and the foundry-specific `FoundryTester` tester contract receives the target contracts as constructor arguments. In addition, it exposes a `invariantFailed` public view method that will be checked against in order to validate if any assertion failed from the `Asserts` contract.
 contract FoundryTester is Asserts, Tester {
-    bool private fail;
+    bool public failed;
+    string public message;
 
     constructor(
         UniswapV2ERC20 _token1,
@@ -23,43 +24,45 @@ contract FoundryTester is Asserts, Tester {
         router = _router;
     }
 
-    function invariantFailed() public view returns (bool) {
-        return fail;
-    }
-
-    function gt(uint256 a, uint256 b, string memory) internal override {
+    function gt(uint256 a, uint256 b, string memory reason) internal override {
         if (!(a > b)) {
-            fail = true;
+            failed = true;
+            message = reason;
         }
     }
 
-    function gte(uint256 a, uint256 b, string memory) internal override {
+    function gte(uint256 a, uint256 b, string memory reason) internal override {
         if (!(a >= b)) {
-            fail = true;
+            failed = true;
+            message = reason;
         }
     }
 
-    function lt(uint256 a, uint256 b, string memory) internal override {
+    function lt(uint256 a, uint256 b, string memory reason) internal override {
         if (!(a < b)) {
-            fail = true;
+            failed = true;
+            message = reason;
         }
     }
 
-    function lte(uint256 a, uint256 b, string memory) internal override {
+    function lte(uint256 a, uint256 b, string memory reason) internal override {
         if (!(a <= b)) {
-            fail = true;
+            failed = true;
+            message = reason;
         }
     }
 
-    function eq(uint256 a, uint256 b, string memory) internal override {
+    function eq(uint256 a, uint256 b, string memory reason) internal override {
         if (!(a == b)) {
-            fail = true;
+            failed = true;
+            message = reason;
         }
     }
 
-    function t(bool b, string memory) internal override {
+    function t(bool b, string memory reason) internal override {
         if (!(b)) {
-            fail = true;
+            failed = true;
+            message = reason;
         }
     }
 }
