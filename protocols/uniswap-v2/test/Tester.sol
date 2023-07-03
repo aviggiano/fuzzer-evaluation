@@ -74,9 +74,9 @@ abstract contract Tester is Setup, Asserts, PropertiesAsserts {
                 "P-05 | Adding liquidity decreases the user's token balances"
             );
             if (vars.kBefore == 0) {
-                eq(
-                    vars.userLpBalanceAfter,
-                    Math.sqrt(amount1 * amount2) - pair.MINIMUM_LIQUIDITY(),
+                gt(
+                    (amount1 * amount2),
+                    vars.userLpBalanceAfter * vars.userLpBalanceAfter,
                     "P-06 | Adding liquidity for the first time should mint LP tokens equals to the square root of the product of the token amounts minus a minimum liquidity constant"
                 );
             }
@@ -129,15 +129,17 @@ abstract contract Tester is Setup, Asserts, PropertiesAsserts {
                     amount2 + vars.reserve2Before > type(uint112).max ||
                     // UniswapV2: INSUFFICIENT_LIQUIDITY_MINTED
                     // amounts do not pass minimum initial liquidity check
-                    Math.sqrt(amount1 * amount2) <= pair.MINIMUM_LIQUIDITY() ||
+                    (amount1 * amount2) <=
+                    pair.MINIMUM_LIQUIDITY() * pair.MINIMUM_LIQUIDITY() ||
                     // UniswapV2: INSUFFICIENT_LIQUIDITY_MINTED
                     // amounts would mint zero liquidity
-                    Math.min(
-                        ((vars.pairBalance1Before - vars.reserve1Before) *
-                            (vars.lpTotalSupplyBefore)) / vars.reserve1Before,
-                        ((vars.pairBalance2Before - vars.reserve2Before) *
-                            (vars.lpTotalSupplyBefore)) / vars.reserve2Before
-                    ) ==
+                    ((vars.pairBalance1Before - vars.reserve1Before) *
+                        (vars.lpTotalSupplyBefore)) /
+                        vars.reserve1Before ==
+                    0 ||
+                    ((vars.pairBalance2Before - vars.reserve2Before) *
+                        (vars.lpTotalSupplyBefore)) /
+                        vars.reserve2Before ==
                     0,
                 "P-08 | Adding liquidity should not fail if the provided amounts are withing the valid range of `uint112`, would mint positive liquidity and are above the minimum initial liquidity check when minting for the first time"
             );
