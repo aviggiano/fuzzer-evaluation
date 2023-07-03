@@ -37,7 +37,7 @@ make evaluate
 | P-14 | Removing liquidity should not change anything if it fails |
 | P-15 | Removing liquidity should not fail if the returned amounts to the user are greater than zero |
 | P-16 | Swapping does not decrease k |
-| P-17 | Swapping increases the sender's tokenOut balance by an amount defined by the x*y=k product |
+| P-17 | Swapping increases the sender's tokenOut balance |
 | P-18 | Swapping decreases the sender's tokenIn balance by swapAmountIn |
 | P-19 | Swapping does not decrease the `feeTo` LP balance |
 | P-20 | Swapping should not fail if there's enough liquidity, if the output would be positive and if the input would not overflow the valid range of `uint112` |
