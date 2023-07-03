@@ -4,6 +4,8 @@ set -ux
 
 echo "[$(date)] Start benchmark"
 
+sudo -u ubuntu -i <<'EOF'
+
 INSTANCE_ID=$(wget -q -O - http://instance-data/latest/meta-data/instance-id)
 export AWS_ACCESS_KEY_ID=${aws_access_key_id}
 export AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
@@ -20,8 +22,9 @@ function update_results() {
     sleep 60;
   done;
 }
-update_results &
-
 make screen
+update_results
+
+EOF
 
 echo "[$(date)] Done"

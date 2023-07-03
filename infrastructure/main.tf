@@ -19,10 +19,33 @@ data "aws_vpc" "default" {
   default = true
 }
 
+resource "aws_security_group" "security_group" {
+  name   = "fuzzer-evaluation-sg"
+  vpc_id = data.aws_vpc.default.id
+
+  ingress {
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+  }
+
+  // Terraform removes the default rule
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
 resource "aws_instance" "ec2_instance" {
   ami                         = var.ami_id
   instance_type               = var.instance_type
-  vpc_security_group_ids      = [data.aws_vpc.default.id]
+  vpc_security_group_ids      = [aws_security_group.security_group.id]
   user_data_replace_on_change = true
 
   key_name = var.ec2_instance_key_name
