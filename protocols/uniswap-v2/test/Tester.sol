@@ -73,53 +73,58 @@ abstract contract Tester is Setup, Asserts, PropertiesAsserts {
                 vars.userBalance2Before,
                 "P-05 | Adding liquidity decreases the user's token balances"
             );
+            gte(
+                vars.feeToLpBalanceAfter,
+                vars.feeToLpBalanceBefore,
+                "P-06 | Adding liquidity does not decrease the `feeTo` LP balance"
+            );
             if (vars.kBefore == 0) {
                 gt(
                     (amount1 * amount2),
                     vars.userLpBalanceAfter * vars.userLpBalanceAfter,
-                    "P-06 | Adding liquidity for the first time should mint LP tokens equals to the square root of the product of the token amounts minus a minimum liquidity constant"
+                    "P-07 | Adding liquidity for the first time should mint LP tokens equals to the square root of the product of the token amounts minus a minimum liquidity constant"
                 );
             }
         } else {
             eq(
                 vars.reserve1After,
                 vars.reserve1Before,
-                "P-07 | Adding liquidity should not change anything if it fails"
+                "P-08 | Adding liquidity should not change anything if it fails"
             );
             eq(
                 vars.reserve2After,
                 vars.reserve2Before,
-                "P-07 | Adding liquidity should not change anything if it fails"
+                "P-08 | Adding liquidity should not change anything if it fails"
             );
             eq(
                 vars.userLpBalanceAfter,
                 vars.userLpBalanceBefore,
-                "P-07 | Adding liquidity should not change anything if it fails"
+                "P-08 | Adding liquidity should not change anything if it fails"
             );
             eq(
                 vars.feeToLpBalanceAfter,
                 vars.feeToLpBalanceBefore,
-                "P-07 | Adding liquidity should not change anything if it fails"
+                "P-08 | Adding liquidity should not change anything if it fails"
             );
             eq(
                 vars.lpTotalSupplyAfter,
                 vars.lpTotalSupplyBefore,
-                "P-07 | Adding liquidity should not change anything if it fails"
+                "P-08 | Adding liquidity should not change anything if it fails"
             );
             eq(
                 vars.userBalance1After,
                 vars.userBalance1Before,
-                "P-07 | Adding liquidity should not change anything if it fails"
+                "P-08 | Adding liquidity should not change anything if it fails"
             );
             eq(
                 vars.userBalance2After,
                 vars.userBalance2Before,
-                "P-07 | Adding liquidity should not change anything if it fails"
+                "P-08 | Adding liquidity should not change anything if it fails"
             );
             eq(
                 vars.kAfter,
                 vars.kBefore,
-                "P-07 | Adding liquidity should not change anything if it fails"
+                "P-08 | Adding liquidity should not change anything if it fails"
             );
             // TODO decode each error and break down revert conditions accordingly
             t(
@@ -141,7 +146,7 @@ abstract contract Tester is Setup, Asserts, PropertiesAsserts {
                         (vars.lpTotalSupplyBefore)) /
                         vars.reserve2Before ==
                     0,
-                "P-08 | Adding liquidity should not fail if the provided amounts are withing the valid range of `uint112`, would mint positive liquidity and are above the minimum initial liquidity check when minting for the first time"
+                "P-09 | Adding liquidity should not fail if the provided amounts are withing the valid range of `uint112`, would mint positive liquidity and are above the minimum initial liquidity check when minting for the first time"
             );
         }
     }
@@ -189,78 +194,86 @@ abstract contract Tester is Setup, Asserts, PropertiesAsserts {
             lt(
                 vars.kAfter,
                 vars.kBefore,
-                "P-09 | Removing liquidity decreases K"
+                "P-10 | Removing liquidity decreases K"
             );
-            lt(
-                vars.lpTotalSupplyAfter,
-                vars.lpTotalSupplyBefore,
-                "P-10 | Removing liquidity decreases the total supply of LP tokens"
-            );
+            if (factory.feeTo() == address(0)) {
+                lt(
+                    vars.lpTotalSupplyAfter,
+                    vars.lpTotalSupplyBefore,
+                    "P-11 | Removing liquidity decreases the total supply of LP tokens if fee is off"
+                );
+            } else {
+                gte(
+                    vars.feeToLpBalanceAfter,
+                    vars.feeToLpBalanceBefore,
+                    "P-15 | Removing liquidity does not decrease the `feeTo` LP balance"
+                );
+            }
             lt(
                 vars.reserve1After,
                 vars.reserve1Before,
-                "P-11 | Removing liquidity decreases reserves of both tokens"
+                "P-12 | Removing liquidity decreases reserves of both tokens"
             );
             lt(
                 vars.reserve2After,
                 vars.reserve2Before,
-                "P-11 | Removing liquidity decreases reserves of both tokens"
+                "P-12 | Removing liquidity decreases reserves of both tokens"
             );
             lt(
                 vars.userLpBalanceAfter,
                 vars.userLpBalanceBefore,
-                "P-12 | Removing liquidity decreases the user's LP balance"
+                "P-13 | Removing liquidity decreases the user's LP balance"
             );
             gt(
                 vars.userBalance1After,
                 vars.userBalance1Before,
-                "P-13 | Removing liquidity increases the user's token balances"
+                "P-14 | Removing liquidity increases the user's token balances"
             );
             gt(
                 vars.userBalance2After,
                 vars.userBalance2Before,
-                "P-13 | Removing liquidity increases the user's token balances"
+                "P-14 | Removing liquidity increases the user's token balances"
             );
         } else {
             eq(
                 vars.reserve1After,
                 vars.reserve1Before,
-                "P-14 | Removing liquidity should not change anything if it fails"
+                "P-16 | Removing liquidity should not change anything if it fails"
             );
             eq(
                 vars.reserve2After,
                 vars.reserve2Before,
-                "P-14 | Removing liquidity should not change anything if it fails"
+                "P-16 | Removing liquidity should not change anything if it fails"
             );
             eq(
                 vars.userLpBalanceAfter,
                 vars.userLpBalanceBefore,
-                "P-14 | Removing liquidity should not change anything if it fails"
+                "P-16 | Removing liquidity should not change anything if it fails"
             );
             eq(
                 vars.feeToLpBalanceAfter,
                 vars.feeToLpBalanceBefore,
-                "P-14 | Removing liquidity should not change anything if it fails"
+                "P-16 | Removing liquidity should not change anything if it fails"
             );
             eq(
                 vars.lpTotalSupplyAfter,
                 vars.lpTotalSupplyBefore,
-                "P-14 | Removing liquidity should not change anything if it fails"
+                "P-16 | Removing liquidity should not change anything if it fails"
             );
             eq(
                 vars.userBalance1After,
                 vars.userBalance1Before,
-                "P-14 | Removing liquidity should not change anything if it fails"
+                "P-16 | Removing liquidity should not change anything if it fails"
             );
             eq(
                 vars.userBalance2After,
                 vars.userBalance2Before,
-                "P-14 | Removing liquidity should not change anything if it fails"
+                "P-16 | Removing liquidity should not change anything if it fails"
             );
             eq(
                 vars.kAfter,
                 vars.kBefore,
-                "P-14 | Removing liquidity should not change anything if it fails"
+                "P-16 | Removing liquidity should not change anything if it fails"
             );
             // amounts returned to the user must be greater than zero
             t(
@@ -271,7 +284,7 @@ abstract contract Tester is Setup, Asserts, PropertiesAsserts {
                     (lpAmount * vars.pairBalance2Before) /
                         vars.lpTotalSupplyBefore ==
                     0,
-                "P-15 | Removing liquidity should not fail if the returned amounts to the user are greater than zero"
+                "P-17 | Removing liquidity should not fail if the returned amounts to the user are greater than zero"
             );
         }
     }
@@ -312,22 +325,22 @@ abstract contract Tester is Setup, Asserts, PropertiesAsserts {
             gte(
                 vars.kAfter,
                 vars.kBefore,
-                "P-16 | Swapping does not decrease K"
+                "P-18 | Swapping does not decrease K"
             );
             gt(
                 vars.userBalance2After,
                 vars.userBalance2Before,
-                "P-17 | Swapping increases the sender's tokenOut balance"
+                "P-19 | Swapping increases the sender's tokenOut balance"
             );
             eq(
                 vars.userBalance1After,
                 vars.userBalance1Before - swapAmountIn,
-                "P-18 | Swapping decreases the sender's tokenIn balance by swapAmountIn"
+                "P-20 | Swapping decreases the sender's tokenIn balance by swapAmountIn"
             );
             gte(
                 vars.feeToLpBalanceAfter,
                 vars.feeToLpBalanceBefore,
-                "P-19 | Swapping does not decrease the `feeTo` LP balance"
+                "P-21 | Swapping does not decrease the `feeTo` LP balance"
             );
         } else {
             uint[] memory amounts = UniswapV2Library.getAmountsOut(
@@ -343,7 +356,7 @@ abstract contract Tester is Setup, Asserts, PropertiesAsserts {
                     amounts[1] == 0 ||
                     // UniswapV2: OVERFLOW
                     swapAmountIn + vars.reserve1Before > type(uint112).max,
-                "P-20 | Swapping should not fail if there's enough liquidity, if the output would be positive and if the input would not overflow the valid range of `uint112`"
+                "P-22 | Swapping should not fail if there's enough liquidity, if the output would be positive and if the input would not overflow the valid range of `uint112`"
             );
         }
     }

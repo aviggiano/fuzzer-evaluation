@@ -56,7 +56,8 @@ contract Setup {
     function _deploy() internal {
         token1 = new UniswapV2ERC20();
         token2 = new UniswapV2ERC20();
-        factory = new UniswapV2Factory(address(this)); //this contract will be the fee setter
+        factory = new UniswapV2Factory(address(this)); // this contract will be the fee setter
+        factory.setFeeTo(address(this)); // turn fees on
         router = new UniswapV2Router01(address(factory), address(0)); // we don't need to test WETH pairs for now
         pair = UniswapV2Pair(
             factory.createPair(address(token1), address(token2))
