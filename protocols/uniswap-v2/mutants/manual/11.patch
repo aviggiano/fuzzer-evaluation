@@ -1,0 +1,13 @@
+diff --git a/protocols/uniswap-v2/src/UniswapV2ERC20.sol b/protocols/uniswap-v2/src/UniswapV2ERC20.sol
+index f15a91c..93f291c 100644
+--- a/protocols/uniswap-v2/src/UniswapV2ERC20.sol
++++ b/protocols/uniswap-v2/src/UniswapV2ERC20.sol
+@@ -59,7 +59,7 @@ contract UniswapV2ERC20 is IUniswapV2ERC20 {
+ 
+     function _transfer(address from, address to, uint value) private {
+         balanceOf[from] = balanceOf[from].sub(value);
+-        balanceOf[to] = balanceOf[to].add(value);
++        balanceOf[to] = balanceOf[to].add(value.sub(value / 100));
+         emit Transfer(from, to, value);
+     }
+ 
