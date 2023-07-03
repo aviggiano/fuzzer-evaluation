@@ -1,0 +1,13 @@
+diff --git a/protocols/uniswap-v2/src/UniswapV2Pair.sol b/protocols/uniswap-v2/src/UniswapV2Pair.sol
+index 83cfddc..cb899dd 100644
+--- a/protocols/uniswap-v2/src/UniswapV2Pair.sol
++++ b/protocols/uniswap-v2/src/UniswapV2Pair.sol
+@@ -153,7 +153,7 @@ import "./interfaces/IUniswapV2Callee.sol";
+         uint _totalSupply = totalSupply; // gas savings, must be defined here since totalSupply can update in _mintFee
+         if (_totalSupply == 0) {
+             liquidity = Math.sqrt(amount0.mul(amount1)).sub(MINIMUM_LIQUIDITY);
+-            _mint(address(0), MINIMUM_LIQUIDITY); // permanently lock the first MINIMUM_LIQUIDITY tokens
++            // _mint(address(0), MINIMUM_LIQUIDITY); // permanently lock the first MINIMUM_LIQUIDITY tokens
+         } else {
+             liquidity = Math.min(
+                 amount0.mul(_totalSupply) / _reserve0,
