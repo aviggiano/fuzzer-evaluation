@@ -1,0 +1,13 @@
+diff --git a/protocols/uniswap-v2/src/UniswapV2Pair.sol b/protocols/uniswap-v2/src/UniswapV2Pair.sol
+index 83cfddc..65f1ed9 100644
+--- a/protocols/uniswap-v2/src/UniswapV2Pair.sol
++++ b/protocols/uniswap-v2/src/UniswapV2Pair.sol
+@@ -155,7 +155,7 @@ import "./interfaces/IUniswapV2Callee.sol";
+             liquidity = Math.sqrt(amount0.mul(amount1)).sub(MINIMUM_LIQUIDITY);
+             _mint(address(0), MINIMUM_LIQUIDITY); // permanently lock the first MINIMUM_LIQUIDITY tokens
+         } else {
+-            liquidity = Math.min(
++            liquidity = Math.max(
+                 amount0.mul(_totalSupply) / _reserve0,
+                 amount1.mul(_totalSupply) / _reserve1
+             );
