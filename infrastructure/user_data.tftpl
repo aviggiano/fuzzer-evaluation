@@ -7,6 +7,7 @@ echo "[$(date)] Start benchmark"
 INSTANCE_ID=$(wget -q -O - http://instance-data/latest/meta-data/instance-id)
 export AWS_ACCESS_KEY_ID=${aws_access_key_id}
 export AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+export S3_BUCKEt=${s3_bucket}
 
 git clone https://github.com/aviggiano/fuzzer-evaluation
 cd fuzzer-evaluation
@@ -14,8 +15,8 @@ solc-select use 0.8.20
 
 function update_results() {
   while true; do
-    aws s3 cp parameters.txt s3://${s3_bucket}/$INSTANCE_ID/
-    aws s3 cp results.txt s3://${s3_bucket}/$INSTANCE_ID/
+    aws s3 cp parameters.txt s3://${S3_BUCKET}/$INSTANCE_ID/
+    aws s3 cp results.txt s3://${S3_BUCKET}/$INSTANCE_ID/
     sleep 60;
   done;
 }
