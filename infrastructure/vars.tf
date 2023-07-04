@@ -34,3 +34,7 @@ variable "aws_access_key_secret" {
   type        = string
   description = "AWS Access Key Secret"
 }
+
+locals {
+  seeds = toset(compact((split("\n", file("../seeds.txt")))))
+}

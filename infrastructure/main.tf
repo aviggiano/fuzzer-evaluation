@@ -48,11 +48,14 @@ resource "aws_instance" "ec2_instance" {
   vpc_security_group_ids      = [aws_security_group.security_group.id]
   user_data_replace_on_change = true
 
+  for_each = local.seeds
+
   key_name = var.ec2_instance_key_name
 
   user_data = templatefile("user_data.tftpl", {
     s3_bucket             = var.s3_bucket,
     aws_access_key_id     = var.aws_access_key_id,
     aws_secret_access_key = var.aws_access_key_secret
+    seed                  = each.key
   })
 }

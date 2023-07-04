@@ -19,7 +19,7 @@ function update_results() {
     sleep 60;
   done;
 }
-make screen
+screen -L -d -m make evaluate seed=${seed}
 update_results
 
 EOF
