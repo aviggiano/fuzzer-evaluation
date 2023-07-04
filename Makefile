@@ -17,4 +17,4 @@ evaluate:
 	./evaluate.sh $(seed)
 
 terraform:
-	( cd infrastructure && terraform plan );
+	( cd infrastructure && terraform apply );

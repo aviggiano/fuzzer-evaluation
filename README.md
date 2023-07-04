@@ -12,7 +12,7 @@ make test
 Test against mutated code (injected bugs)
 
 ```
-make evaluate
+make evaluate seed=<seed>
 ```
 
 ## Properties
