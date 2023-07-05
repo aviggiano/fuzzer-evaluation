@@ -9,10 +9,22 @@ Test against the default codebase ("ground truth")
 make test
 ```
 
-Test against mutated code (injected bugs)
+Test against M=15 mutated code (injected bugs)
 
 ```
 make evaluate seed=<seed>
+```
+
+Launch S=30 (number of different seed values) EC2 instances and have them test against against the mutants for a maximum timeout of T=24 hours
+
+```
+make terraform
+```
+
+Analyze the results
+
+```
+make analysis s3_bucket=<output_bucket>
 ```
 
 ## Properties
