@@ -36,5 +36,5 @@ variable "aws_access_key_secret" {
 }
 
 locals {
-  seeds = toset(compact((split("\n", file("../seeds.txt")))))
+  data = jsondecode(file("../data.json"))
 }
