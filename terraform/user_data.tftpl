@@ -15,8 +15,8 @@ solc-select use 0.8.20
 
 function update_results() {
   while true; do
-    AWS_ACCESS_KEY_ID=${aws_access_key_id} AWS_SECRET_ACCESS_KEY=${aws_secret_access_key} aws s3 cp parameters.txt s3://${s3_bucket}/evaluate-1/$INSTANCE_ID/
-    AWS_ACCESS_KEY_ID=${aws_access_key_id} AWS_SECRET_ACCESS_KEY=${aws_secret_access_key} aws s3 cp results.txt s3://${s3_bucket}/evaluate-1/$INSTANCE_ID/
+    AWS_ACCESS_KEY_ID=${aws_access_key_id} AWS_SECRET_ACCESS_KEY=${aws_secret_access_key} aws s3 cp parameters.txt s3://${s3_bucket}/evaluate-13/$INSTANCE_ID/
+    AWS_ACCESS_KEY_ID=${aws_access_key_id} AWS_SECRET_ACCESS_KEY=${aws_secret_access_key} aws s3 cp results.txt s3://${s3_bucket}/evaluate-13/$INSTANCE_ID/
     sleep 60;
   done;
 }
