@@ -12,7 +12,7 @@ variable "s3_bucket" {
 variable "instance_type" {
   type        = string
   description = "Instance type"
-  default     = "c5.large"
+  default     = "m3.medium"
 }
 
 variable "ec2_instance_key_name" {
