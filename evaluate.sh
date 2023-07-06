@@ -28,7 +28,7 @@ for PROTOCOL in $(ls protocols); do
 		git apply $MUTANT_FILE
 		MUTANT=$(echo $MUTANT_FILE | grep -o '[0-9][0-9]')
 
-		if [ $(echo "forge" | grep "$FUZZER" | wc -l) -gt 0 ]; then
+		if [ $(echo "foundry" | grep "$FUZZER" | wc -l) -gt 0 ]; then
 			forge clean
 			START=$(date +%s)
 			timeout -k 10 $TIMEOUT forge test --fuzz-seed $SEED
