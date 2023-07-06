@@ -41,7 +41,7 @@ make analysis s3_bucket=<output_bucket>
 | P-06 | Adding liquidity does not decrease the `feeTo` LP balance |
 | P-07 | Adding liquidity for the first time should mint LP tokens equals to the square root of the product of the token amounts minus a minimum liquidity constant |
 | P-08 | Adding liquidity should not change anything if it fails |
-| P-09 | Adding liquidity should not fail if the provided amounts are withing the valid range of `uint112`, would mint positive liquidity and are above the minimum initial liquidity check when minting for the first time  |
+| P-09 | Adding liquidity should not fail if the provided amounts are within the valid range of `uint112`, would mint positive liquidity and are above the minimum initial liquidity check when minting for the first time  |
 | P-10 | Removing liquidity decreases k |
 | P-11 | Removing liquidity decreases the total supply of LP tokens if fee is off |
 | P-12 | Removing liquidity decreases reserves of both tokens |

@@ -146,7 +146,7 @@ abstract contract Tester is Setup, Asserts, PropertiesAsserts {
                         (vars.lpTotalSupplyBefore)) /
                         vars.reserve2Before ==
                     0,
-                "P-09 | Adding liquidity should not fail if the provided amounts are withing the valid range of `uint112`, would mint positive liquidity and are above the minimum initial liquidity check when minting for the first time"
+                "P-09 | Adding liquidity should not fail if the provided amounts are within the valid range of `uint112`, would mint positive liquidity and are above the minimum initial liquidity check when minting for the first time"
             );
         }
     }
