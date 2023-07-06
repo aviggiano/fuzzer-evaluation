@@ -54,4 +54,6 @@ for PROTOCOL in $(ls protocols); do
 	cd -
 done
 
+sleep 90
+
 sudo shutdown -h now
