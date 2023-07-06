@@ -15,5 +15,5 @@ done;
 
 sed '/fuzzer/d' $RESULTS >> $FINAL
 
-cd analyse
-python3 -m analyse
+cd analysis
+python3 -m analysis

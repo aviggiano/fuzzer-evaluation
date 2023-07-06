@@ -27,8 +27,8 @@ sns.boxplot(data=df, x='mutant', y='time', hue='fuzzer', ax=ax, zorder=1)
 
 # Set labels and title
 ax.set_xlabel('Mutant')
-ax.set_ylabel('Time (Log Scale)')
-ax.set_title('Time Break Invariants per Mutant')
+ax.set_ylabel('Time (seconds)')
+ax.set_title('Time to break invariants per Mutant')
 
 # Set y-axis to logarithmic scale
 ax.set_yscale("log")
