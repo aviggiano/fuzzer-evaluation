@@ -28,7 +28,7 @@ for PROTOCOL in $(ls protocols); do
 		git apply $MUTANT_FILE
 		MUTANT=$(echo $MUTANT_FILE | grep -o '[0-9][0-9]')
 
-		if [ $(echo "foundry" | grep "$FUZZER" | wc -l) -gt 0 ]; then
+		if [ $(echo "$FUZZER" | grep "foundry" | wc -l) -gt 0 ]; then
 			forge clean
 			START=$(date +%s)
 			timeout -k 10 $TIMEOUT forge test --fuzz-seed $SEED
@@ -38,7 +38,7 @@ for PROTOCOL in $(ls protocols); do
 			echo "foundry,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
 		fi
 
-		if [ $(echo "echidna" | grep "$FUZZER" | wc -l) -gt 0 ]; then
+		if [ $(echo "$FUZZER" | grep "echidna" | wc -l) -gt 0 ]; then
 			forge clean
 			START=$(date +%s)
 			timeout -k 10 $TIMEOUT echidna . --contract EchidnaTester --config test/config.yaml --workers $WORKERS --seed $SEED >/dev/null
