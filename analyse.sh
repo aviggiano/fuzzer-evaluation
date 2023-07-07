@@ -14,6 +14,13 @@ for FILE in $(aws s3 ls --recursive s3://$S3_BUCKET/ | grep -v 'old' | grep 'res
 done;
 
 sed '/fuzzer/d' $RESULTS >> $FINAL
+sed -i '/.*,.*,.*,01,.*,i/d' $FINAL
+sed -i '/.*,.*,.*,02,.*,i/d' $FINAL
+sed -i '/.*,.*,.*,04,.*,i/d' $FINAL
+sed -i '/.*,.*,.*,.*,0,i/d' $FINAL
+
+cat $FINAL | sort -r -t, -k3,4 > $RESULTS
+mv $RESULTS $FINAL
 
 cd analysis
 python3 -m analysis

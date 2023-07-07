@@ -23,11 +23,14 @@ for i in range(len(df['mutant'].unique())):
         ax.axvspan(i-0.5, i+0.5, facecolor='lightgrey', zorder=0)
 
 # Using seaborn to create boxplot as it supports creating multiple boxes for each category (fuzzers for each mutant) directly
-sns.boxplot(data=df, x='mutant', y='time', hue='fuzzer', ax=ax, zorder=1)
+sns.boxplot(data=df, x='mutant', y='time', hue='fuzzer', ax=ax, flierprops=dict(markerfacecolor='gray', markersize=5), zorder=2)
+
+# Add stripplot to plot datapoints
+sns.stripplot(data=df, x='mutant', y='time', hue='fuzzer', dodge=True, linewidth=0.5, palette='dark', ax=ax, zorder=1)
 
 # Set labels and title
 ax.set_xlabel('Mutant')
-ax.set_ylabel('Time (seconds)')
+ax.set_ylabel('Time to break invariants (seconds)')
 ax.set_title('Time to break invariants per Mutant')
 
 # Set y-axis to logarithmic scale

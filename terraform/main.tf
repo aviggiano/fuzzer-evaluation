@@ -20,7 +20,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_security_group" "security_group" {
-  name   = "fuzzer-evaluation-sg-2"
+  name   = "fuzzer-evaluation-sg-13"
   vpc_id = data.aws_vpc.default.id
 
   ingress {
