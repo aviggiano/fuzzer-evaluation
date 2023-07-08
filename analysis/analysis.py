@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import seaborn as sns
 from scipy.stats import mannwhitneyu
@@ -48,6 +49,19 @@ plt.savefig("/tmp/final.png")
 
 fuzzers = df['fuzzer'].unique()
 
+def calculate_COD(data):
+    # Calculate quartiles
+    Q1 = np.percentile(data, 25)
+    Q3 = np.percentile(data, 75)
+    
+    # Calculate interquartile range (IQR)
+    IQR = Q3 - Q1
+    
+    # Calculate coefficient of dispersion (COD)
+    COD = IQR / (Q3 + Q1)
+    
+    return COD
+
 # For each mutant and fuzzer, perform the Mann-Whitney U Test
 for mutant in mutants:
     for i in range(len(fuzzers)):
@@ -61,6 +75,10 @@ for mutant in mutants:
             # Perform the test
             stat, p = mannwhitneyu(data1, data2)
 
+            dispersion1 = calculate_COD(data1)
+            dispersion2 = calculate_COD(data2)
+            lower_dispersion = fuzzer1 if dispersion1 < dispersion2  else fuzzer2
+
             if p > 0.05:
                 winner = 'same'
             else:
@@ -68,4 +86,4 @@ for mutant in mutants:
                     winner = fuzzer1
                 else:
                     winner = fuzzer2
-            print('Mutant', mutant, winner)
+            print('Mutant', mutant, winner, lower_dispersion)
