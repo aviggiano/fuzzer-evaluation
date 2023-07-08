@@ -5,12 +5,13 @@ S3_BUCKET="$1"
 RESULTS=$(mktemp)
 FINAL=/tmp/final.csv
 
-for FILE in $(aws s3 ls --recursive s3://$S3_BUCKET/ | grep -v 'old' | grep 'results.txt' | awk '{print $NF}'); do
+DIR=$(mktemp -d)
+aws s3 sync s3://$S3_BUCKET/ $DIR
+
+for FILE in $(find $DIR -type f | grep -v 'old/' | grep 'results.txt'); do
 	INSTANCE_ID=$(echo $FILE | awk -F'/' '{print $(NF-1)}')
-	TMP=$(mktemp)
-	aws s3 cp s3://$S3_BUCKET/$FILE $TMP
-	head -1 $TMP | sed "s/$/,instance_id/" > $FINAL
-	cat $TMP | sed "s/$/,$INSTANCE_ID/"  >> $RESULTS
+	head -1 $FILE | sed "s/$/,instance_id/" > $FINAL
+	cat $FILE | sed "s/$/,$INSTANCE_ID/"  >> $RESULTS
 done;
 
 sed '/fuzzer/d' $RESULTS >> $FINAL
