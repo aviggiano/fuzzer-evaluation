@@ -36,5 +36,5 @@ variable "aws_access_key_secret" {
 }
 
 locals {
-  data = jsondecode(file("../data14.json"))
+  data = jsondecode(file("../data18.json"))
 }
