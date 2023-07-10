@@ -36,5 +36,6 @@ variable "aws_access_key_secret" {
 }
 
 locals {
-  seeds = toset(compact((split("\n", file("../seeds.txt")))))
+  # data.json is a JSON-array with fuzzer,seed,mutant entries
+  data = jsondecode(file("../data.json"))
 }

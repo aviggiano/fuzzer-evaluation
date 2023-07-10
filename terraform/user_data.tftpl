@@ -19,7 +19,7 @@ function update_results() {
     sleep 60;
   done;
 }
-screen -L -d -m make evaluate seed=${seed}
+screen -L -d -m make evaluate seed=${seed} mutant=${mutant} fuzzer=${fuzzer}
 update_results
 
 EOF

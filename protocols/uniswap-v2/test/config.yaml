@@ -1,6 +1,6 @@
 testMode: assertion
 corpusDir: corpus
 seqLen: 25
-testLimit: 10000000
+testLimit: 4294967295
 shrinkLimit: 0
 stopOnFail: true
