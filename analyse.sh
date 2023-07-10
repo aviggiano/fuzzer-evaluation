@@ -15,10 +15,6 @@ for FILE in $(find $DIR -type f | grep -v 'old/' | grep 'results.txt'); do
 done;
 
 sed '/fuzzer/d' $RESULTS >> $FINAL
-sed -i '/.*,.*,.*,01,.*,i/d' $FINAL
-sed -i '/.*,.*,.*,02,.*,i/d' $FINAL
-sed -i '/.*,.*,.*,04,.*,i/d' $FINAL
-sed -i '/.*,.*,.*,.*,0,i/d' $FINAL
 
 cat $FINAL | sort -r -t, -k3,4 > $RESULTS
 mv $RESULTS $FINAL

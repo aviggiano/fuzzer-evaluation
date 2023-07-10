@@ -16,25 +16,6 @@ df['mutant'] = df['mutant'].apply(lambda x: f'{x:02}')
 # Sort the DataFrame by 'mutant'
 df = df.sort_values('mutant')
 
-# Rename mutants
-mutant_dict = {
-    "03": "01",
-    "05": "02",
-    "06": "03",
-    "07": "04",
-    "08": "05",
-    "09": "06",
-    "10": "07",
-    "11": "08",
-    "12": "09",
-    "13": "10",
-    "14": "11",
-    "15": "12"
-}
-
-# Use the dictionary to replace the values
-df['mutant'] = df['mutant'].replace(mutant_dict)
-
 # Remove instance_id column
 df = df.drop(columns='instance_id')
 # Drop duplicate rows
