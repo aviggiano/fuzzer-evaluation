@@ -1,22 +1,13 @@
 diff --git a/protocols/uniswap-v2/src/contracts/libraries/UniswapV2Library.sol b/protocols/uniswap-v2/src/contracts/libraries/UniswapV2Library.sol
-index 83cb0b6..2c84182 100644
+index 83cb0b6..e75168e 100644
 --- a/protocols/uniswap-v2/src/contracts/libraries/UniswapV2Library.sol
 +++ b/protocols/uniswap-v2/src/contracts/libraries/UniswapV2Library.sol
-@@ -81,7 +81,7 @@ library UniswapV2Library {
-             reserveIn > 0 && reserveOut > 0,
-             "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
-         );
--        uint amountInWithFee = amountIn.mul(997);
-+        uint amountInWithFee = amountIn.mul(1000);
-         uint numerator = amountInWithFee.mul(reserveOut);
-         uint denominator = reserveIn.mul(1000).add(amountInWithFee);
-         amountOut = numerator / denominator;
-@@ -99,7 +99,7 @@ library UniswapV2Library {
-             "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
+@@ -100,7 +100,7 @@ library UniswapV2Library {
          );
          uint numerator = reserveIn.mul(amountOut).mul(1000);
--        uint denominator = reserveOut.sub(amountOut).mul(997);
-+        uint denominator = reserveOut.sub(amountOut).mul(1000);
-         amountIn = (numerator / denominator).add(1);
+         uint denominator = reserveOut.sub(amountOut).mul(997);
+-        amountIn = (numerator / denominator).add(1);
++        amountIn = (numerator / denominator);
      }
  
+     // performs chained getAmountOut calculations on any number of pairs

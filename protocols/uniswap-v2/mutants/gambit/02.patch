@@ -1,14 +1,14 @@
-diff --git a/protocols/uniswap-v2/src/UniswapV2ERC20.sol b/protocols/uniswap-v2/src/UniswapV2ERC20.sol
-index f15a91c..f43cd14 100644
---- a/protocols/uniswap-v2/src/UniswapV2ERC20.sol
-+++ b/protocols/uniswap-v2/src/UniswapV2ERC20.sol
-@@ -59,7 +59,8 @@ contract UniswapV2ERC20 is IUniswapV2ERC20 {
- 
-     function _transfer(address from, address to, uint value) private {
-         balanceOf[from] = balanceOf[from].sub(value);
--        balanceOf[to] = balanceOf[to].add(value);
-+        /// AssignmentMutation(`balanceOf[to].add(value)` |==> `1`) of: `balanceOf[to] = balanceOf[to].add(value);`
-+        balanceOf[to] = 1;
-         emit Transfer(from, to, value);
-     }
- 
+diff --git a/protocols/uniswap-v2/src/libraries/Math.sol b/protocols/uniswap-v2/src/libraries/Math.sol
+index b86df89..80a2e49 100644
+--- a/protocols/uniswap-v2/src/libraries/Math.sol
++++ b/protocols/uniswap-v2/src/libraries/Math.sol
+@@ -11,7 +11,8 @@ library Math {
+     function sqrt(uint y) internal pure returns (uint z) {
+         if (y > 3) {
+             z = y;
+-            uint x = y / 2 + 1;
++            /// BinaryOpMutation(`+` |==> `*`) of: `uint x = y / 2 + 1;`
++            uint x = y / 2*1;
+             while (x < z) {
+                 z = x;
+                 x = (y / x + x) / 2;

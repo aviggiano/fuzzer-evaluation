@@ -1,0 +1,43 @@
+diff --git a/protocols/uniswap-v2/src/UniswapV2Pair.sol b/protocols/uniswap-v2/src/UniswapV2Pair.sol
+index 83cfddc..08d455f 100644
+--- a/protocols/uniswap-v2/src/UniswapV2Pair.sol
++++ b/protocols/uniswap-v2/src/UniswapV2Pair.sol
+@@ -246,8 +246,9 @@ import "./interfaces/IUniswapV2Callee.sol";
+         );
+         {
+             // scope for reserve{0,1}Adjusted, avoids stack too deep errors
+-            uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(3));
+-            uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(3));
++            // https://rekt.news/uranium-rekt/
++            uint balance0Adjusted = balance0.mul(10000).sub(amount0In.mul(16));
++            uint balance1Adjusted = balance1.mul(10000).sub(amount1In.mul(16));
+             require(
+                 balance0Adjusted.mul(balance1Adjusted) >=
+                     uint(_reserve0).mul(_reserve1).mul(1000 ** 2),
+diff --git a/protocols/uniswap-v2/src/contracts/libraries/UniswapV2Library.sol b/protocols/uniswap-v2/src/contracts/libraries/UniswapV2Library.sol
+index 83cb0b6..68160ee 100644
+--- a/protocols/uniswap-v2/src/contracts/libraries/UniswapV2Library.sol
++++ b/protocols/uniswap-v2/src/contracts/libraries/UniswapV2Library.sol
+@@ -81,9 +81,9 @@ library UniswapV2Library {
+             reserveIn > 0 && reserveOut > 0,
+             "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
+         );
+-        uint amountInWithFee = amountIn.mul(997);
++        uint amountInWithFee = amountIn.mul(9984);
+         uint numerator = amountInWithFee.mul(reserveOut);
+-        uint denominator = reserveIn.mul(1000).add(amountInWithFee);
++        uint denominator = reserveIn.mul(10000).add(amountInWithFee);
+         amountOut = numerator / denominator;
+     }
+ 
+@@ -98,8 +98,8 @@ library UniswapV2Library {
+             reserveIn > 0 && reserveOut > 0,
+             "UniswapV2Library: INSUFFICIENT_LIQUIDITY"
+         );
+-        uint numerator = reserveIn.mul(amountOut).mul(1000);
+-        uint denominator = reserveOut.sub(amountOut).mul(997);
++        uint numerator = reserveIn.mul(amountOut).mul(10000);
++        uint denominator = reserveOut.sub(amountOut).mul(9984);
+         amountIn = (numerator / denominator).add(1);
+     }
+ 
