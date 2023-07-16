@@ -61,3 +61,13 @@ make analysis s3_bucket=<output_bucket>
 - [Evaluating Fuzz Testing](https://cseweb.ucsd.edu/~dstefan/cse227-spring20/papers/klees:evaluating.pdf)
 - [Echidna Streaming Workshop](https://github.com/crytic/echidna-streaming-series)
 - [Fuzzy DeFi: Pre-built security properties for commonly forked DeFi protocols](https://github.com/0xNazgul/fuzzydefi)
+
+## Limitations and Future research
+
+- Expand the number of tested protocols to derive generality
+- Expand the number of fuzzers evaluated
+- Evaluate fuzzers on different test environments
+- Evaluate fuzzers qualitatively to compare different features
+- Evaluate against "in the wild" issues instead of synthetic bugs
+- Analyse performance over time
+- Derive a solid, independently defined benchmark suite
