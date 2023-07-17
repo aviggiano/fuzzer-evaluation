@@ -1,6 +1,10 @@
 # fuzzer-evaluation
 Evaluating fuzzer effectiveness
 
+## Results
+
+Please refer to [results](./results) for the summary of the findings of this research.
+
 ## Usage
 
 Test against the default codebase ("ground truth")
@@ -15,7 +19,7 @@ Test against M=15 mutated code (injected bugs)
 make evaluate seed=<seed>
 ```
 
-Launch S=30 (number of different seed values) EC2 instances and have them test against against the mutants for a maximum timeout of T=24 hours
+Launch EC2 instances and have them test against against the mutants for a maximum timeout
 
 ```
 make terraform
