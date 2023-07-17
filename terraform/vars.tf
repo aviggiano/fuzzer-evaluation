@@ -36,6 +36,5 @@ variable "aws_access_key_secret" {
 }
 
 locals {
-  # data.json is a JSON-array with fuzzer,seed,mutant entries
   data = jsondecode(file("../data.json"))
 }
