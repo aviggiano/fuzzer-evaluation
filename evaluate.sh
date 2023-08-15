@@ -18,7 +18,9 @@ echo "instance=$(wget -q -O - http://instance-data/latest/meta-data/instance-typ
 echo "echidna=$(echidna --version)" >> $PARAMETERS
 echo "slither=$(slither --version)" >> $PARAMETERS
 echo "forge=$(forge --version)" >> $PARAMETERS
+echo "medusa=$(medusa --version)" >> $PARAMETERS
 echo "solc=$(solc --version | head -2 | tail -1)" >> $PARAMETERS
+
 
 echo "fuzzer,protocol,seed,mutant,time,result" > $RESULTS
 
@@ -48,6 +50,15 @@ for PROTOCOL in $(ls protocols); do
 			echo "echidna,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
 		fi
 
+    if [ $(echo "$FUZZER" | grep "medusa" | wc -l) -gt 0 ]; then
+    			forge clean
+    			START=$(date +%s)
+    			timeout -k 10 $TIMEOUT medusa fuzz --workers $WORKERS  >/dev/null
+    			RESULT=$?
+    			END=$(date +%s)
+    			TIME=$(echo "$END - $START" | bc)
+    			echo "medusa,$PROTOCOL,$SEED,$MUTANT,$TIME,$RESULT" >> $RESULTS
+    		fi
 		# cleanup
 		git checkout .
 	done
