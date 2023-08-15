@@ -1,1657 +1,1657 @@
 [
-  { "fuzzer": "foundry,echidna", "mutant": "01", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "01", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "01", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "01", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "01", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "01", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "01",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "02", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "02", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "02", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "02", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "02", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "02", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "02",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "03", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "03", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "03", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "03", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "03", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "03", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "03",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "04", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "04", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "04", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "04", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "04", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "04", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "04",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "05", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "05", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "05", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "05", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "05", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "05", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "05",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "06", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "06", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "06", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "06", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "06", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "06", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "06",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "07", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "07", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "07", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "07", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "07", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "07", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "07",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "08", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "08", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "08", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "08", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "08", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "08", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "08",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "09", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "09", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "09", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "09", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "09", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "09", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "09",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "10", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "10", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "10", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "10", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "10", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "10", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "10",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "11", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "11", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "11", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "11", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "11", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "11", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "11",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   },
-  { "fuzzer": "foundry,echidna", "mutant": "12", "seed": "0" },
-  { "fuzzer": "foundry,echidna", "mutant": "12", "seed": "1" },
-  { "fuzzer": "foundry,echidna", "mutant": "12", "seed": "2" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "12", "seed": "0" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "12", "seed": "1" },
+  { "fuzzer": "foundry,echidna,medusa", "mutant": "12", "seed": "2" },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "9223372036854775807"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "18569430475105882587588266137607568536673111973893317399460219858819262702947"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "80084422859880547211683076133703299733277748156566366325829078699459944778998"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "29102676481673041902632991033461445430619272659676223336789171408008386403022"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "87903029871075914254377627908054574944891091886930582284385770809450030037083"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "62514009886607029107290561805838585334079798074568712924583230797734656856475"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "1546678032441257452667456735582814959992782782816731922691272282333561699760"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "111414077815863400510004064629973595961579173665589224203503662149373724986687"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "75276140696391174450305814049576319106646922510300487059720162673006384432776"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "110349606679412691172957834289542550319383271247755660854362242977991410020067"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "49791959467252497455735130940088646708311117250336157395101362029847983277999"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "89717814153306320011181716697424560163256864414616650038987186496166826726056"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "660301456019777184113296434797620819555017468543624515662331739614079884729"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "101051993584849178915136821395265346177868384823507754984078593667947067386055"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "97569884605916225051403212656556507955018248777258318895762758024193532305077"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "84800337471693920904250232874319843718400766719524250287777680170677855896573"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "63806209331542711802848847270949280092855778197726125910674179583545433573378"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "12396694973890998440467380340983585058878106250672390494374587083972727727730"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "22581645139872629890233439717971975110198959689450188087151966948260709403752"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "84827061063453624289975705683721713058963870421084015214609271099009937454148"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "46529144392117707452946260303848603952187628831689540306122340668716214558864"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "93369884277498597659590946175997448338802118867485977633968544981113634346220"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "38878206584692966203415385907871375197469080758325516314230789535345649042549"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "97789825912453899259273410636466998099043528421815129078110847000656284369545"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "89622809563556123081897041840816014639138942293158154584485133346364573191189"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "80167465652159884487584418398737133515478493586045375474096367959472086682926"
   },
   {
-    "fuzzer": "foundry,echidna",
+    "fuzzer": "foundry,echidna,medusa",
     "mutant": "12",
     "seed": "67072331549493647622825787457569556318728415786901242217649037894484240406165"
   }
